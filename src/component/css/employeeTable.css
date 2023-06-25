@@ -1,0 +1,165 @@
+/* EmployeeTable.css */
+
+.table-container {
+    width: 100%;
+    overflow-x: auto;
+    margin-bottom: 1rem;
+  }
+  
+  .employee-table {
+    width: 100%;
+    border-collapse: collapse;
+  }
+  
+  .table-caption {
+    font-size: 1.2rem;
+    font-weight: bold;
+    margin-bottom: 1rem;
+  }
+  
+  thead th {
+    background-color: #f2f2f2;
+    color: #333;
+    cursor: pointer;
+    padding: 0.5rem;
+    text-align: left;
+  }
+  
+  .sort-icon {
+    margin-left: 0.5rem;
+  }
+  
+  tbody td {
+    padding: 0.5rem;
+    border-bottom: 1px solid #ddd;
+  }
+  
+  .action-buttons button {
+    margin-right: 0.5rem;
+    padding: 0.25rem 0.5rem;
+    border-radius: 4px;
+    border: none;
+    cursor: pointer;
+  }
+  
+  .edit-button {
+    background-color: #ffc107;
+    color: #333;
+  }
+  
+  .view-button {
+    background-color: #17a2b8;
+    color: #fff;
+  }
+  
+  .delete-button {
+    background-color: #dc3545;
+    color: #fff;
+  }
+  
+  .action-buttons button:hover {
+    opacity: 0.8;
+  }
+  
+  /* Edit Modal */
+  .edit-modal {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+  
+  .edit-modal-content {
+    background-color: #ffffff;
+    padding: 2rem;
+    border-radius: 4px;
+  }
+  
+  .edit-modal h2 {
+    margin-bottom: 2rem;
+  }
+  
+  .edit-modal form {
+    /* Add styles for form inputs */
+  }
+  
+  .edit-modal-buttons {
+    display: flex;
+    justify-content: flex-end;
+    margin-top: 1rem;
+  }
+  
+  .save-button {
+    background-color: #28a745;
+    color: #fff;
+    padding: 0.5rem 1rem;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    margin-right: 0.5rem;
+  }
+  
+  .cancel-button {
+    background-color: #d6293a;
+    color: #fff;
+    padding: 0.5rem 1rem;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+  }
+
+  .a4-form {
+    display: flex;
+    justify-content: space-between;
+  }
+  
+  .form-column {
+    flex: 1;
+  }
+  
+  .form-row {
+    margin-bottom: 1rem;
+  }
+  
+  label {
+    display: block;
+    font-weight: bold;
+  }
+  
+  input {
+    width: 100%;
+    padding: 0.5rem;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+  }
+  
+  .edit-modal-buttons {
+    display: flex;
+    justify-content: flex-end;
+    margin-top: 2rem;
+  }
+  
+  .save-button,
+  .cancel-button {
+    padding: 0.5rem 1rem;
+    margin-left: 1rem;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+  }
+  
+  .save-button:hover {
+    background-color: #3c963f;
+    color: white;
+  }
+  
+  .cancel-button:hover {
+    background-color: #be1d1d;
+  }
+  
+  
