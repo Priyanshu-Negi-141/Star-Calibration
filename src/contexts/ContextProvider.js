@@ -1,4 +1,6 @@
 import React, {createContext, useContext, useEffect, useState} from 'react'
+import { toast } from 'react-toastify';
+
 const StateContext = createContext();
 
 const initialState ={
@@ -23,10 +25,12 @@ export const ContextProvider = ({children}) => {
     const [showResetPopup,setShowResetPopup] = useState(false)
     const [selectedDepartment, setSelectedDepartment] = useState('');
     const [selectedDesignation, setSelectedDesignation] = useState('');
+    const [selectedStream, setSelectedStream] = useState('')
     // Auth and fetching data context
     const host = "http://localhost:8000"
     
-    
+    const [isPopupOpen, setPopupOpen] = useState(false);
+    const [isPopupCheckOutOpen, setPopupCheckOutOpen] = useState(false);
     const [fName,setFName] = useState('') 
     const [loggedInEmployee, setLoggedInEmployee] = useState([])
     const [currentPage, setCurrentPage] = useState(0);
@@ -34,9 +38,9 @@ export const ContextProvider = ({children}) => {
     const [credential, setCredential] = useState({email: "", password: ""})
     const employeesPerPage = 10;
     const [employeeData, setEmployeeData] = useState([])
+    // For DayReport Fetch data
     const [dayReport,setDayReport] = useState([])
     const [employeeDayReport,setEmployeeDayReport] = useState([])
-    // For DayReport Fetch data
     const [calibrationSiteData, setCalibrationSiteData] = useState([])
     const [calibrationOfficeData, setCalibrationOfficeData] = useState([])
     const [hvacSiteData, setHvacSiteData] = useState([])
@@ -49,6 +53,56 @@ export const ContextProvider = ({children}) => {
     const [caOfficeData, setCaOfficeData] = useState([])
     const [steamSiteData, setSteamSiteData] = useState([])
     const [steamOfficeData, setSteamOfficeData] = useState([])
+    // For Check In
+    const [checkInReport,setCheckInReport] = useState([])
+    const [checkOutReport,setCheckOutReport] = useState([])
+    const [calibrationCheckInSiteData, setCalibrationCheckInSiteData] = useState([])
+    const [calibrationCheckInOfficeData, setCalibrationCheckInOfficeData] = useState([])
+    const [hvacCheckInSiteData, setHvacCheckInSiteData] = useState([])
+    const [hvacCheckInOfficeData, setHvacCheckInOfficeData] = useState([])
+    const [thermalCheckInSiteData, setThermalCheckInSiteData] = useState([])
+    const [thermalCheckInOfficeData, setThermalCheckInOfficeData] = useState([])
+    const [plcCsvCheckInSiteData, setPlcCsvCheckInSiteData] = useState([])
+    const [plcCsvCheckInOfficeData, setPlcCsvCheckInOfficeData] = useState([])
+    const [caCheckInSiteData, setCaCheckInSiteData] = useState([])
+    const [caCheckInOfficeData, setCaCheckInOfficeData] = useState([])
+    const [steamCheckInSiteData, setSteamCheckInSiteData] = useState([])
+    const [steamCheckInOfficeData, setSteamCheckInOfficeData] = useState([])
+
+    // Fetching time online
+
+    const [currentTime, setCurrentTime] = useState('');
+    const [currentDate, setCurrentDate] = useState('');
+
+    const fetchCurrentTime = async () => {
+        try {
+          const response = await fetch('http://worldtimeapi.org/api/ip');
+          if (response.ok) {
+            const data = await response.json();
+            setCurrentTime(data.datetime.split('T')[1].slice(0, 5));
+            const currentDateObj = new Date(data.datetime.split('T')[0]);
+            setCurrentDate(currentDateObj.toLocaleDateString('en-GB'));
+          }
+        } catch (error) {
+          console.error('Error fetching current time:', error);
+        }
+    };
+
+    const openPopup = () => {
+        setPopupOpen(true);
+      };
+    
+      const closePopup = () => {
+        setPopupOpen(false);
+      };
+    
+    const openCheckOutPopup = () => {
+        setPopupCheckOutOpen(true)
+    }
+    const closeCheckOutPopup = () => {
+        setPopupCheckOutOpen(false)
+    }
+
     const handleLoggedIn = () => {
         setLoggedIn(true)
     }
@@ -109,7 +163,7 @@ export const ContextProvider = ({children}) => {
 
 
 
-    // Fetch 
+    // Fetch Employee with 
     const fetchIndividualEmployeeData = async() => {
         try {
             const response = await fetch(`${host}/api/auth/fetchEmployeeData`, {
@@ -172,14 +226,14 @@ export const ContextProvider = ({children}) => {
 
 
     // Add a Note
-    const addEmployee = async(fName,lName,email,fatherName,motherName,dob,mobile_number,gender,password) => {
+    const addEmployee = async(fName,lName,email,fatherName,motherName,dob,mobile_number,gender,password,department,designation,marital_status, blood) => {
         // API Call
         const response  = await fetch(`${host}/api/auth/addEmployeeData`,{
             method : 'POST',
             headers: {
                     "Content-Type": "application/json"
             },
-            body: JSON.stringify({fName,lName,email,fatherName,motherName,dob,mobile_number,gender,password})
+            body: JSON.stringify({fName,lName,email,fatherName,motherName,dob,mobile_number,gender,password,department,designation,marital_status, blood})
         });
         const employee = await response.json()
         setEmployeeData(employeeData.concat(employee))
@@ -576,15 +630,385 @@ export const ContextProvider = ({children}) => {
 
     // DayReport Data end's here
 
+    // CheckIn Data Start here
+        // Add Data 
+
+        const addCheckInData = async (date, checkInType, login, loginLocation, loginAddress, siteName) => {
+            try {
+              const response = await fetch(`${host}/api/checkIn/checkIn`, {
+                method: 'POST',
+                headers: {
+                  'Content-Type': 'application/json',
+                  'auth-token': localStorage.getItem('token'),
+                },
+                body: JSON.stringify({ date, checkInType, login, loginLocation, loginAddress, siteName }),
+              });
+          
+              const checkInData = await response.json();
+          
+              if (response.ok) {
+                console.log('Your data:', checkInData);
+                setCheckInReport(prevCheckInReport => {
+                  if (prevCheckInReport === undefined) {
+                    return [checkInData];
+                  } else {
+                    return [...prevCheckInReport, checkInData];
+                  }
+                });
+                toast.success('Check-in successful!');
+                closePopup(); // Call the function to close the popup
+              } else {
+                console.log('Error response:', checkInData);
+          
+                if (response.status === 409) {
+                  // User already checked in
+                  toast.warning('You are already checked in');
+                  closePopup()
+                } else if (checkInData.errors && Array.isArray(checkInData.errors)) {
+                  const errors = checkInData.errors.map(error => error.msg);
+                  toast.error('Check-in failed: ' + errors.join(', '));
+                } else {
+                  toast.error('Error occurred during Check-In');
+                }
+              }
+            } catch (error) {
+              console.log('Error fetching Check-In data:', error);
+            }
+          };
+
+
+    // CheckOut Backend Start here
+
+    const addCheckOutData = async (logout, logoutLocation, logoutAddress) => {
+        try {
+          const response = await fetch(`${host}/api/checkIn/checkOut`, {
+            method: "POST",
+            headers: {
+              'Content-Type': 'application/json',
+              'auth-token': localStorage.getItem('token'),
+            },
+            body: JSON.stringify({ logout, logoutLocation, logoutAddress })
+          });
+      
+          const checkOutData = await response.json();
+      
+          if (response.ok) {
+            console.log('Your CheckOut Data:', checkOutData);
+            setCheckOutReport(prevCheckOutReport => {
+              if (prevCheckOutReport === undefined) {
+                return [checkOutData];
+              } else {
+                return [...prevCheckOutReport, checkOutData];
+              }
+            });
+            toast.success('Check-Out successful');
+            closeCheckOutPopup();
+          } else {
+            console.log('Error response:', checkOutData);
+
+                if (response.status === 409) {
+                toast.warning("You have already checked out today");
+                closeCheckOutPopup();
+                } else if (checkOutData && checkOutData.message) {
+                toast.error('Something went wrong: ' + checkOutData.message);
+                } else {
+                toast.error('Something went wrong');
+                }
+          }
+        } catch (error) {
+          console.log('Error fetching Check-Out data:', error);
+          toast.error('An error occurred while fetching Check-Out data');
+        }
+      };
+      
+      
+        // fetching data for calibration site table
+
+        const fetchCalibrationCheckInSiteData = async() =>{
+            try {
+                const response = await fetch(`${host}/api/checkIn/calibration-site`, {
+                    method:'GET',
+                    headers:{
+                        'Content-Type': 'application/json'
+                    },
+                })
+                if (response.ok){
+                    const checkInData = await response.json()
+                    setCalibrationCheckInSiteData(checkInData)
+                    console.log(checkInData)
+                }else{
+                    alert("Something went wrong")
+                }
+            } catch (error) {
+                console.error(error)
+            }
+        }
+    
+        // fetching data for calibration office table
+    
+        const fetchCalibrationCheckInOfficeData = async() =>{
+            try {
+                const response = await fetch(`${host}/api/checkIn/calibration-office`, {
+                    method:'GET',
+                    headers:{
+                        'Content-Type': 'application/json'
+                    },
+                })
+                if (response.ok){
+                    const checkInData = await response.json()
+                    setCalibrationCheckInOfficeData(checkInData)
+                    console.log(checkInData)
+                }else{
+                    alert("Something went wrong")
+                }
+            } catch (error) {
+                console.error(error)
+            }
+        }
+          
+        
+      // fetching data for HVAC site table for checkin
+
+      const fetchHVACCheckInSiteData = async() =>{
+        try {
+            const response = await fetch(`${host}/api/checkIn/hvac-site`, {
+                method:'GET',
+                headers:{
+                    'Content-Type': 'application/json'
+                },
+            })
+            if (response.ok){
+                const checkInData = await response.json()
+                setHvacCheckInSiteData(checkInData)
+                console.log(checkInData)
+            }else{
+                alert("Something went wrong")
+            }
+        } catch (error) {
+            console.error(error)
+        }
+    }
+
+    // fetching data for HVAC office table for checkin
+
+    const fetchHVACCheckInOfficeData = async() =>{
+        try {
+            const response = await fetch(`${host}/api/checkIn/hvac-office`, {
+                method:'GET',
+                headers:{
+                    'Content-Type': 'application/json'
+                },
+            })
+            if (response.ok){
+                const checkInData = await response.json()
+                setHvacCheckInOfficeData(checkInData)
+                console.log(checkInData)
+            }else{
+                alert("Something went wrong")
+            }
+        } catch (error) {
+            console.error(error)
+        }
+    }
+
+          // fetching data for Thermal site table for checkin
+
+          const fetchThermalCheckInSiteData = async() =>{
+            try {
+                const response = await fetch(`${host}/api/checkIn/thermal-site`, {
+                    method:'GET',
+                    headers:{
+                        'Content-Type': 'application/json'
+                    },
+                })
+                if (response.ok){
+                    const checkInData = await response.json()
+                    setThermalCheckInSiteData(checkInData)
+                    console.log(checkInData)
+                }else{
+                    alert("Something went wrong")
+                }
+            } catch (error) {
+                console.error(error)
+            }
+        }
+    
+        // fetching data for Thermal office table for checkin
+    
+        const fetchThermalCheckInOfficeData = async() =>{
+            try {
+                const response = await fetch(`${host}/api/checkIn/thermal-office`, {
+                    method:'GET',
+                    headers:{
+                        'Content-Type': 'application/json'
+                    },
+                })
+                if (response.ok){
+                    const checkInData = await response.json()
+                    setThermalCheckInOfficeData(checkInData)
+                    console.log(checkInData)
+                }else{
+                    alert("Something went wrong")
+                }
+            } catch (error) {
+                console.error(error)
+            }
+        }
+
+          // fetching data for PLC CSV site table for checkin
+
+          const fetchPlcCsvCheckInSiteData = async() =>{
+            try {
+                const response = await fetch(`${host}/api/checkIn/plccsv-site`, {
+                    method:'GET',
+                    headers:{
+                        'Content-Type': 'application/json'
+                    },
+                })
+                if (response.ok){
+                    const checkInData = await response.json()
+                    setPlcCsvCheckInSiteData(checkInData)
+                    console.log(checkInData)
+                }else{
+                    alert("Something went wrong")
+                }
+            } catch (error) {
+                console.error(error)
+            }
+        }
+    
+        // fetching data for PLC CSV office table for checkin
+    
+        const fetchPlcCsvCheckInOfficeData = async() =>{
+            try {
+                const response = await fetch(`${host}/api/checkIn/plccsv-office`, {
+                    method:'GET',
+                    headers:{
+                        'Content-Type': 'application/json'
+                    },
+                })
+                if (response.ok){
+                    const checkInData = await response.json()
+                    setPlcCsvCheckInOfficeData(checkInData)
+                    console.log(checkInData)
+                }else{
+                    alert("Something went wrong")
+                }
+            } catch (error) {
+                console.error(error)
+            }
+        }
+
+          // fetching data for CA site table for checkin
+
+          const fetchCaCheckInSiteData = async() =>{
+            try {
+                const response = await fetch(`${host}/api/checkIn/ca-site`, {
+                    method:'GET',
+                    headers:{
+                        'Content-Type': 'application/json'
+                    },
+                })
+                if (response.ok){
+                    const checkInData = await response.json()
+                    setCaCheckInSiteData(checkInData)
+                    console.log(checkInData)
+                }else{
+                    alert("Something went wrong")
+                }
+            } catch (error) {
+                console.error(error)
+            }
+        }
+    
+        // fetching data for CA office table for checkin
+    
+        const fetchCaCheckInOfficeData = async() =>{
+            try {
+                const response = await fetch(`${host}/api/checkIn/ca-office`, {
+                    method:'GET',
+                    headers:{
+                        'Content-Type': 'application/json'
+                    },
+                })
+                if (response.ok){
+                    const checkInData = await response.json()
+                    setCaCheckInOfficeData(checkInData)
+                    console.log(checkInData)
+                }else{
+                    alert("Something went wrong")
+                }
+            } catch (error) {
+                console.error(error)
+            }
+        }
+
+          // fetching data for CA site table for checkin
+
+          const fetchSteamCheckInSiteData = async() =>{
+            try {
+                const response = await fetch(`${host}/api/checkIn/steam-site`, {
+                    method:'GET',
+                    headers:{
+                        'Content-Type': 'application/json'
+                    },
+                })
+                if (response.ok){
+                    const checkInData = await response.json()
+                    setSteamCheckInSiteData(checkInData)
+                    console.log(checkInData)
+                }else{
+                    alert("Something went wrong")
+                }
+            } catch (error) {
+                console.error(error)
+            }
+        }
+    
+        // fetching data for CA office table for checkin
+    
+        const fetchSteamCheckInOfficeData = async() =>{
+            try {
+                const response = await fetch(`${host}/api/checkIn/steam-office`, {
+                    method:'GET',
+                    headers:{
+                        'Content-Type': 'application/json'
+                    },
+                })
+                if (response.ok){
+                    const checkInData = await response.json()
+                    setSteamCheckInOfficeData(checkInData)
+                    console.log(checkInData)
+                }else{
+                    alert("Something went wrong")
+                }
+            } catch (error) {
+                console.error(error)
+            }
+        }
+            
+          
+          
+          
+          
+
+
+    // CheckOut Data End's Here
+
 
     const handleDepartmentChange = (event) => {
       setSelectedDepartment(event.target.value);
       setSelectedDesignation('');
+      setSelectedStream('')
     }
     
     const handleDesignationChange = (event) => {
       setSelectedDesignation(event.target.value);
     }
+
+    const handleStreamChange = (event) => {
+        setSelectedStream(event.target.value);
+      }
 
 
     const setMode = (e) => {
@@ -667,6 +1091,9 @@ export const ContextProvider = ({children}) => {
 
     return(
         <StateContext.Provider value ={{
+            currentDate,
+            currentTime,
+            fetchCurrentTime,
             activeMenu,
             setActiveMenu,
             currentColor,
@@ -690,6 +1117,7 @@ export const ContextProvider = ({children}) => {
             showResetPopup,setShowResetPopup,
             selectedDepartment, setSelectedDepartment,
             selectedDesignation, setSelectedDesignation,
+            selectedStream,
             formatTime,
             startCounting,
             stopCounting,
@@ -698,6 +1126,7 @@ export const ContextProvider = ({children}) => {
             togglePopup,
             handleDepartmentChange,
             handleDesignationChange,
+            handleStreamChange,
             // Auth emp data
             employeeData, 
             setEmployeeData,
@@ -759,6 +1188,45 @@ export const ContextProvider = ({children}) => {
             fetchSteamSiteData,
             fetchSteamOfficeData,
 
+            // checkIn Data
+            addCheckInData,
+
+            // addCheckOut
+            addCheckOutData,
+
+            // for the popup
+            isPopupOpen, 
+            openPopup, 
+            closePopup,
+            isPopupCheckOutOpen,
+            openCheckOutPopup,
+            closeCheckOutPopup,
+            
+            // fetch data for CheckIn
+            calibrationCheckInSiteData,
+            calibrationCheckInOfficeData,
+            fetchCalibrationCheckInSiteData,
+            fetchCalibrationCheckInOfficeData,
+            hvacCheckInSiteData,
+            hvacCheckInOfficeData,
+            fetchHVACCheckInSiteData,
+            fetchHVACCheckInOfficeData,
+            thermalCheckInSiteData,
+            thermalCheckInOfficeData,
+            fetchThermalCheckInSiteData,
+            fetchThermalCheckInOfficeData,
+            plcCsvCheckInSiteData,
+            plcCsvCheckInOfficeData,
+            fetchPlcCsvCheckInSiteData,
+            fetchPlcCsvCheckInOfficeData,
+            caCheckInSiteData,
+            caCheckInOfficeData,
+            fetchCaCheckInSiteData,
+            fetchCaCheckInOfficeData,
+            steamCheckInSiteData,
+            steamCheckInOfficeData,
+            fetchSteamCheckInSiteData,
+            fetchSteamCheckInOfficeData,
             }}>
             {children}
         </StateContext.Provider>

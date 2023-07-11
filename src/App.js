@@ -23,6 +23,10 @@ import SignUser from './SignUser'
 import LogInEmployee from './LogInEmployee'
 import { CalibrationCheckIN, CAValidation, HVACValidationCheckIN, PLC_CSV_Validation, PLC_CSV_ValidationCheckIn, SteamQualityTest, ThermalValidationCheckIN } from './component/HRM/todaysCheckIn/index'
 import EmployeeDayReportData from './component/HRM/EmployeeDayReportData'
+import MasterInstrumentList from './component/Quality/masterInstrument/masterList/MasterInstrumentList'
+import { CalibrationMasterInstrumentList, ElectroMasterList, HVACMasterInstrumentList, ThermalMasterInstrumentList } from './component/Quality/masterInstrument/masterList/CalibrationMaster'
+import CalibrationCertificate from './component/Certificate/Calibration/CalibrationCertificate'
+import { AddInstrumentDetails, DeviceDetails } from './component/FormPage'
 
 
 function App() {
@@ -87,7 +91,7 @@ function App() {
             {themeSettings && (<ThemeSetting />)}
             <Routes>
               {/* Home Page */}
-              <Route path="/" element={<Home />}/>
+              <Route path="/" element={<CalibrationCertificate />}/>
               {/* NavBar Links Page's */}
               <Route path='/myProfile' element={<MyProfile/>} />
               {/* HRM Links */}
@@ -124,6 +128,11 @@ function App() {
               <Route path='/sop' element={<SOP />} />
               {/* SubFolder MasterInstrument */}
               <Route path='/masterInstrument/primarySecondary' element={<PrimarySecondary />} />
+              <Route path='/masterInstrument/masterInstrumentList' element={<MasterInstrumentList />}/>
+              <Route path='/masterInstrument/Calibration/:streamId' element={<CalibrationMasterInstrumentList />} />
+              <Route path='/masterInstrument/HVAC/:streamId' element={<HVACMasterInstrumentList />} />
+              <Route path='/masterInstrument/Thermal/:streamId' element={<ThermalMasterInstrumentList />} />
+
               {/* SubFolder MasterInstrument End's*/}
               {/* SubFolder SOP */}
               <Route path='/calibrationSOP' element={<CalibrationSOP />} />
@@ -139,7 +148,8 @@ function App() {
               <Route path='/calibration' element={<Calibration/>}/>
               {/* SRF Calibration Link's */}
               <Route path='/calibrationSrfForm' element={<CalibrationSrfForm />} />
-
+              <Route path='/instrument-details/:clientName/:id' element={<AddInstrumentDetails />} />
+              <Route path='/device-details/:instrumentName/:id' element={<DeviceDetails />}/>
               {/* SRF Calibration Link's end */}
               <Route path='/cavalidation' element={<CaValidation/>} />
               <Route path='/hvacvalidation' element={<HvacValidation/>} />

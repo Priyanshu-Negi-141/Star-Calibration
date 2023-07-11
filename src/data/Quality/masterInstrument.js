@@ -18,7 +18,17 @@ export const masterInstrumentData = [
         iconColor: 'rgb(255, 244, 229)',
         iconBg: 'rgb(254, 201, 15)',
         pcColor: 'green-600',
-        path: 'employeeList',
+        path: 'masterInstrumentList',
+        component: 'Cart'
+      },
+      {
+        icon: <FaListUl />,
+        id: 3,
+        title: 'Obsolute Master List',
+        iconColor: 'rgb(255, 244, 229)',
+        iconBg: 'rgb(254, 201, 15)',
+        pcColor: 'green-600',
+        path: 'masterInstrumentList',
         component: 'Cart'
       }
 ]

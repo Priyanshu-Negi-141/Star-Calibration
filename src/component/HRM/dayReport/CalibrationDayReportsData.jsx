@@ -7,7 +7,7 @@ const CalibrationDayReportsData = ({selectedDate}) => {
   useEffect(() => {
     fetchCalibrationSiteData()
     fetchCalibrationOfficeData()
-  })
+  },[])
 
   const filteredOfficeReports = calibrationOfficeData.filter(
     officeReport=> officeReport.Date === selectedDate)

@@ -1,14 +1,19 @@
 import React from 'react'
-import { FooterAddress, HeaderLogo, HeaderTitle, InstrumentsDetails, SRF_Form } from '../../FormPage'
+import { AddCalibrationSRF, CalibrationSRFTable, FooterAddress, HeaderLogo, HeaderTitle, InstrumentsDetails, SRF_Form } from '../../FormPage'
 
 const CalibrationSrfForm = () => {
   return (
     <div>
-      <HeaderLogo />
+
+
+      
+      <AddCalibrationSRF />
+      <CalibrationSRFTable />
+      {/* <HeaderLogo />
       <HeaderTitle />
       <SRF_Form />
       <InstrumentsDetails />
-      <FooterAddress />
+      <FooterAddress /> */}
     </div>
   )
 }

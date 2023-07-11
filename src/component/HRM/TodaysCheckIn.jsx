@@ -1,15 +1,23 @@
 import React, { useState } from 'react'
-
 import { PreviousButton } from '../button'
 import {CAValidation, CalibrationCheckIN, HVACValidationCheckIN, PLC_CSV_ValidationCheckIn, SteamQualityTest, ThermalValidationCheckIN} from './todaysCheckIn/index';
+import { useStateContext } from '../../contexts/ContextProvider';
 
 
-const TodaysCheckIn = () => {
-    const defaultDate = getTodayDate();
+const TodaysCheckIn = (onDateChange) => {
+
     const [selectedOption, setSelectedOption] = useState('')
-
-    const handleOptionChange = (event) => {
-        setSelectedOption(event.target.value)
+    const [selectedDate, setSelectedDate] = useState(
+      new Date().toISOString().split('T')[0]
+    )
+  
+    const today = new Date().toISOString().split('T')[0]
+  const handleOptionChange = (event) => {
+    setSelectedOption(event.target.value)
+  }
+    const handleDateChange = (e) => {
+      const selectedDate = e.target.value
+      setSelectedDate(selectedDate)
     }
 
     const renderPage = () => {
@@ -17,7 +25,7 @@ const TodaysCheckIn = () => {
           return (
             <div>
               <h2>Option 1 Page</h2>
-              <CalibrationCheckIN />
+              <CalibrationCheckIN selectedDate={selectedDate} />
               {/* Render the content for Option 1 page */}
             </div>
           );
@@ -25,7 +33,7 @@ const TodaysCheckIn = () => {
           return (
             <div>
               <h2>Option 2 Page</h2>
-              <HVACValidationCheckIN />
+              <HVACValidationCheckIN selectedDate={selectedDate}/>
               {/* Render the content for Option 2 page */}
             </div>
           );
@@ -33,7 +41,7 @@ const TodaysCheckIn = () => {
           return (
             <div>
               <h2>Option 3 Page</h2>
-              <ThermalValidationCheckIN />
+              <ThermalValidationCheckIN selectedDate={selectedDate}/>
               {/* Render the content for Option 3 page */}
             </div>
           );
@@ -41,7 +49,7 @@ const TodaysCheckIn = () => {
             return (
               <div>
                 <h2>Option 4 Page</h2>
-                <PLC_CSV_ValidationCheckIn />
+                <PLC_CSV_ValidationCheckIn selectedDate={selectedDate}/>
                 {/* Render the content for Option 3 page */}
               </div>
             );
@@ -49,7 +57,7 @@ const TodaysCheckIn = () => {
             return (
               <div>
                 <h2>Option 5 Page</h2>
-                <CAValidation />
+                <CAValidation selectedDate={selectedDate}/>
                 {/* Render the content for Option 3 page */}
               </div>
             );
@@ -57,7 +65,7 @@ const TodaysCheckIn = () => {
             return (
               <div>
                 <h2>Option 6 Page</h2>
-                <SteamQualityTest />
+                <SteamQualityTest selectedDate={selectedDate}/>
                 {/* Render the content for Option 3 page */}
               </div>
             );
@@ -65,12 +73,12 @@ const TodaysCheckIn = () => {
             return (
               <div>
                 <h2>Option 6 Page</h2>
-                <CalibrationCheckIN />
-                <HVACValidationCheckIN />
-                <ThermalValidationCheckIN />
-                <PLC_CSV_ValidationCheckIn />
-                <CAValidation />
-                <SteamQualityTest />
+                <CalibrationCheckIN selectedDate={selectedDate}/>
+                <HVACValidationCheckIN selectedDate={selectedDate}/>
+                <ThermalValidationCheckIN selectedDate={selectedDate}/>
+                <PLC_CSV_ValidationCheckIn selectedDate={selectedDate}/>
+                <CAValidation selectedDate={selectedDate}/>
+                <SteamQualityTest selectedDate={selectedDate}/>
                 {/* Render the content for Option 3 page */}
               </div>
             );
@@ -79,26 +87,6 @@ const TodaysCheckIn = () => {
         // Render default message if no option is selected
         return <p>Please select an option.</p>;
       };
-
-
-
-
-  function getTodayDate() {
-    const today = new Date();
-    const year = today.getFullYear();
-    let month = today.getMonth() + 1;
-    let day = today.getDate();
-
-    // Format the date as "YYYY-MM-DD"
-    if (month < 10) {
-      month = `0${month}`;
-    }
-    if (day < 10) {
-      day = `0${day}`;
-    }
-
-    return `${year}-${month}-${day}`;
-  }
   return (
     <div>
 
@@ -110,8 +98,9 @@ const TodaysCheckIn = () => {
                 <input
                     type="date"
                     id="dateInput"
-                    defaultValue={defaultDate}
-                    max={defaultDate}
+                    defaultValue={today}
+                    onChange={handleDateChange}
+                    max={today}
                     required
                 />
             </div>

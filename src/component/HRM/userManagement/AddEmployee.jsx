@@ -14,11 +14,10 @@ const AddEmployee = () => {
     const [val1,setVal1] = useState([])
     const [val2,setVal2] = useState([])
     const [inputValue, setInputValue] = useState('');
-    const [employee, setEmployee] = useState({fName: "",lName: "",email: "",fatherName: "",motherName: "",dob: "",mobile_number: "",gender: "",password: ""})
+    const [employee, setEmployee] = useState({fName: "",lName: "",email: "",fatherName: "",motherName: "",dob: "",mobile_number: "",gender: "",password: "", department: "",designation: "",marital_status: "",blood: "" })
     // Add new line 
   const handleAdd = () =>{
     const abc = [...val,[]]
-    
     setVal(abc)
     
     }
@@ -26,9 +25,10 @@ const AddEmployee = () => {
     // HandleSubmit
     const handleClick = (e) => {
         e.preventDefault()
-        addEmployee(employee.fName,employee.lName,employee.email,employee.fatherName,employee.motherName,employee.dob,employee.mobile_number,employee.gender,employee.password)
-        setEmployee({fName: "",lName: "",email: "",fatherName: "",motherName: "",dob: "",mobile_number: "",gender: "",password: ""})
+        addEmployee(employee.fName,employee.lName,employee.email,employee.fatherName,employee.motherName,employee.dob,employee.mobile_number,employee.gender,employee.password,selectedDepartment,selectedDesignation,employee.marital_status,employee.blood)
+        setEmployee({fName: "",lName: "",email: "",fatherName: "",motherName: "",dob: "",mobile_number: "",gender: "",password: "",department: "",designation: "",marital_status: "",blood: "" })
         alert("Added Data:" + setEmployee({}))
+        console.log("Added Data:" + setEmployee({}))
     }
 
     const onChange = (e) => {
@@ -228,11 +228,11 @@ const handleDelete2 = (i) => {
         </div>
         <div>
             <label htmlFor="marital" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Marital Status</label>
-            <input type="text" id="marital" className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Marital Status"  />
+            <input type="text" id="marital" name='marital_status' onChange={onChange} value={employee.marital_status} className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Marital Status"  />
         </div>
         <div>
             <label htmlFor="blood" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Blood</label>
-            <input type="text" id="blood" className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Blood Group (+ve/-ve)"  />
+            <input type="text" id="blood" name="blood" value={employee.blood} onChange={onChange} className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Blood Group (+ve/-ve)"  />
         </div>
         {/*<div>
             <label htmlFor="aadhar_number" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Aadhar Number</label>
