@@ -1,0 +1,14 @@
+{
+  "files": {
+    "main.css": "/static/css/main.547c9cf5.css",
+    "main.js": "/static/js/main.5d4659dc.js",
+    "static/media/StarLogo.jpg": "/static/media/StarLogo.2b45e11a6489ba8c9dae.jpg",
+    "index.html": "/index.html",
+    "main.547c9cf5.css.map": "/static/css/main.547c9cf5.css.map",
+    "main.5d4659dc.js.map": "/static/js/main.5d4659dc.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.547c9cf5.css",
+    "static/js/main.5d4659dc.js"
+  ]
+}
