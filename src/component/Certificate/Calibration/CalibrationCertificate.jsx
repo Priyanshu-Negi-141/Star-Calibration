@@ -7,7 +7,7 @@ import {
   EnvironmentalCertificate,
   CalibrationResult,
   ReviewPage,
-  ReviewedBy,
+  ReviewedBy, 
 } from "./AllCertificateCollection";
 
 const PrintableContent = (instrumentDetail) => {
