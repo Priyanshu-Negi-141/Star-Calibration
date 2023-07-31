@@ -1,0 +1,15 @@
+{
+  "files": {
+    "main.css": "/static/css/main.4a2bd7b2.css",
+    "main.js": "/static/js/main.a989d3e0.js",
+    "static/media/StarLogo.jpg": "/static/media/StarLogo.2b45e11a6489ba8c9dae.jpg",
+    "index.html": "/index.html",
+    "static/media/times-new-roman.woff2": "/static/media/times-new-roman.31d6cfe0d16ae931b73c.woff2",
+    "main.4a2bd7b2.css.map": "/static/css/main.4a2bd7b2.css.map",
+    "main.a989d3e0.js.map": "/static/js/main.a989d3e0.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.4a2bd7b2.css",
+    "static/js/main.a989d3e0.js"
+  ]
+}
