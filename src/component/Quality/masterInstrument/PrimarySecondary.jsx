@@ -5,7 +5,7 @@ import CmcPage from './CmcPage'
 import { toast } from 'react-toastify'
 const PrimarySecondary = () => {
     const [show, setShow] = useState(false)
-    const {selectedDepartment,handleDepartmentChange,handleStreamChange,currentColor} = useStateContext()
+    const {selectedDepartment,handleDepartmentChange,handleStreamChange,currentColor, host} = useStateContext()
     const [rows, setRows] = useState(['']);
     const [data, setData] = useState({
         master_type: "",
@@ -23,7 +23,7 @@ const PrimarySecondary = () => {
         traceability: ""
     })
     const handleSubmit = async() => {
-        const apiUrl = "http://localhost:8000/api/masterInstrument"
+        const apiUrl = `${host}/api/masterInstrument`
         try {
             const response = await fetch(`${apiUrl}/${selectedDepartment}`, {
               method: 'POST',

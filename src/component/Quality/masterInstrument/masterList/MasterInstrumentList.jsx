@@ -1,8 +1,10 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import { Link } from 'react-router-dom';
+import { useStateContext } from '../../../../contexts/ContextProvider';
 
 const MasterInstrumentList = () => {
+  const {host} = useStateContext()
   const [calibrationStreamCounts, setCalibrationStreamCounts] = useState([]);
   const [hvacStreamCounts, setHVACStreamCounts] = useState([]);
   const [thermalStreamCounts, setThermalStreamCounts] = useState([]);
@@ -16,7 +18,7 @@ const MasterInstrumentList = () => {
 
   const fetchCalibrationStreamCounts = async () => {
     try {
-      const response = await axios.get('http://localhost:8000/api/masterInstrument/getCalibrationStreamCounts');
+      const response = await axios.get(`${host}/api/masterInstrument/getCalibrationStreamCounts`);
       setCalibrationStreamCounts(response.data);
     } catch (error) {
       console.error('Error fetching stream counts:', error);
@@ -25,7 +27,7 @@ const MasterInstrumentList = () => {
 
   const fetchHVACStreamCounts = async () => {
     try {
-      const response = await axios.get('http://localhost:8000/api/masterInstrument/getHVACStreamCounts');
+      const response = await axios.get(`${host}/api/masterInstrument/getHVACStreamCounts`);
       setHVACStreamCounts(response.data);
     } catch (error) {
       console.error('Error fetching stream counts:', error);
@@ -34,7 +36,7 @@ const MasterInstrumentList = () => {
 
   const fetchThermalStreamCounts = async () => {
     try {
-      const response = await axios.get('http://localhost:8000/api/masterInstrument/getThermalStreamCounts');
+      const response = await axios.get(`${host}/api/masterInstrument/getThermalStreamCounts`);
       setThermalStreamCounts(response.data);
     } catch (error) {
       console.error('Error fetching stream counts:', error);

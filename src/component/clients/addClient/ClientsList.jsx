@@ -1,7 +1,8 @@
 import React, { useEffect, useState } from 'react';
+import { useStateContext } from '../../../contexts/ContextProvider';
 
 const ClientTable = () => {
-
+        const {host} = useStateContext()
         const [clients, setClients] = useState([]);
         const [searchValue, setSearchValue] = useState('');
         const [filteredClients, setFilteredClients] = useState([]);
@@ -12,7 +13,7 @@ const ClientTable = () => {
       
         const fetchClientsData = async () => {
           try {
-            const response = await fetch('http://localhost:8000/api/client/clients');
+            const response = await fetch(`${host}/api/client/clients`);
             const data = await response.json();
             setClients(data);
           } catch (error) {

@@ -5,6 +5,7 @@ import axios from "axios";
 import { toast } from "react-toastify";
 
 const UnitsParameter = () => {
+  const {host} = useStateContext()
   const [fetchUnitData, setFetchUnitData] = useState([]);
   const [displayedData, setDisplayedData] = useState([]);
   const [startIndex, setStartIndex] = useState(0);
@@ -32,7 +33,7 @@ const UnitsParameter = () => {
   const fetchData = async () => {
     try {
       const response = await axios.get(
-        "http://localhost:8000/api/unitParameter/unitParameterDetails"
+        `${host}/api/unitParameter/unitParameterDetails`
       );
       setFetchUnitData(response.data);
       setDisplayedData(
@@ -66,7 +67,7 @@ const UnitsParameter = () => {
         parameter_symbol: data.parameter_symbol,
       };
       await axios.post(
-        "http://localhost:8000/api/unitParameter/unitParameterDetails",
+        `${host}/api/unitParameter/unitParameterDetails`,
         requestData
       );
       console.log("Unit Parameter Added", data);
@@ -107,7 +108,7 @@ const UnitsParameter = () => {
         parameter_symbol: data.parameter_symbol,
       };
       await axios.put(
-        `http://localhost:8000/api/unitParameter/unitParameterDetails/${editData._id}`,
+        `${host}/api/unitParameter/unitParameterDetails/${editData._id}`,
         updatedData
       );
       console.log("Unit Parameter Updated", updatedData);
@@ -122,7 +123,7 @@ const UnitsParameter = () => {
 
   const handleDeleteConfirm = async () => {
     try {
-      await axios.delete(`http://localhost:8000/api/unitParameter/unitParameterDetails/${editData._id}`);
+      await axios.delete(`${host}/api/unitParameter/unitParameterDetails/${editData._id}`);
       console.log("Unit Parameter Deleted", editData._id);
       fetchData();
       toast.success("Parameter deleted successfully!");

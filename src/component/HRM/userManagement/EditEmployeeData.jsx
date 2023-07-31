@@ -4,7 +4,7 @@ import { Link, useParams } from 'react-router-dom'
 import { useStateContext } from '../../../contexts/ContextProvider'
 
 const EditEmployeeData = () => {
-    const {selectedDepartment, selectedDesignation, handleDepartmentChange, handleDesignationChange, currentColor, editEmployee,updateEmployeeData} = useStateContext()
+    const {selectedDepartment, selectedDesignation, handleDepartmentChange, handleDesignationChange, currentColor, editEmployee,updateEmployeeData, host} = useStateContext()
 
     const [val,setVal] = useState([])
     const [val1,setVal1] = useState([])
@@ -27,7 +27,7 @@ const EditEmployeeData = () => {
 // Chat GPT code
 
     useEffect(() => {
-        fetch(`http://localhost:8000/api/auth/fetchUniqueID/${id}`)
+        fetch(`${host}/api/auth/fetchUniqueID/${id}`)
             .then((response) => response.json())
             .then((data) => setEmployee(data))
     },[id])
@@ -53,7 +53,7 @@ const EditEmployeeData = () => {
     // HandleSubmit
     const handleSubmit = (e) => {
         e.preventDefault()
-        fetch(`http://localhost:8000/api/auth/fetchUniqueID/${id}`,{
+        fetch(`${host}/api/auth/fetchUniqueID/${id}`,{
             method: 'PUT',
             headers:{
                 "Content-Type":'application/json;charset=utf-8'

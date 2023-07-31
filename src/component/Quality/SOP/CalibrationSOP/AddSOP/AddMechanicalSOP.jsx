@@ -1,6 +1,8 @@
 import React, { useState } from 'react';
+import { useStateContext } from '../../../../../contexts/ContextProvider';
 
 const AddMechanicalSOP = ({ onClose }) => {
+  const {host} = useStateContext()
   const [formData, setFormData] = useState({
     sop_name: '',
     sop_number: '',
@@ -17,7 +19,7 @@ const AddMechanicalSOP = ({ onClose }) => {
     e.preventDefault();
 
     try {
-      const response = await fetch('http://localhost:8000/api/sop/addMechanicalSOP', {
+      const response = await fetch(`${host}/api/sop/addMechanicalSOP`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json'

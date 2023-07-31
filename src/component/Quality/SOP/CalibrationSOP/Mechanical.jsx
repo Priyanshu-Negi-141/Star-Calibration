@@ -2,6 +2,7 @@
 import React, { useEffect, useState } from 'react';
 import AddElectroTechnicalSOP from './AddSOP/AddElectroTechnicalSOP'
 import AddMechanicalSOP from './AddSOP/AddMechanicalSOP';
+import { useStateContext } from '../../../../contexts/ContextProvider';
 
 
 const DeleteConfirmationPopup = ({ onDeleteConfirm, onDeleteCancel }) => {
@@ -30,6 +31,7 @@ const DeleteConfirmationPopup = ({ onDeleteConfirm, onDeleteCancel }) => {
 
 
 const Mechnical = () => {
+  const {host} = useStateContext()
   const [showPopup, setShowPopup] = useState(false);
   const [formDetails, setFormDetails] = useState([]);
   const [data, setData] = useState([]);
@@ -42,7 +44,7 @@ const Mechnical = () => {
   
   const fetchETDetails = async () => {
     try {
-      const response = await fetch('http://localhost:8000/api/sop/getMechanicalSOP');
+      const response = await fetch(`${host}/api/sop/getMechanicalSOP`);
       if (response.ok) {
         const jsonData = await response.json();
         setData(jsonData);
@@ -57,7 +59,7 @@ const Mechnical = () => {
   // Delete Item from the list of items in SOPs page
   const handleDeleteConfirm = async () => {
     try {
-      const response = await fetch(`http://localhost:8000/api/sop/deleteMechanicalSOP/${deleteItemId}`, {
+      const response = await fetch(`${host}/api/sop/deleteMechanicalSOP/${deleteItemId}`, {
         method: 'DELETE',
       });
       if (response.ok) {

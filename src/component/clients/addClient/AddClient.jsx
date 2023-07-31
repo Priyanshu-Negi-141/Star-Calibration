@@ -387,8 +387,10 @@
 import React, { useState } from "react";
 import axios from "axios";
 import { toast } from "react-toastify";
+import { useStateContext } from "../../../contexts/ContextProvider";
 
 const AddClient = () => {
+  const {host} = useStateContext()
   const [client, setClient] = useState({
     client_code: "",
     client_name: "",
@@ -435,7 +437,7 @@ const AddClient = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const apiUrl = "http://localhost:8000/api/client";
+      const apiUrl = `${host}/api/client`;
       const response = await fetch(`${apiUrl}/addClients`, {
         method: "POST",
         headers: {

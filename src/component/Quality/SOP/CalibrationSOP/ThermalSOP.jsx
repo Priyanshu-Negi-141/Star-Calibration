@@ -2,6 +2,7 @@
 import React, { useEffect, useState } from 'react';
 import AddElectroTechnicalSOP from './AddSOP/AddElectroTechnicalSOP'
 import AddThermalSOP from './AddSOP/AddThermalSOP';
+import { useStateContext } from '../../../../contexts/ContextProvider';
 
 
 const DeleteConfirmationPopup = ({ onDeleteConfirm, onDeleteCancel }) => {
@@ -30,6 +31,7 @@ const DeleteConfirmationPopup = ({ onDeleteConfirm, onDeleteCancel }) => {
 
 
 const ThermalSOP = () => {
+  const {host} = useStateContext()
   const [showPopup, setShowPopup] = useState(false);
   const [formDetails, setFormDetails] = useState([]);
   const [data, setData] = useState([]);
@@ -42,7 +44,7 @@ const ThermalSOP = () => {
   
   const fetchETDetails = async () => {
     try {
-      const response = await fetch('http://localhost:8000/api/sop/getThermalSOP');
+      const response = await fetch(`${host}/api/sop/getThermalSOP`);
       if (response.ok) {
         const jsonData = await response.json();
         setData(jsonData);
@@ -57,7 +59,7 @@ const ThermalSOP = () => {
   // Delete Item from the list of items in SOPs page
   const handleDeleteConfirm = async () => {
     try {
-      const response = await fetch(`http://localhost:8000/api/sop/deleteThermalSOP/${deleteItemId}`, {
+      const response = await fetch(`${host}/api/sop/deleteThermalSOP/${deleteItemId}`, {
         method: 'DELETE',
       });
       if (response.ok) {

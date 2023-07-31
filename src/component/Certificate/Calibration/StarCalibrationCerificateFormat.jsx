@@ -8,15 +8,17 @@ import {
 } from "./StarCertificateFormat";
 import { CalibrationResult, ReviewedBy } from "./AllCertificateCollection";
 import ReactToPrint from "react-to-print";
+import { useStateContext } from "../../../contexts/ContextProvider";
 
 const PrintableContent = (instrumentDetail) => {
+  const {host} = useStateContext()
   const { instrumentName, id, isSelected } = instrumentDetail;
   const [srfDetails, setSrfDetails] = useState(null);
 
   useEffect(() => {
     // Fetch the data from the backend API when the component mounts
     fetch(
-      `http://localhost:8000/api/certificate/fetch-instru-details/${encodeURIComponent(
+      `${host}/api/certificate/fetch-instru-details/${encodeURIComponent(
         instrumentName
       )}/${encodeURIComponent(id)}`
     )

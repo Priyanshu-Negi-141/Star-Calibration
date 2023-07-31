@@ -1,9 +1,11 @@
 import axios from "axios";
 import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
+import { useStateContext } from "../../../../../../contexts/ContextProvider";
 
 
 const PressureTransmitterTable = (props) => {
+  const {host} = useStateContext()
   const { instrumentName, id} = props;
   const [unitData, setUnitData] = useState([
     {
@@ -23,7 +25,7 @@ const PressureTransmitterTable = (props) => {
   const fetchData = async () => {
     try {
       const response = await axios.get(
-        `http://localhost:8000/api/certificate/instrument-data1/${encodeURIComponent(
+        `${host}/api/certificate/instrument-data1/${encodeURIComponent(
           instrumentName
         )}/${encodeURIComponent(id)}`
       );
@@ -98,7 +100,7 @@ const PressureTransmitterTable = (props) => {
     ));
     console.log(requestBody)
   
-    const apiUrl = `http://localhost:8000/api/certificate/pressureUnit-data/${encodeURIComponent(
+    const apiUrl = `${host}/api/certificate/pressureUnit-data/${encodeURIComponent(
       instrumentName
     )}/${encodeURIComponent(id)}`;
   

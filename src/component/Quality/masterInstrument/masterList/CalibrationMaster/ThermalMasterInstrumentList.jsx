@@ -1,8 +1,10 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import { Link, useParams } from 'react-router-dom';
+import { useStateContext } from '../../../../../contexts/ContextProvider';
 
 const ThermalMasterInstrumentList = () => {
+  const {host} = useStateContext()
   const { streamId } = useParams();
   const [streamInstrumentCounts, setStreamInstrumentCounts] = useState([]);
   const [streamData, setStreamData] = useState([]);
@@ -15,7 +17,7 @@ const ThermalMasterInstrumentList = () => {
 
   const fetchStreamInstrumentCounts = async () => {
     try {
-      const response = await axios.get(`http://localhost:8000/api/masterInstrument/ThermalInstrumentCount/${streamId}`);
+      const response = await axios.get(`${host}/api/masterInstrument/ThermalInstrumentCount/${streamId}`);
       setStreamInstrumentCounts(response.data);
     } catch (error) {
       console.error('Error fetching stream counts:', error);
@@ -24,7 +26,7 @@ const ThermalMasterInstrumentList = () => {
 
   const fetchStreamData = async () => {
     try {
-      const response = await axios.get(`http://localhost:8000/api/masterInstrument/getThermalStreamDetails/${streamId}`);
+      const response = await axios.get(`${host}/api/masterInstrument/getThermalStreamDetails/${streamId}`);
       setStreamData(response.data);
     } catch (error) {
       console.error('Error fetching stream data:', error);

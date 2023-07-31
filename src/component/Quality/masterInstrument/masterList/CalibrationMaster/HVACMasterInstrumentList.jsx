@@ -1,8 +1,10 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import { Link, useParams } from 'react-router-dom';
+import { useStateContext } from '../../../../../contexts/ContextProvider';
 
 const HVACMasterInstrumentList = () => {
+  const {host} = useStateContext()
   const { streamId } = useParams();
   const [streamInstrumentCounts, setStreamInstrumentCounts] = useState([]);
   const [streamData, setStreamData] = useState([]);
@@ -15,7 +17,7 @@ const HVACMasterInstrumentList = () => {
 
   const fetchStreamInstrumentCounts = async () => {
     try {
-      const response = await axios.get(`http://localhost:8000/api/masterInstrument/HVACInstrumentCount/${streamId}`);
+      const response = await axios.get(`${host}/api/masterInstrument/HVACInstrumentCount/${streamId}`);
       setStreamInstrumentCounts(response.data);
     } catch (error) {
       console.error('Error fetching stream counts:', error);
@@ -24,7 +26,7 @@ const HVACMasterInstrumentList = () => {
 
   const fetchStreamData = async () => {
     try {
-      const response = await axios.get(`http://localhost:8000/api/masterInstrument/getHVACStreamDetails/${streamId}`);
+      const response = await axios.get(`${host}/api/masterInstrument/getHVACStreamDetails/${streamId}`);
       setStreamData(response.data);
     } catch (error) {
       console.error('Error fetching stream data:', error);

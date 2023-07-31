@@ -3,6 +3,7 @@ import React, { useEffect, useState } from "react";
 import { useStateContext } from "../../../contexts/ContextProvider";
 
 const CalibrationHomePage = () => {
+  const {host} = useStateContext()
   const [maxCertificateNumber, setMaxCertificateNumber] = useState('');
 
   useEffect(() => {
@@ -11,7 +12,7 @@ const CalibrationHomePage = () => {
 
   const fetchData = async () => {
     try {
-      const response = await axios.get('http://localhost:8000/api/client/counter');
+      const response = await axios.get(`${host}/api/client/counter`);
       const maxCertificateNumber = String(response.data.maxCertificateNumber);
         // Extract the number from the string
         const number = maxCertificateNumber.split('/').pop();

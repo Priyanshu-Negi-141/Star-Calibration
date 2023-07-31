@@ -1,6 +1,8 @@
 import React, { useState } from 'react';
+import { useStateContext } from '../../../../../contexts/ContextProvider';
 
 const AddElectroTechnicalSOP = ({ onClose }) => {
+  const {host} = useStateContext()
   const [formData, setFormData] = useState({
     sop_name: '',
     sop_number: '',
@@ -17,7 +19,7 @@ const AddElectroTechnicalSOP = ({ onClose }) => {
     e.preventDefault();
 
     try {
-      const response = await fetch('http://localhost:8000/api/sop/addElectroTechnicalSOP', {
+      const response = await fetch(`${host}/api/sop/addElectroTechnicalSOP`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json'

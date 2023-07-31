@@ -27,7 +27,8 @@ export const ContextProvider = ({children}) => {
     const [selectedDesignation, setSelectedDesignation] = useState('');
     const [selectedStream, setSelectedStream] = useState('')
     // Auth and fetching data context
-    const host = "http://localhost:8000"
+    // const host = "http://localhost:8000"
+    const host = "http://43.205.120.119:8001"
     
     const [isPopupOpen, setPopupOpen] = useState(false);
     const [isPopupCheckOutOpen, setPopupCheckOutOpen] = useState(false);
@@ -185,7 +186,7 @@ export const ContextProvider = ({children}) => {
     // Fetch Employee Data
     const fetchEmployeeData = async () => {
         try {
-          const response = await fetch("http://localhost:8000/api/auth/fetchAllEmployeeList", {
+          const response = await fetch(`${host}/api/auth/fetchAllEmployeeList`, {
             method: 'GET',
             headers: {
               "Content-Type": "application/json",
