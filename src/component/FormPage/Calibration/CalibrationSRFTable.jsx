@@ -2,8 +2,10 @@ import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import { Link } from 'react-router-dom';
 import { toast } from 'react-toastify';
+import { useStateContext } from '../../../contexts/ContextProvider';
 
 const CalibrationSRFTable = () => {
+  const {host} = useStateContext()
   const [data, setData] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState(null);
@@ -35,7 +37,7 @@ const CalibrationSRFTable = () => {
 
   const fetchData = async () => {
     try {
-      const response = await axios.get('http://localhost:8000/api/certificate/calibration-srf-data');
+      const response = await axios.get(`${host}/api/certificate/calibration-srf-data`);
       setData(response.data);
       setDisplayedData(response.data.slice(0, itemsPerPage));
     } catch (error) {

@@ -22,9 +22,13 @@ module.exports = {
     fontFamily: {
       display: ['Open Sans', 'sans-serif'],
       body: ['Open Sans', 'sans-serif'],
+      roman: ['Times New Roman', 'serif'],
     },
+    
     extend: {
       fontSize: {
+        12: '12px',
+        13: '13px',
         14: '14px',
       },
       backgroundColor: {

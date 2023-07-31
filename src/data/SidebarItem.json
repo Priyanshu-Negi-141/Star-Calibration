@@ -189,5 +189,10 @@
         "title":"Query Page",
         "icon" : "bi-question-circle",
         "path" :"/contact"
+    },
+    {
+        "title":"Access Rights",
+        "icon" : "bi-question-circle",
+        "path" :"/accessRights"
     }
 ]

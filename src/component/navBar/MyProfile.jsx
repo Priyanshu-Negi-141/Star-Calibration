@@ -143,7 +143,7 @@ const MyProfile = () => {
                     return(
                     <div className='w-full pl-4 h-50 flex flex-col justify-center gap-3 '>
                         <h1 className='text-5xl text-orange-600' style={{color:currentColor}}>{emp.fName} {emp.lName}</h1>
-                        <span className='text-2xl text-gray-900 dark:text-white'>Senior Manager</span>
+                        <span className='text-2xl text-gray-900 dark:text-white'>{emp.department} {emp.designation}</span>
                     </div>
                     )
                 })

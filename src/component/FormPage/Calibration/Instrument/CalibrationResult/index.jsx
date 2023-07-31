@@ -1,0 +1,5 @@
+export {default as MainTablePage} from './MainTablePage'
+export {default as PressureTransmitterTable} from './Tabels/PressureTransmitterTable'
+export {default as DigitalVernierCaliperTable} from './Tabels/DigitalVernierCaliperTable'
+export {default as RPMIndicatorTable} from './Tabels/RPMIndicatorTable'
+export {default as TimerTable} from './Tabels/TimerTable'

@@ -1,12 +1,29 @@
 @import url('https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;500;600;700&display=swap');
-
+@import url('https://fonts.googleapis.com/css2?family=Playfair+Display&display=swap');
 *{
     margin: 0;
     padding: 0;
     box-sizing: border-box;
-    font-family: "Open Sans", sans-serif;
-}
+}   
 
+/* Define the font-family for "Times New Roman" */
+@font-face {
+    font-family: 'Times New Roman';
+    src: url('./fonts/times-new-roman.woff2') format('woff2');
+  }
+  
+  /* Apply the font-family to specific elements using Tailwind CSS */
+  @layer utilities {
+    .font-roman {
+      font-family: "Times New Roman", Times, serif
+    }
+    .font-display{
+        font-family: "Open Sans", sans-serif;
+    }
+    .font-body {
+        font-family: "Open Sans", sans-serif;
+    }
+  }
 
 
 @tailwind base;
@@ -24,5 +41,6 @@
           -ms-overflow-style: none;  /* IE and Edge */
           scrollbar-width: none;  /* Firefox */
       }
+
     }
   }

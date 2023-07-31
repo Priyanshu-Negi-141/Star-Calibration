@@ -226,17 +226,36 @@ export const ContextProvider = ({children}) => {
 
 
     // Add a Note
-    const addEmployee = async(fName,lName,email,fatherName,motherName,dob,mobile_number,gender,password,department,designation,marital_status, blood) => {
+    // const addEmployee = async(fName,lName,email,fatherName,motherName,dob,mobile_number,gender,password,department,designation,marital_status, blood) => {
+    //     // API Call
+    //     const response  = await fetch(`${host}/api/auth/addEmployeeData`,{
+    //         method : 'POST',
+    //         headers: {
+    //                 "Content-Type": "application/json"
+    //         },
+    //         body: JSON.stringify({fName,lName,email,fatherName,motherName,dob,mobile_number,gender,password,department,designation,marital_status, blood})
+    //     });
+    //     const employee = await response.json()
+    //     setEmployeeData(employeeData.concat(employee))
+    // }
+
+    const addEmployee = async(firstName,lastName,email,fatherName,motherName,dob,mobileNumber,gender,password,department,designation,marital_status, blood) => {
         // API Call
-        const response  = await fetch(`${host}/api/auth/addEmployeeData`,{
-            method : 'POST',
-            headers: {
-                    "Content-Type": "application/json"
-            },
-            body: JSON.stringify({fName,lName,email,fatherName,motherName,dob,mobile_number,gender,password,department,designation,marital_status, blood})
-        });
-        const employee = await response.json()
-        setEmployeeData(employeeData.concat(employee))
+        try {
+            const response  = await fetch(`${host}/api/employee/addEmployeeData`,{
+                method : 'POST',
+                headers: {
+                        "Content-Type": "application/json"
+                },
+                body: JSON.stringify({firstName,lastName,email,fatherName,motherName,dob,mobileNumber,gender,password,department,designation,marital_status, blood})
+            });
+            const employee = await response.json()
+            setEmployeeData(employeeData.concat(employee))
+            toast.success("Employee Added Successfully!")
+        } catch (error) {
+            toast.warning('Please check your internet connection')
+            
+        }
     }
 
 
@@ -1091,6 +1110,7 @@ export const ContextProvider = ({children}) => {
 
     return(
         <StateContext.Provider value ={{
+            host,
             currentDate,
             currentTime,
             fetchCurrentTime,

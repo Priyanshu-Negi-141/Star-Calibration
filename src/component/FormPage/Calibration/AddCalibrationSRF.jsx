@@ -1,8 +1,10 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 import { toast } from "react-toastify";
+import { useStateContext } from "../../../contexts/ContextProvider";
 
 const AddCalibrationSRF = () => {
+  const {host} = useStateContext()
   const [clientNames, setClientNames] = useState([]);
   const [selectedClient, setSelectedClient] = useState("");
   const [clientAddresses, setClientAddresses] = useState([]);
@@ -25,7 +27,7 @@ const AddCalibrationSRF = () => {
   const fetchClientNames = async () => {
     try {
       const response = await axios.get(
-        "http://localhost:8000/api/client/clientsName"
+        `${host}/api/client/clientsName`
       );
       setClientNames(response.data.clientNames);
     } catch (error) {
@@ -40,7 +42,7 @@ const AddCalibrationSRF = () => {
 
     try {
       const response = await axios.get(
-        `http://localhost:8000/api/client/addresses/${selectedClientName}`
+        `${host}/api/client/addresses/${encodeURIComponent(selectedClientName)}`
       );
       setClientAddresses(response.data.addresses);
     } catch (error) {
@@ -76,7 +78,7 @@ const AddCalibrationSRF = () => {
 
     try {
       await axios.post(
-        "http://localhost:8000/api/certificate/srf",
+        `${host}/api/certificate/srf`,
         requestData
       );
 

@@ -26,12 +26,15 @@ import EmployeeDayReportData from './component/HRM/EmployeeDayReportData'
 import MasterInstrumentList from './component/Quality/masterInstrument/masterList/MasterInstrumentList'
 import { CalibrationMasterInstrumentList, ElectroMasterList, HVACMasterInstrumentList, ThermalMasterInstrumentList } from './component/Quality/masterInstrument/masterList/CalibrationMaster'
 import CalibrationCertificate from './component/Certificate/Calibration/CalibrationCertificate'
-import { AddInstrumentDetails, DeviceDetails } from './component/FormPage'
+import { AddInstrumentDetails, DeviceDetails, ReviewPage } from './component/FormPage'
+import { HomePage } from './component/HomePage'
+import { AccessRightHomePage } from './component/AccessRight'
 
 
 function App() {
 
   const {setCurrentColor, setCurrentMode, currentMode, activeMenu, currentColor, themeSettings, setThemeSettings, loggedIn,checkLoggedIn} = useStateContext()
+  const department = 'calibration';
   useEffect(() => {
     const currentThemeColor = localStorage.getItem('colorMode');
     const currentThemeMode = localStorage.getItem('themeMode');
@@ -44,6 +47,8 @@ function App() {
   useEffect(() => {
     checkLoggedIn()
   }, [])
+
+
 
   return (
     <div>
@@ -59,11 +64,13 @@ function App() {
             <button 
             type='button' 
             
+            
             onClick={() => setThemeSettings(true)}
             className='text-3xl p-3 hover:bg-light-gray text-white' 
             style={{background: currentColor, borderRadius:'50%'}}>
               <FiSettings />
             </button>
+            
           </div>
         </div>
         {activeMenu?
@@ -81,7 +88,7 @@ function App() {
                 ? 'dark:bg-main-dark-bg  bg-main-bg min-h-screen sm:ml-72 md:ml-72 w-full'
                 : 'bg-main-bg dark:bg-main-dark-bg w-full min-h-screen '
             }>
-              <div className='fixed z-10 md:static bg-main-bg dark:bg-main-dark-bg navbar w-full'>
+              <div className='z-10 static bg-main-bg dark:bg-main-dark-bg navbar w-full'>
                 <Navbar />
           </div>
           <div className='fixed bg-main-bg dark:bg-main-dark-bg navbar w-full'>
@@ -91,7 +98,8 @@ function App() {
             {themeSettings && (<ThemeSetting />)}
             <Routes>
               {/* Home Page */}
-              <Route path="/" element={<CalibrationCertificate />}/>
+              
+              <Route path="/" element={<HomePage />}/>
               {/* NavBar Links Page's */}
               <Route path='/myProfile' element={<MyProfile/>} />
               {/* HRM Links */}
@@ -148,6 +156,7 @@ function App() {
               <Route path='/calibration' element={<Calibration/>}/>
               {/* SRF Calibration Link's */}
               <Route path='/calibrationSrfForm' element={<CalibrationSrfForm />} />
+              <Route path='/instrument-certificate/review/:isSelected/:instrumentName/:id' element={<ReviewPage />} />
               <Route path='/instrument-details/:clientName/:id' element={<AddInstrumentDetails />} />
               <Route path='/device-details/:instrumentName/:id' element={<DeviceDetails />}/>
               {/* SRF Calibration Link's end */}
@@ -168,6 +177,12 @@ function App() {
               <Route path="/clients/clientsList" element={<ClientsList />} />
               {/* Query Page */}
 
+
+              {/* AccessRights Page */}
+
+              {department === 'calibration' && (
+              <Route path='/accessRights' element={<AccessRightHomePage />} />
+              )}
 
               <Route path='/chat' element={<Chat />} />
               
