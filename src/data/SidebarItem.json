@@ -99,7 +99,7 @@
             {
                 "title":"Calibration",
                 "icon" : "bi-person-lines-fill",
-                "path" :"/Calibration"
+                "path" :"/CalibrationService"
             },
             {
                 "title":"HVAC Validation",

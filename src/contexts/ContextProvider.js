@@ -27,8 +27,8 @@ export const ContextProvider = ({children}) => {
     const [selectedDesignation, setSelectedDesignation] = useState('');
     const [selectedStream, setSelectedStream] = useState('')
     // Auth and fetching data context
-    // const host = "http://localhost:8000"
-    const host = "http://3.6.89.177:8001"
+    const host = "http://localhost:8000"
+    // const host = "http://3.6.89.177:8001"
     
     const [isPopupOpen, setPopupOpen] = useState(false);
     const [isPopupCheckOutOpen, setPopupCheckOutOpen] = useState(false);

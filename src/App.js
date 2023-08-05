@@ -29,6 +29,7 @@ import CalibrationCertificate from './component/Certificate/Calibration/Calibrat
 import { AddInstrumentDetails, DeviceDetails, ReviewPage } from './component/FormPage'
 import { HomePage } from './component/HomePage'
 import { AccessRightHomePage } from './component/AccessRight'
+import { CalibrationServices, InstrumentTableList, SRFList } from './component/Services'
 
 
 function App() {
@@ -152,6 +153,17 @@ function App() {
 
               {/* SubFolder SOP End's */}
               {/* Quality end's here */}
+              {/* Services Start Here */}
+              <Route path='/CalibrationService' element={<CalibrationServices />} />
+              <Route path='/CalibrationService/SRFList' element={<SRFList />} />
+              <Route path='/instrument-table/:clientName/:id' element={<InstrumentTableList />} />
+
+
+              {/* Services End's Here */}
+
+
+
+
               {/* SRF Link's */}
               <Route path='/calibration' element={<Calibration/>}/>
               {/* SRF Calibration Link's */}

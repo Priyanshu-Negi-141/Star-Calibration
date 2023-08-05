@@ -5,6 +5,7 @@ import { toast } from "react-toastify";
 import Select from "react-select";
 import moment from 'moment'
 import { useStateContext } from "../../../../contexts/ContextProvider";
+import GetInstrumentDetails from "./GetInstrumentDetails";
 
 
 const AddInstrumentDetails = () => {
@@ -22,15 +23,15 @@ const AddInstrumentDetails = () => {
     last_range: "",
     accuracy: "",
     least_count: "",
-    visual_inspection: "",
     calibrate_at: "",
     decipline: "",
-    zero_error: "",
     calibration_date: "",
     valid_date: "",
     location: "",
     temperature: "",
     relative_humidity: "",
+    // visual_inspection: "",
+    // zero_error: "",
   });
   const [fetchInstrument, setFetchInstrument] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
@@ -97,15 +98,15 @@ const AddInstrumentDetails = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      let temperatureValue = "";
-      let humidityValue = "";
-      let calProcedure = "";
-      let supportingStandards = "";
+      // let temperatureValue = "";
+      // let humidityValue = "";
+      // let calProcedure = "";
+      // let supportingStandards = "";
       let range = "";
       let fs = "";
       let Accuracy = "";
-      let calibrationDate = moment(instrument.calibration_date, "YYYY-MM-DD").format("DD/MM/YYYY")
-      let validDate = moment(instrument.valid_date, "YYYY-MM-DD").format("DD/MM/YYYY")
+      // let calibrationDate = moment(instrument.calibration_date, "YYYY-MM-DD").format("DD/MM/YYYY")
+      // let validDate = moment(instrument.valid_date, "YYYY-MM-DD").format("DD/MM/YYYY")
       if (instrument.selectRange === "As per Instrument") {
         range = "As Per Instrument";
         fs = "N/A";
@@ -115,42 +116,42 @@ const AddInstrumentDetails = () => {
         fs = instrument.last_range - instrument.front_range;
         Accuracy = instrument.accuracy;
       }
-      if (instrument.calibrate_at === "Site") {
-        temperatureValue = "25 ± 15";
-        humidityValue = "50 ± 20";
-      } else if (instrument.calibrate_at === "Lab") {
-        if (instrument.lab_option === "Electro") {
-          temperatureValue = "25 ± 4";
-          humidityValue = "30 to 75";
-        } else if (instrument.lab_option === "Thermal") {
-          temperatureValue = "25 ± 4";
-          humidityValue = "30 to 75";
-        } else if (instrument.lab_option === "Mech (Mass)") {
-          temperatureValue = "25 ± 2";
-          humidityValue = "50 ±1 0";
-        } else if (instrument.lab_option === "Mech (Volumn)") {
-          temperatureValue = "25 ± 3";
-          humidityValue = "50 ± 10";
-        } else if (instrument.lab_option === "Mech (Pressure)") {
-          temperatureValue = "23 ± 1.5";
-          humidityValue = "50 ± 10";
-        } else if (instrument.lab_option === "Mech (Dimension)") {
-          temperatureValue = "20 ± 2";
-          humidityValue = "50 ± 10";
-        }
-      }
+      // if (instrument.calibrate_at === "Site") {
+      //   temperatureValue = "25 ± 15";
+      //   humidityValue = "50 ± 20";
+      // } else if (instrument.calibrate_at === "Lab") {
+      //   if (instrument.lab_option === "Electro") {
+      //     temperatureValue = "25 ± 4";
+      //     humidityValue = "30 to 75";
+      //   } else if (instrument.lab_option === "Thermal") {
+      //     temperatureValue = "25 ± 4";
+      //     humidityValue = "30 to 75";
+      //   } else if (instrument.lab_option === "Mech (Mass)") {
+      //     temperatureValue = "25 ± 2";
+      //     humidityValue = "50 ±1 0";
+      //   } else if (instrument.lab_option === "Mech (Volumn)") {
+      //     temperatureValue = "25 ± 3";
+      //     humidityValue = "50 ± 10";
+      //   } else if (instrument.lab_option === "Mech (Pressure)") {
+      //     temperatureValue = "23 ± 1.5";
+      //     humidityValue = "50 ± 10";
+      //   } else if (instrument.lab_option === "Mech (Dimension)") {
+      //     temperatureValue = "20 ± 2";
+      //     humidityValue = "50 ± 10";
+      //   }
+      // }
 
-      if (instrument.decipline === "Electro") {
-        calProcedure = selectedEleSopNumber.value;
-        supportingStandards = eleSopIs;
-      } else if (instrument.decipline === "Thermal") {
-        calProcedure = selectedTheSopNumber.value;
-        supportingStandards = theSopIs;
-        console.log(calProcedure,supportingStandards)
-      } else if (instrument.decipline === "Mechanical") {
-        calProcedure = selectedMechSopNumber.value;
-        supportingStandards = mechSopIs;
-      }
+      // if (instrument.decipline === "Electro") {
+      //   calProcedure = selectedEleSopNumber.value;
+      //   supportingStandards = eleSopIs;
+      // } else if (instrument.decipline === "Thermal") {
+      //   calProcedure = selectedTheSopNumber.value;
+      //   supportingStandards = theSopIs;
+      //   console.log(calProcedure,supportingStandards)
+      // } else if (instrument.decipline === "Mechanical") {
+      //   calProcedure = selectedMechSopNumber.value;
+      //   supportingStandards = mechSopIs;
+      // }
 
       const formInstrument = {
         instrument_name: instrument.instrument_name,
@@ -159,22 +160,22 @@ const AddInstrumentDetails = () => {
         id_number: instrument.id_number,
         range: range,
         fs: fs,
-        accuracy: Accuracy,
         least_count: instrument.least_count,
-        visual_inspection: instrument.visual_inspection,
         calibrate_at: instrument.calibrate_at,
-        temperature: temperatureValue,
-        relative_humidity: humidityValue,
-        cal_procedure: calProcedure,
-        supporting_standards: supportingStandards,
-        zero_error: instrument.zero_error,
-        calibration_date: calibrationDate,
-        valid_date: validDate,
-        location: instrument.location,
+        accuracy: Accuracy,
+        // temperature: temperatureValue,
+        // relative_humidity: humidityValue,
+        // cal_procedure: calProcedure,
+        // supporting_standards: supportingStandards,
+        // calibration_date: calibrationDate,
+        // valid_date: validDate,
+        // location: instrument.location,
+        // visual_inspection: instrument.visual_inspection,
+        // zero_error: instrument.zero_error,
       };
 
       await axios.post(
-        `${host}/api/certificate/update-instrument/${encodeURIComponent(
+        `${host}/api/certificate/add-instrument/${encodeURIComponent(
           clientName
         )}/${encodeURIComponent(id)}`,
         {
@@ -193,7 +194,6 @@ const AddInstrumentDetails = () => {
         last_range: "",
         accuracy: "",
         least_count: "",
-        visual_inspection: "",
         calibrate_at: "",
         temperature: "",
         selectRange: "",
@@ -202,10 +202,11 @@ const AddInstrumentDetails = () => {
         cal_procedure: "",
         supporting_standards: "",
         relative_humidity: "",
-        zero_error: "",
         calibration_date: "",
         valid_date: "",
         location: "",
+        // visual_inspection: "",
+        // zero_error: "",
       });
     } catch (error) {
       toast.error("Somthing Wrong! Please try again");
@@ -498,71 +499,51 @@ const AddInstrumentDetails = () => {
               onChange={handleChange}
             />
           </div>
-          <div>
-            <label>Visual Inspection:</label>
-            <input
-              type="text"
-              name="visual_inspection"
-              value={instrument.visual_inspection}
-              onChange={handleChange}
-            />
-          </div>
-          <div>
-            <label>Zero Error:</label>
-            <input
-              type="text"
-              name="zero_error"
-              value={instrument.zero_error}
-              onChange={handleChange}
-            />
-          </div>
-          <br />
-        </div>
-        {/* Calibration Field Add */}
-        <div className="grid grid-cols-3 gap-3 border-2 border-black p-2">
-          <div className="border-2 col-span-2 border-black p-2">
-            <label>
-              Calibrate At:
-              <select
-                name="calibrate_at"
-                className="border border-black/25 shadow-sm w-full rounded-sm p-2"
-                value={instrument.calibrate_at}
-                onChange={handleChange}
-              >
-                <option value="" selected>
-                  None
-                </option>
-                <option value="Site">Site</option>
-                <option value="Lab">Lab</option>
-              </select>
-            </label>
-
-            {instrument.calibrate_at === "Site" && (
+          <div className="col-span-1">
+            <div>
+              <label>Calibrate At:</label>
+                <select
+                  name="calibrate_at"
+                  className="border border-black/25 shadow-sm w-full rounded-sm p-2"
+                  value={instrument.calibrate_at}
+                  onChange={handleChange}
+                >
+                  <option value="" selected>
+                    None
+                  </option>
+                  <option value="Site">Site</option>
+                  <option value="Lab">Lab</option>
+                </select>
+              </div>
+          {/* Calibration At Data */}
+            {/* {instrument.calibrate_at === "Site" && (
               <div className="grid grid-flow-col gap-3 mt-3">
-                <label>
-                  Temperature:
+                <div>
+                <label>Temperature:</label>
                   <input
                     type="text"
                     name="temperature"
                     value="25 &#177; 15"
                     onChange={handleChange}
                   />
-                </label>
-                <label>
-                  Humidity:
+                  </div>
+                  <div>
+                
+                <label>Humidity:</label>
                   <input
                     type="text"
                     name="relative_humidity"
                     value="50 &#177; 20"
                     onChange={handleChange}
                   />
-                </label>
+                  </div>
+                
               </div>
             )}
             {instrument.calibrate_at === "Lab" && (
               <div>
-                <label>
-                  Select an option:
+                <div>
+                <label>Select an option:</label>
                   <select
                     name="lab_option"
                     className="border border-black/25 shadow-sm w-full rounded-sm p-2"
@@ -579,178 +560,217 @@ const AddInstrumentDetails = () => {
                     <option value="Mech (Pressure)">Mech (Pressure)</option>
                     <option value="Mech (Dimension)">Mech (Dimension)</option>
                   </select>
-                </label>
+                  </div>
                 {instrument.lab_option && (
                   <div>
                     {instrument.lab_option === "Electro" && (
                       <div className="grid grid-flow-col gap-3 mt-3">
-                        <label>
-                          Temperature:
+                        <div>
+                        <label>Temperature:</label>
                           <input
                             type="text"
                             name="temperature"
                             value="25 &#177; 4"
                             onChange={handleChange}
                           />
-                        </label>
-                        <label>
-                          Humidity:
+                          </div>
+                        <div>
+                        <label>Humidity:</label>
                           <input
                             type="text"
                             name="relative_humidity"
                             value="30 to 75"
                             onChange={handleChange}
                           />
-                        </label>
+                          </div>
                       </div>
                     )}
                     {instrument.lab_option === "Thermal" && (
                       <div className="grid grid-flow-col gap-3 mt-3">
-                        <label>
-                          Temperature:
+                        <div>
+                        <label>Temperature:</label>
                           <input
                             type="text"
                             name="temperature"
                             value="25 &#177; 4"
                             onChange={handleChange}
                           />
-                        </label>
-                        <label>
-                          Humidity:
+                          </div>
+                        <div>
+                        <label>Humidity:</label>
                           <input
                             type="text"
                             name="relative_humidity"
                             value="30 to 75"
                             onChange={handleChange}
                           />
-                        </label>
+                          </div>
                       </div>
                     )}
                     {instrument.lab_option === "Mech (Mass)" && (
                       <div className="grid grid-flow-col gap-3 mt-3">
-                        <label>
-                          Temperature:
+                        <div>
+                        <label>Temperature:</label>
                           <input
                             type="text"
                             name="temperature"
                             value="25 &#177; 2"
                             onChange={handleChange}
                           />
-                        </label>
-                        <label>
-                          Humidity:
+                          </div>
+                        <div>
+                        <label>Humidity:</label>
                           <input
                             type="text"
                             name="relative_humidity"
                             value="50 &#177; 10"
                             onChange={handleChange}
                           />
-                        </label>
+
+                        </div>
+                        
                       </div>
                     )}
                     {instrument.lab_option === "Mech (Volumn)" && (
                       <div className="grid grid-flow-col gap-3 mt-3">
-                        <label>
-                          Temperature:
+                        <div>
+                        <label>Temperature:</label>
                           <input
                             type="text"
                             name="temperature"
                             value="25 &#177; 3"
                             onChange={handleChange}
                           />
-                        </label>
-                        <label>
-                          Humidity:
+                          </div>
+                          <div>
+                        
+                        <label>Humidity:</label>
                           <input
                             type="text"
                             name="relative_humidity"
                             value="50 &#177; 10"
                             onChange={handleChange}
                           />
-                        </label>
+                          </div>
+                        
                       </div>
                     )}
                     {instrument.lab_option === "Mech (Pressure)" && (
                       <div className="grid grid-flow-col gap-3 mt-3">
-                        <label>
-                          Temperature:
+                        <div>
+                        <label>Temperature:</label>
                           <input
                             type="text"
                             name="temperature"
                             value="23 &#177; 1.5"
                             onChange={handleChange}
                           />
-                        </label>
-                        <label>
-                          Humidity:
+                          </div>
+                          <div>
+                        
+                        <label>Humidity:</label>
                           <input
                             type="text"
                             name="relative_humidity"
                             value="50 &#177; 10"
                             onChange={handleChange}
                           />
-                        </label>
+
+</div>
+                        
                       </div>
                     )}
                     {instrument.lab_option === "Mech (Dimension)" && (
                       <div className="grid grid-flow-col gap-3 mt-3">
+                        <div>
                         <label>
-                          Temperature:
+                          Temperature:</label>
                           <input
                             type="text"
                             name="temperature"
                             value="20 &#177; 2"
                             onChange={handleChange}
                           />
-                        </label>
+                          </div>
+                          <div>
+                        
                         <label>
-                          Humidity:
+                          Humidity:</label>
                           <input
                             type="text"
                             name="relative_humidity"
                             value="50 &#177; 10"
                             onChange={handleChange}
                           />
-                        </label>
+                          </div>
+                        
                       </div>
                     )}
                   </div>
                 )}
               </div>
-            )}
-            <div className="grid grid-cols-3 gap-3 my-3">
+            )} */}
+            {/* <div className="grid grid-cols-3 gap-3 my-3">
+              <div>
               <label>
-                Calibration Date:
+                Calibration Date:</label>
                 <input
                   type="date"
                   name="calibration_date"
                   value={instrument.calibration_date}
                   onChange={handleChange}
                 />
-              </label>
+              </div>
+              <div>
               <label>
-                Valid Up To:
+                Valid Up To:</label>
                 <input
                   type="date"
                   name="valid_date"
                   value={instrument.valid_date}
                   onChange={handleChange}
                 />
-              </label>
+                </div>
+                <div>
+              
               <label>
-                Location:
+                Location:</label>
                 <input
                   type="text"
                   name="location"
                   value={instrument.location}
                   onChange={handleChange}
                 />
-              </label>
-            </div>
+                </div>
+            </div> */}
+            {/* Calibration At Data ends */}
           </div>
+          {/* <div>
+            <label>Visual Inspection:</label>
+            <input
+              type="text"
+              name="visual_inspection"
+              value={instrument.visual_inspection}
+              onChange={handleChange}
+            />
+          </div>
+          <div>
+            <label>Zero Error:</label>
+            <input
+              type="text"
+              name="zero_error"
+              value={instrument.zero_error}
+              onChange={handleChange}
+            />
+          </div> */}
+          <br />
+        </div>
+        {/* Calibration Field Add */}
+        {/* <div className="grid grid-cols-3 gap-3 border-2 border-black p-2">
+          
           <div className="border-2 border-black p-2">
             <label>
-              Select Decipline:
+              Select Decipline:</label>
               <select
                 name="decipline"
                 className="border border-black/25 shadow-sm w-full rounded-sm p-2"
@@ -764,7 +784,7 @@ const AddInstrumentDetails = () => {
                 <option value="Thermal">Thermal</option>
                 <option value="Mechanical">Mechanical</option>
               </select>
-            </label>
+            
             {instrument.decipline && (
               <div>
                 {instrument.decipline === "Electro" && (
@@ -782,25 +802,6 @@ const AddInstrumentDetails = () => {
                           isSearchable={true}
                           placeholder="Parameter"
                         />
-                        
-                        {/* <select
-                          className="border border-black/25 w-full rounded-sm p-2"
-                          value={selectedEleSopNumber}
-                          onChange={handleElectroSopNumberChange}
-                        >
-                          <option value="" selected>
-                            Select SOP Number
-                          </option>
-                          {eleSopNumbers.map((eleSopNumber) => (
-                            <option
-                              key={eleSopNumber}
-                              name="eleSopNumber"
-                              value={eleSopNumber}
-                            >
-                              {eleSopNumber}
-                            </option>
-                          ))}
-                        </select> */}
                       </div>
                       <div className="row-span-1 w-full ">
                         <label htmlFor="supp_stand">Supporting Standards</label>
@@ -830,18 +831,6 @@ const AddInstrumentDetails = () => {
                           isSearchable={true}
                           placeholder="Parameter"
                         />
-                        {/* <select
-                          className="border border-black/25 w-full rounded-sm p-2"
-                          value={selectedTheSopNumber}
-                          onChange={handleThermalSopNumberChange}
-                        >
-                          <option value="">Select SOP Number</option>
-                          {theSopNumbers.map((theSopNumber) => (
-                            <option key={theSopNumber} value={theSopNumber}>
-                              {theSopNumber}
-                            </option>
-                          ))}
-                        </select> */}
                       </div>
                       <div className="row-span-1 w-full ">
                         <label htmlFor="supp_stand">Supporting Standards</label>
@@ -870,18 +859,7 @@ const AddInstrumentDetails = () => {
                           isSearchable={true}
                           placeholder="Parameter"
                         />
-                        {/* <select
-                          className="border border-black/25 w-full rounded-sm p-2"
-                          value={selectedMechSopNumber}
-                          onChange={handleMechSopNumberChange}
-                        >
-                          <option value="">Select SOP Number</option>
-                          {mechSopNumbers.map((mechSopNumber) => (
-                            <option key={mechSopNumber} value={mechSopNumber}>
-                              {mechSopNumber}
-                            </option>
-                          ))}
-                        </select> */}
+                        
                       </div>
                       <div className="row-span-1 w-full ">
                         <label htmlFor="supp_stand">Supporting Standards</label>
@@ -898,7 +876,7 @@ const AddInstrumentDetails = () => {
               </div>
             )}
           </div>
-        </div>
+        </div> */}
         <div className="flex justify-end mt-3">
           <div className=" w-1/5 text-center cursor-pointer hover:bg-green-900 hover:text-white/75 text-bold bg-green-800 text-white border border-black">
             <button className="w-full py-2" type="submit">
@@ -907,48 +885,7 @@ const AddInstrumentDetails = () => {
           </div>
         </div>
       </form>
-
-      <div className="mt-5 p-2 border-2 text-center text-bold border-black">
-        <h2>Added Instrument List</h2>
-      </div>
-      <div className="my-2 border-2 border-black sm:overflow-x-scroll md:overflow-none">
-        <table className="w-full">
-          <thead className="border-2 border-black text-[#164B60]">
-            <th>Sr. No</th>
-            <th>Certificate Number</th>
-            <th>Instrument Name</th>
-            <th>Environmental Data</th>
-            <th>HumidityData</th>
-            <th>Serial No</th>
-            <th>Make/Model</th>
-            <th>ID number</th>
-            <th>Location</th>
-          </thead>
-          {fetchInstrument.map((item, index) => {
-            return (
-              <tbody key={item.index}>
-                <td>{index + 1}</td>
-                <td>{item.instrument.certificateNumber}</td>
-                <td className="text-bold text-[#164B60] hover:text-[#164B60]/75 capitalize">
-                  <Link
-                    to={`/device-details/${encodeURIComponent(
-                      item.instrument.instrument_name
-                    )}/${encodeURIComponent(item._id)}`}
-                  >
-                    {item.instrument.instrument_name}
-                  </Link>
-                </td>
-                <td>{item.instrument.temperature}</td>
-                <td>{item.instrument.relative_humidity}</td>
-                <td>{item.instrument.serial_number}</td>
-                <td>{item.instrument.make_model}</td>
-                <td>{item.instrument.id_number}</td>
-                <td>{item.instrument.location}</td>
-              </tbody>
-            );
-          })}
-        </table>
-      </div>
+      <GetInstrumentDetails clientName={clientName} id={id} />
     </div>
   );
 };

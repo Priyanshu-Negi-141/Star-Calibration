@@ -215,12 +215,12 @@ const PressureTransmitterTable = (props) => {
                     Add
                   </button>
                   {/* Set type attribute to "button" */}
-                  {/* <button
+                  <button
                     className="border-2 border-black my-2 py-2 w-full bg-blue-500 hover:bg-blue-600 text-[#ffffff] text-bold"
                     type="submit"
                   >
                     Submit
-                  </button> */}
+                  </button>
                 </div>
               </form>
             </div>
