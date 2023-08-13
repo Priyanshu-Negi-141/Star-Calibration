@@ -21,6 +21,8 @@ const EmployeeRole = ({ selectedEmployee, employeeData }) => {
         `${host}/api/employee/fetchUniqueID/${id}`
       );
       setUniqueIdData(response.data);
+      console.log("Response data:", response.data);
+      console.log("uniqueIdData:", uniqueIdData);
     } catch (error) {
       console.error("Error in fetching Unique Id:", error);
     }
@@ -96,10 +98,11 @@ const EmployeeRole = ({ selectedEmployee, employeeData }) => {
       <div className="p-2 sticky text-center font-bold text-lg bg-gray-500 text-white mb-3">
         <h1>Employee Role</h1>
       </div>
-      <div className="border border-black rounded-sm p-2 text-center font-bold text-lg">
-        <p>
-          {selectedEmployee.name} {selectedEmployee.lastName}
-        </p>
+      <div className="border border-black rounded-sm flex justify-between p-2 text-center text-sm">
+        <div className="inline-flex gap-2">
+          <h1 className="font-bold">Employee Name</h1><p className="">{selectedEmployee.name}{" "}{selectedEmployee.lastName}</p>
+        </div>
+        <div className="inline-flex gap-2"><h1 className="font-bold">Designation</h1>{uniqueIdData.designation}</div>
       </div>
       <div className="grid grid-cols-3 gap-2">
         {selectedEmployee && (
@@ -147,14 +150,24 @@ const EmployeeRole = ({ selectedEmployee, employeeData }) => {
 
         <div className="p-2 flex-1 gap-2">
           <div className="flex gap-2 capitalize">
-            <p className="font-bold">Calibration Engineer:</p>
-            <p>{uniqueIdData.employeeData[0].employeeRole[0].calibrationEngineer}</p>
+            <p className="font-bold">Calibration Engineer</p>
+            <p>
+              {uniqueIdData.employeeRole && uniqueIdData.employeeRole[0]
+                ? uniqueIdData.employeeRole[0].calibrationEngineer
+                : "N/A"}{" "}
+              {/* Display "N/A" if the data is not available */}
+            </p>
           </div>
           <div className="flex gap-2 capitalize">
-            <p className="font-bold">Authorized :</p>
-            <p>{uniqueIdData.employeeData[0].employeeRole[0].branchHead}</p>
+            <p className="font-bold">Authorized</p>
+            <p>
+              {uniqueIdData.employeeRole && uniqueIdData.employeeRole[0]
+                ? uniqueIdData.employeeRole[0].branchHead
+                : "N/A"}{" "}
+              {/* Display "N/A" if the data is not available */}
+            </p>
           </div>
-        </div> 
+        </div>
       </div>
     </div>
   );

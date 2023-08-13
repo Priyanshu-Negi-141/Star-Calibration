@@ -27,8 +27,8 @@ export const ContextProvider = ({ children }) => {
   const [selectedDesignation, setSelectedDesignation] = useState("");
   const [selectedStream, setSelectedStream] = useState("");
   // Auth and fetching data context
-  // const host = "http://localhost:8000"
-  const host = "http://52.66.116.48:8001";
+  const host = "http://localhost:8000"
+  //const host = "http://52.66.116.48:8001";
 
   const [isPopupOpen, setPopupOpen] = useState(false);
   const [isPopupCheckOutOpen, setPopupCheckOutOpen] = useState(false);
@@ -36,7 +36,7 @@ export const ContextProvider = ({ children }) => {
   const [loggedInEmployee, setLoggedInEmployee] = useState([]);
   const [currentPage, setCurrentPage] = useState(0);
   const [loggedIn, setLoggedIn] = useState(false);
-  const [credential, setCredential] = useState({ email: "", password: "" });
+  const [credential, setCredential] = useState({ mobile_number: "", password: "" });
   const employeesPerPage = 10;
   const [employeeData, setEmployeeData] = useState([]);
   // For DayReport Fetch data
@@ -72,6 +72,17 @@ export const ContextProvider = ({ children }) => {
   const [caCheckInOfficeData, setCaCheckInOfficeData] = useState([]);
   const [steamCheckInSiteData, setSteamCheckInSiteData] = useState([]);
   const [steamCheckInOfficeData, setSteamCheckInOfficeData] = useState([]);
+
+
+  // Access User
+
+  const allowedDepartments = ["Admin", "Manager", "Supervisor"];
+
+  // Check if the user's department is in the list of allowed departments
+  const userDepartment = loggedInEmployee.length > 0 ? loggedInEmployee[0].employeeData[0].department : '';
+
+
+  //  Access User end's
 
   // Fetching time online
 
@@ -169,7 +180,7 @@ export const ContextProvider = ({ children }) => {
   // Fetch Employee with
   const fetchIndividualEmployeeData = async () => {
     try {
-      const response = await fetch(`${host}/api/auth/fetchEmployeeData`, {
+      const response = await fetch(`${host}/api/employee/fetchEmployeeData`, {
         method: "GET",
         headers: {
           "Content-Type": "application/json",
@@ -188,7 +199,7 @@ export const ContextProvider = ({ children }) => {
   // Fetch Employee Data
   const fetchEmployeeData = async () => {
     try {
-      const response = await fetch(`${host}/api/auth/fetchAllEmployeeList`, {
+      const response = await fetch(`${host}/api/employee/fetchAllEmployeeList`, {
         method: "GET",
         headers: {
           "Content-Type": "application/json",
@@ -288,7 +299,7 @@ export const ContextProvider = ({ children }) => {
 
     try {
       const response = await fetch(
-        `${host}/api/auth/deleteEmployeeData/${id}`,
+        `${host}/api/employee/deleteEmployeeData/${id}`,
         {
           method: "DELETE",
           headers: {
@@ -296,7 +307,7 @@ export const ContextProvider = ({ children }) => {
           },
         }
       );
-      alert("Deleting the employee with id:" + id);
+      toast.success("Employee Deleted!")
       const newEmployee = employeeData.filter((employee) => {
         return employee._id !== id;
       });
@@ -1163,6 +1174,9 @@ export const ContextProvider = ({ children }) => {
   return (
     <StateContext.Provider
       value={{
+        // AccessUser
+        allowedDepartments,
+        userDepartment,
         host,
         currentDate,
         currentTime,

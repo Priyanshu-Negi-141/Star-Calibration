@@ -211,59 +211,64 @@ const Navbar = () => {
       customFunc={handleActiveMenu} 
       color={currentColor} 
       icon= {<AiOutlineMenu />} />
-      <div className='text-sm text-bold' style={{color: currentColor}}>
+      {/* <div className='text-sm text-bold' style={{color: currentColor}}>
         <h1>{formatTime(count)}</h1>
-      </div>
+      </div> */}
       <div className='flex'>
-      <NavButton 
+      {/* <NavButton 
         title="Cart" 
         customFunc={() => handleClick('cart')}
         color={currentColor}
         icon= {<FiShoppingCart />} 
-      />
-      <NavButton 
+      /> */}
+      {/* <NavButton 
         title="Chat" 
         dotColor={"#03C9D7"}
         customFunc={() => handleClick('chat')}
         color={currentColor}
         icon= {<BsChatLeft />} 
-      />
-      <NavButton 
+      /> */}
+      {/* <NavButton 
         title="Notifications" 
         dotColor="#03C9D7"
         
         customFunc={() => handleClick('notification')}
         color={currentColor}
         icon= {<RiNotification3Line />} 
-      />
+      /> */}
       <div content='Profile'position="BottomCenter" ref={menuRef}>
-        <div className='flex item-center gap-2 cursor-pointer hover:bg-slate-50 rounded-3xl p-1 round-lg' style={{color: currentColor,border: '1px solid',borderColor: currentMode}} onClick={() => setOpen(!open)}>
-          <img 
-          className='rounded-full w-8 h-8'
-          style={{border: '1px solid', borderColor: currentColor}}
-          src={avatar} 
-          alt="user-profile" />
-          <p>
-            <span className='text-14'>Hi,</span>{' '}
-            {
-              loggedInEmployee.map((user) => {
-                return(
-
-                  <span className='font-bold ml-1 text-14'>{user.fName}</span>
-                )
-              })
-            }
-            </p>
-          <MdKeyboardArrowDown className='text-gray-400 text-14'/>
+        <div className='flex item-center gap-1 cursor-pointer hover:bg-slate-50 rounded-3xl p-1 round-lg' style={{color: currentColor,border: '1px solid',borderColor: currentMode}} onClick={() => setOpen(!open)}>
+          <div>
+            <img 
+            className='rounded-full w-8 h-8'
+            style={{border: '1px solid', borderColor: currentColor}}
+            src={avatar} 
+            alt="user-profile" />
+          </div>
+          <div>
+            <p>
+              <span className='text-14'>Hi,</span>{' '}
+              {
+                loggedInEmployee.map((user) => {
+                  return(
+                    <span className='font-bold ml-1 text-14'>{user.employeeData[0].fName} {user.employeeData[0].lName}</span>
+                  )
+                })
+              }
+              </p>
+          </div>
+          <div className='grid place-items-center'>
+            <MdKeyboardArrowDown className='text-gray-400 text-lg' style={{color: currentColor}}/>
+          </div>
 
         </div>
         <div className={`dropdown-menu ${open? 'active' : 'inactive'}`} style={{backgroundColor: currentColor}}>
         {
               loggedInEmployee.map((user) => {
                 return(
-          <div>
-            <h3>{user.fName} {user.lName}<br />
-            <span>Senior Manager</span></h3>
+          <div className='grid gap-2'>
+            <h3>{user.employeeData[0].fName} {user.employeeData[0].lName}<br />
+            <span>{user.employeeData[0].designation}</span></h3>
           </div>
 
                   
@@ -271,19 +276,19 @@ const Navbar = () => {
               })
             }
           <ul>
-            <NavLink to={'myProfile'}><button className='pl-4 mb-1 border border-black rounded-lg w-full'><DropdownItem img={avatar} text = {'My Profile'} /></button></NavLink>
+            <NavLink to={'myProfile'}><button className='pl-4 mb-1 border border-black rounded-lg w-full'><DropdownItem img={""} text = {'My Profile'} /></button></NavLink>
             
             {
             isCounting ? (
-              <button className='pl-4 mb-1 border border-black rounded-lg w-full' onClick={stopCounting}><DropdownItem img={avatar} text = {'Break'} /></button>
+              <button className='pl-4 mb-1 border border-black rounded-lg w-full' onClick={stopCounting}><DropdownItem img={""} text = {'Break'} /></button>
             ) : (
               // onClick={startCounting} baad me use krna
-              <button className='pl-4 mb-1 border border-black rounded-lg w-full' onClick={handleButtonClick}><DropdownItem img={avatar} text = {'Check In'} /></button>
+              <button className='pl-4 mb-1 border border-black rounded-lg w-full' onClick={handleButtonClick}><DropdownItem img={""} text = {'Check In'} /></button>
             )}
-            <button className='pl-4 mb-1 border border-black rounded-lg w-full' onClick={handleCheckOutButtonClick}><DropdownItem img={avatar} text = {'Check Out'} /></button>
-            <button className='pl-4 mb-1 border border-black rounded-lg w-full'><DropdownItem img={avatar} text = {'My Task'} /></button>
-            <button className='pl-4 mb-1 border border-black rounded-lg w-full'><DropdownItem img={avatar} text = {'Help'} /></button>
-            <button className='pl-4 mb-1 border border-black rounded-lg w-full' onClick={handleDeleteInputSets}><DropdownItem img={avatar} text = {'Log Out'} /></button>
+            <button className='pl-4 mb-1 border border-black rounded-lg w-full' onClick={handleCheckOutButtonClick}><DropdownItem img={""} text = {'Check Out'} /></button>
+            <button className='pl-4 mb-1 border border-black rounded-lg w-full'><DropdownItem img={""} text = {'My Task'} /></button>
+            <button className='pl-4 mb-1 border border-black rounded-lg w-full'><DropdownItem img={""} text = {'Help'} /></button>
+            <button className='pl-4 mb-1 border border-black rounded-lg w-full' onClick={handleDeleteInputSets}><DropdownItem img={""} text = {'Log Out'} /></button>
           </ul>
 
         </div>

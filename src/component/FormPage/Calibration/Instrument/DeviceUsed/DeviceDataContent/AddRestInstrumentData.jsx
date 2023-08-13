@@ -3,6 +3,7 @@ import { useStateContext } from "../../../../../../contexts/ContextProvider";
 import axios from "axios";
 import { toast } from "react-toastify";
 import Select from "react-select";
+import moment from "moment";
 
 const AddRestInstrumentData = (props) => {
   const { host } = useStateContext();
@@ -12,6 +13,8 @@ const AddRestInstrumentData = (props) => {
     visual_inspection: "",
     zero_error: "",
     calibrate_at: "",
+    calibration_date: "",
+    valid_date: "",
     // temperature: temperatureValue,
     // relative_humidity: humidityValue,
     // cal_procedure: calProcedure,
@@ -22,6 +25,38 @@ const AddRestInstrumentData = (props) => {
     // visual_inspection: instrument.visual_inspection,
     // zero_error: instrument.zero_error,
   });
+
+  const [selectedDate, setSelectedDate] = useState("");
+  const [timeRange, setTimeRange] = useState("");
+  const [customDate, setCustomDate] = useState("");
+
+  // Date changing
+  const handleTimeRangeChange = (event) => {
+    setTimeRange(event.target.value);
+    if (event.target.value === "6months") {
+      const currentDate = new Date(formData.calibration_date);
+      currentDate.setMonth(currentDate.getMonth() + 6);
+      setCustomDate(currentDate.toISOString().split("T")[0]);
+    } else if (event.target.value === "1year") {
+      const currentDate = new Date(formData.calibration_date);
+      currentDate.setFullYear(currentDate.getFullYear() + 1);
+      setCustomDate(currentDate.toISOString().split("T")[0]);
+    } else {
+      setCustomDate(""); // Reset custom date
+    }
+  };
+
+  const formatDate = (date) => {
+    return moment(date).format("DD/MM/YYYY");
+  };
+
+
+  const handleCustomDateChange = (event) => {
+    setCustomDate(event.target.value);
+  };
+
+
+  // Date changing end's
 
   useEffect(() => {
     const fetchData = async () => {
@@ -41,11 +76,13 @@ const AddRestInstrumentData = (props) => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
+      formData.calibration_date = formatDate(formData.calibration_date)
+      formData.valid_date = formatDate(customDate)
       const response = await axios.put(
         `${host}/api/certificate/instrument-data1/${encodeURIComponent(
           instrumentName
         )}/${encodeURIComponent(id)}`,
-        formData
+        formData,
       );
       console.log("Response:", response.data); // Log the response data for debugging
       if (response.status === 200) {
@@ -188,343 +225,368 @@ const AddRestInstrumentData = (props) => {
         <div className="border grid sm:grid-row-2 md:grid-row-3 gap-3 p-2">
           <div className="grid gap-2">
             <div className="">
-            <label htmlFor="">Calibrate At</label>
-            <input type="text" name="calibratedAt" onChange={handleChange} value={calibratedAt} disabled={isDisabled} />
-            <button onClick={handleToggle}>
-                {isDisabled ? 'Enable Edit' : 'Disable Edit'}
-            </button>
+              <label htmlFor="">Calibrate At</label>
+              <input
+                type="text"
+                name="calibratedAt"
+                onChange={handleChange}
+                value={calibratedAt}
+                disabled={isDisabled}
+              />
+              <button onClick={handleToggle}>
+                {isDisabled ? "Enable Edit" : "Disable Edit"}
+              </button>
             </div>
             <div>
-            {calibratedAt === "Site" && (
-              <div className="grid grid-flow-col gap-3 mt-3">
-                <div>
-                  <label>Temperature:</label>
-                  <input
-                    type="text"
-                    name="temperature"
-                    value="25 &#177; 15"
-                    onChange={handleChange}
-                  />
-                </div>
-                <div>
-                  <label>Humidity:</label>
-                  <input
-                    type="text"
-                    name="relative_humidity"
-                    value="50 &#177; 20"
-                    onChange={handleChange}
-                  />
-                </div>
-              </div>
-            )}
-            
-            </div>
-            <div>
-            {calibratedAt === "Lab" && (
-              <div>
-                <div>
-                  <label>Select an option:</label>
-                  <select
-                    name="lab_option"
-                    className="border border-black/25 shadow-sm w-full rounded-sm p-2"
-                    value={formData.lab_option}
-                    onChange={handleChange}
-                  >
-                    <option value="" selected>
-                      None
-                    </option>
-                    <option value="Electro">Electro</option>
-                    <option value="Thermal">Thermal</option>
-                    <option value="Mech (Mass)">Mech (Mass)</option>
-                    <option value="Mech (Volumn)">Mech (Volumn)</option>
-                    <option value="Mech (Pressure)">Mech (Pressure)</option>
-                    <option value="Mech (Dimension)">Mech (Dimension)</option>
-                  </select>
-                </div>
-                {formData.lab_option && (
+              {calibratedAt === "Site" && (
+                <div className="grid grid-flow-col gap-3 mt-3">
                   <div>
-                    {formData.lab_option === "Electro" && (
-                      <div className="grid grid-flow-col gap-3 mt-3">
-                        <div>
-                          <label>Temperature:</label>
-                          <input
-                            type="text"
-                            name="temperature"
-                            value="25 &#177; 4"
-                            onChange={handleChange}
-                          />
-                        </div>
-                        <div>
-                          <label>Humidity:</label>
-                          <input
-                            type="text"
-                            name="relative_humidity"
-                            value="30 to 75"
-                            onChange={handleChange}
-                          />
-                        </div>
-                      </div>
-                    )}
-                    {formData.lab_option === "Thermal" && (
-                      <div className="grid grid-flow-col gap-3 mt-3">
-                        <div>
-                          <label>Temperature:</label>
-                          <input
-                            type="text"
-                            name="temperature"
-                            value="25 &#177; 4"
-                            onChange={handleChange}
-                          />
-                        </div>
-                        <div>
-                          <label>Humidity:</label>
-                          <input
-                            type="text"
-                            name="relative_humidity"
-                            value="30 to 75"
-                            onChange={handleChange}
-                          />
-                        </div>
-                      </div>
-                    )}
-                    {formData.lab_option === "Mech (Mass)" && (
-                      <div className="grid grid-flow-col gap-3 mt-3">
-                        <div>
-                          <label>Temperature:</label>
-                          <input
-                            type="text"
-                            name="temperature"
-                            value="25 &#177; 2"
-                            onChange={handleChange}
-                          />
-                        </div>
-                        <div>
-                          <label>Humidity:</label>
-                          <input
-                            type="text"
-                            name="relative_humidity"
-                            value="50 &#177; 10"
-                            onChange={handleChange}
-                          />
-                        </div>
-                      </div>
-                    )}
-                    {formData.lab_option === "Mech (Volumn)" && (
-                      <div className="grid grid-flow-col gap-3 mt-3">
-                        <div>
-                          <label>Temperature:</label>
-                          <input
-                            type="text"
-                            name="temperature"
-                            value="25 &#177; 3"
-                            onChange={handleChange}
-                          />
-                        </div>
-                        <div>
-                          <label>Humidity:</label>
-                          <input
-                            type="text"
-                            name="relative_humidity"
-                            value="50 &#177; 10"
-                            onChange={handleChange}
-                          />
-                        </div>
-                      </div>
-                    )}
-                    {formData.lab_option === "Mech (Pressure)" && (
-                      <div className="grid grid-flow-col gap-3 mt-3">
-                        <div>
-                          <label>Temperature:</label>
-                          <input
-                            type="text"
-                            name="temperature"
-                            value="23 &#177; 1.5"
-                            onChange={handleChange}
-                          />
-                        </div>
-                        <div>
-                          <label>Humidity:</label>
-                          <input
-                            type="text"
-                            name="relative_humidity"
-                            value="50 &#177; 10"
-                            onChange={handleChange}
-                          />
-                        </div>
-                      </div>
-                    )}
-                    {formData.lab_option === "Mech (Dimension)" && (
-                      <div className="grid grid-flow-col gap-3 mt-3">
-                        <div>
-                          <label>Temperature:</label>
-                          <input
-                            type="text"
-                            name="temperature"
-                            value="20 &#177; 2"
-                            onChange={handleChange}
-                          />
-                        </div>
-                        <div>
-                          <label>Humidity:</label>
-                          <input
-                            type="text"
-                            name="relative_humidity"
-                            value="50 &#177; 10"
-                            onChange={handleChange}
-                          />
-                        </div>
-                      </div>
-                    )}
+                    <label>Temperature:</label>
+                    <input
+                      type="text"
+                      name="temperature"
+                      value="25 &#177; 15"
+                      onChange={handleChange}
+                    />
                   </div>
-                )}
-              </div>
-            )}
+                  <div>
+                    <label>Humidity:</label>
+                    <input
+                      type="text"
+                      name="relative_humidity"
+                      value="50 &#177; 20"
+                      onChange={handleChange}
+                    />
+                  </div>
+                </div>
+              )}
+            </div>
+            <div>
+              {calibratedAt === "Lab" && (
+                <div>
+                  <div>
+                    <label>Select an option:</label>
+                    <select
+                      name="lab_option"
+                      className="border border-black/25 shadow-sm w-full rounded-sm p-2"
+                      value={formData.lab_option}
+                      onChange={handleChange}
+                    >
+                      <option value="" selected>
+                        None
+                      </option>
+                      <option value="Electro">Electro</option>
+                      <option value="Thermal">Thermal</option>
+                      <option value="Mech (Mass)">Mech (Mass)</option>
+                      <option value="Mech (Volumn)">Mech (Volumn)</option>
+                      <option value="Mech (Pressure)">Mech (Pressure)</option>
+                      <option value="Mech (Dimension)">Mech (Dimension)</option>
+                    </select>
+                  </div>
+                  {formData.lab_option && (
+                    <div>
+                      {formData.lab_option === "Electro" && (
+                        <div className="grid grid-flow-col gap-3 mt-3">
+                          <div>
+                            <label>Temperature:</label>
+                            <input
+                              type="text"
+                              name="temperature"
+                              value="25 &#177; 4"
+                              onChange={handleChange}
+                            />
+                          </div>
+                          <div>
+                            <label>Humidity:</label>
+                            <input
+                              type="text"
+                              name="relative_humidity"
+                              value="30 to 75"
+                              onChange={handleChange}
+                            />
+                          </div>
+                        </div>
+                      )}
+                      {formData.lab_option === "Thermal" && (
+                        <div className="grid grid-flow-col gap-3 mt-3">
+                          <div>
+                            <label>Temperature:</label>
+                            <input
+                              type="text"
+                              name="temperature"
+                              value="25 &#177; 4"
+                              onChange={handleChange}
+                            />
+                          </div>
+                          <div>
+                            <label>Humidity:</label>
+                            <input
+                              type="text"
+                              name="relative_humidity"
+                              value="30 to 75"
+                              onChange={handleChange}
+                            />
+                          </div>
+                        </div>
+                      )}
+                      {formData.lab_option === "Mech (Mass)" && (
+                        <div className="grid grid-flow-col gap-3 mt-3">
+                          <div>
+                            <label>Temperature:</label>
+                            <input
+                              type="text"
+                              name="temperature"
+                              value="25 &#177; 2"
+                              onChange={handleChange}
+                            />
+                          </div>
+                          <div>
+                            <label>Humidity:</label>
+                            <input
+                              type="text"
+                              name="relative_humidity"
+                              value="50 &#177; 10"
+                              onChange={handleChange}
+                            />
+                          </div>
+                        </div>
+                      )}
+                      {formData.lab_option === "Mech (Volumn)" && (
+                        <div className="grid grid-flow-col gap-3 mt-3">
+                          <div>
+                            <label>Temperature:</label>
+                            <input
+                              type="text"
+                              name="temperature"
+                              value="25 &#177; 3"
+                              onChange={handleChange}
+                            />
+                          </div>
+                          <div>
+                            <label>Humidity:</label>
+                            <input
+                              type="text"
+                              name="relative_humidity"
+                              value="50 &#177; 10"
+                              onChange={handleChange}
+                            />
+                          </div>
+                        </div>
+                      )}
+                      {formData.lab_option === "Mech (Pressure)" && (
+                        <div className="grid grid-flow-col gap-3 mt-3">
+                          <div>
+                            <label>Temperature:</label>
+                            <input
+                              type="text"
+                              name="temperature"
+                              value="23 &#177; 1.5"
+                              onChange={handleChange}
+                            />
+                          </div>
+                          <div>
+                            <label>Humidity:</label>
+                            <input
+                              type="text"
+                              name="relative_humidity"
+                              value="50 &#177; 10"
+                              onChange={handleChange}
+                            />
+                          </div>
+                        </div>
+                      )}
+                      {formData.lab_option === "Mech (Dimension)" && (
+                        <div className="grid grid-flow-col gap-3 mt-3">
+                          <div>
+                            <label>Temperature:</label>
+                            <input
+                              type="text"
+                              name="temperature"
+                              value="20 &#177; 2"
+                              onChange={handleChange}
+                            />
+                          </div>
+                          <div>
+                            <label>Humidity:</label>
+                            <input
+                              type="text"
+                              name="relative_humidity"
+                              value="50 &#177; 10"
+                              onChange={handleChange}
+                            />
+                          </div>
+                        </div>
+                      )}
+                    </div>
+                  )}
+                </div>
+              )}
             </div>
             {/*  */}
             {/* Calibration At Data ends */}
           </div>
           <div className="grid gap-1.5">
             <div>
-            <label>Select Decipline:</label>
-            <select
-              name="decipline"
-              className="border border-black/25 shadow-sm w-full rounded-sm p-2"
-              value={formData.decipline}
-              onChange={handleChange}
-            >
-              <option value="" selected>
-                None
-              </option>
-              <option value="Electro">Electro</option>
-              <option value="Thermal">Thermal</option>
-              <option value="Mechanical">Mechanical</option>
-            </select>
+              <label>Select Decipline:</label>
+              <select
+                name="decipline"
+                className="border border-black/25 shadow-sm w-full rounded-sm p-2"
+                value={formData.decipline}
+                onChange={handleChange}
+              >
+                <option value="" selected>
+                  None
+                </option>
+                <option value="Electro">Electro</option>
+                <option value="Thermal">Thermal</option>
+                <option value="Mechanical">Mechanical</option>
+              </select>
             </div>
             <div>
-            {formData.decipline && (
-              <div>
-                {formData.decipline === "Electro" && (
-                  <div className="grid grid-flow-col gap-3 mt-3">
-                    <div className="grid grid-flow-col gap-3">
-                      <div className="col-span-1">
-                        <label htmlFor="">Calibration Procedure:</label>
-                        <Select
-                          value={selectedEleSopNumber}
-                          onChange={handleElectroSopNumberChange}
-                          options={eleSopNumbers.map((eleSopNumber) => ({
-                            value: eleSopNumber,
-                            label: eleSopNumber,
-                          }))}
-                          isSearchable={true}
-                          placeholder="Parameter"
-                        />
-                      </div>
-                      <div className="col-span-1 w-full ">
-                        <label htmlFor="supp_stand">Supporting Standards</label>
-                        <input
-                          type="text"
-                          id="supp_stand"
-                          name="eleSopIs"
-                          value={eleSopIs}
-                          readOnly
-                        />
-                      </div>
-                    </div>
-                  </div>
-                )}
-                {formData.decipline === "Thermal" && (
-                  <div className="grid grid-flow-col gap-3 mt-3">
-                    <div className="grid grid-flow-col gap-3">
-                      <div className="col-span-1">
-                        <label htmlFor="">Calibration Procedure:</label>
-                        <Select
-                          value={selectedTheSopNumber}
-                          onChange={handleThermalSopNumberChange}
-                          options={theSopNumbers.map((theSopNumber) => ({
-                            value: theSopNumber,
-                            label: theSopNumber,
-                          }))}
-                          isSearchable={true}
-                          placeholder="Parameter"
-                        />
-                      </div>
-                      <div className="col-span-1 w-full ">
-                        <label htmlFor="supp_stand">Supporting Standards</label>
-                        <input
-                          type="text"
-                          id="supp_stand"
-                          value={theSopIs}
-                          readOnly
-                        />
+              {formData.decipline && (
+                <div>
+                  {formData.decipline === "Electro" && (
+                    <div className="grid grid-flow-col gap-3 mt-3">
+                      <div className="grid grid-flow-col gap-3">
+                        <div className="col-span-1">
+                          <label htmlFor="">Calibration Procedure:</label>
+                          <Select
+                            value={selectedEleSopNumber}
+                            onChange={handleElectroSopNumberChange}
+                            options={eleSopNumbers.map((eleSopNumber) => ({
+                              value: eleSopNumber,
+                              label: eleSopNumber,
+                            }))}
+                            isSearchable={true}
+                            placeholder="Parameter"
+                          />
+                        </div>
+                        <div className="col-span-1 w-full ">
+                          <label htmlFor="supp_stand">
+                            Supporting Standards
+                          </label>
+                          <input
+                            type="text"
+                            id="supp_stand"
+                            name="eleSopIs"
+                            value={eleSopIs}
+                            readOnly
+                          />
+                        </div>
                       </div>
                     </div>
-                  </div>
-                )}
-                {formData.decipline === "Mechanical" && (
-                  <div className="grid grid-flow-col gap-3 mt-3">
-                    <div className="grid grid-flow-col gap-3">
-                      <div className="col-span-1">
-                        <label htmlFor="">Calibration Procedure:</label>
-                        <Select
-                          value={selectedMechSopNumber}
-                          onChange={handleMechSopNumberChange}
-                          options={mechSopNumbers.map((mechSopNumber) => ({
-                            value: mechSopNumber,
-                            label: mechSopNumber,
-                          }))}
-                          isSearchable={true}
-                          placeholder="Parameter"
-                        />
-                      </div>
-                      <div className="col-span-1 w-full ">
-                        <label htmlFor="supp_stand">Supporting Standards</label>
-                        <input
-                          type="text"
-                          id="supp_stand"
-                          value={mechSopIs}
-                          readOnly
-                        />
+                  )}
+                  {formData.decipline === "Thermal" && (
+                    <div className="grid grid-flow-col gap-3 mt-3">
+                      <div className="grid grid-flow-col gap-3">
+                        <div className="col-span-1">
+                          <label htmlFor="">Calibration Procedure:</label>
+                          <Select
+                            value={selectedTheSopNumber}
+                            onChange={handleThermalSopNumberChange}
+                            options={theSopNumbers.map((theSopNumber) => ({
+                              value: theSopNumber,
+                              label: theSopNumber,
+                            }))}
+                            isSearchable={true}
+                            placeholder="Parameter"
+                          />
+                        </div>
+                        <div className="col-span-1 w-full ">
+                          <label htmlFor="supp_stand">
+                            Supporting Standards
+                          </label>
+                          <input
+                            type="text"
+                            id="supp_stand"
+                            value={theSopIs}
+                            readOnly
+                          />
+                        </div>
                       </div>
                     </div>
-                  </div>
-                )}
-              </div>
-            )}
+                  )}
+                  {formData.decipline === "Mechanical" && (
+                    <div className="grid grid-flow-col gap-3 mt-3">
+                      <div className="grid grid-flow-col gap-3">
+                        <div className="col-span-1">
+                          <label htmlFor="">Calibration Procedure:</label>
+                          <Select
+                            value={selectedMechSopNumber}
+                            onChange={handleMechSopNumberChange}
+                            options={mechSopNumbers.map((mechSopNumber) => ({
+                              value: mechSopNumber,
+                              label: mechSopNumber,
+                            }))}
+                            isSearchable={true}
+                            placeholder="Parameter"
+                          />
+                        </div>
+                        <div className="col-span-1 w-full ">
+                          <label htmlFor="supp_stand">
+                            Supporting Standards
+                          </label>
+                          <input
+                            type="text"
+                            id="supp_stand"
+                            value={mechSopIs}
+                            readOnly
+                          />
+                        </div>
+                      </div>
+                    </div>
+                  )}
+                </div>
+              )}
             </div>
           </div>
           <div className="grid grid-cols-3 gap-3">
-              <div>
-                <label>Calibration Date:</label>
-                <input
-                  type="date"
-                  name="calibration_date"
-                  className="p-1.5"
-                  value={formData.calibration_date}
-                  onChange={handleChange}
-                />
-              </div>
-              <div>
-                <label>Valid Up To:</label>
-                <input
-                  type="date"
-                  name="valid_date"
-                  className="p-1.5"
-                  value={formData.valid_date}
-                  onChange={handleChange}
-                />
-              </div>
-              <div>
-                <label>Location:</label>
-                <input
-                  type="text"
-                  name="location"
-                  value={formData.location}
-                  onChange={handleChange}
-                />
-              </div>
+            <div>
+              <label>Calibration Date:</label>
+              <input
+                type="date"
+                name="calibration_date"
+                className="p-1.5"
+                value={formData.calibration_date}
+                onChange={handleChange}
+              />
             </div>
+            <div>
+              <label>Valid Up To:</label>
+              <select
+                className="w-full p-2 rounded-sm"
+                value={timeRange}
+                onChange={handleTimeRangeChange}
+                name=""
+                id=""
+              >
+                <option value="">Select an option</option>
+                <option value="6months">6 months</option>
+                <option value="1year">1 year</option>
+                <option value="custom">Custom</option>
+              </select>
+              { timeRange === 'custom' && (
+                <input
+                  type="date"
+                  name="customDate"
+                  className="p-1.5"
+                  value={customDate}
+                  onChange={handleCustomDateChange}
+                />
+              )
+              }
+            </div>
+            <div>
+              <label>Location:</label>
+              <input
+                type="text"
+                name="location"
+                value={formData.location}
+                onChange={handleChange}
+              />
+            </div>
+          </div>
         </div>
-        
 
         <div className="flex justify-end mt-3">
           <button

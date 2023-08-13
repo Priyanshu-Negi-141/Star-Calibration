@@ -141,7 +141,7 @@ const PressureTransmitterTable = (props) => {
       <p>{instrumentName}</p> <p>{id}</p>
       <div className="border-2 border-black p-2 my-3">
         <div className="border border-black text-center text-bold p-2">
-          Add detail's
+          Calibration Result
         </div>
         <div>
             <div>

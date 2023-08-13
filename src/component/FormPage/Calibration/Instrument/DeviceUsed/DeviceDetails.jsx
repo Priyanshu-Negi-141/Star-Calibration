@@ -232,9 +232,9 @@ const DeviceDetails = () => {
     <div>
       {/* <Route path='/device-details/:instrumentName/:id' element={<DeviceDetails />}/> */}
 
-        <FetchMasterDetails instrumentName={instrumentName} id={id} />
         <EditInstrumentDetails instrumentName={instrumentName} id={id} />
         <AddRestInstrumentData instrumentName={instrumentName} id={id} />
+        <FetchMasterDetails instrumentName={instrumentName} id={id} />
         <AddAuthorisedSignatory instrumentName={instrumentName} id={id} />
 
       <div className="my-2 flex justify-end">

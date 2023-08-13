@@ -106,34 +106,33 @@ const EmployeList = () => {
         <tbody>
             {
                currentPageData.map((employee,index) => {
-                    const fullName = `${employee.fName} ${employee.lName}`.toLowerCase()
+                    const fullName = `${employee.employeeData[0].fName} ${employee.employeeData[0].lName}`.toLowerCase()
                     const showEmployee = fullName.includes(searchQuery)
                     return(
                         <tr key={employee._id} className={`bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600 ${showEmployee ? '' : 'hidden'}`}>
                             <td className="px-6 py-4 whitespace-no-wrap">
                                 {serialNumber + index}
                             </td>
-
                             <th scope="row" className="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
-                                <a href="">{employee.fName} {employee.lName}</a>
+                                <a href="">{employee.employeeData[0].fName} {employee.employeeData[0].lName}</a>
                             </th>
                             <td className="px-6 py-4">
-                                {employee.dob}
+                                {employee.employeeData[0].dob}
                             </td>
                             <td className="px-6 py-4">
-                                {employee.gender}
+                                {employee.employeeData[0].gender}
                             </td>
                             <td className="px-6 py-4">
-                                {employee.fatherName}
+                                {employee.employeeData[0].fatherName}
                             </td>
                             <td className="px-6 py-4">
-                                {employee.motherName}
+                                {employee.employeeData[0].motherName}
                             </td>
                             <td className="px-6 py-4">
-                                {employee.mobile_number}
+                                {employee.employeeData[0].mobile_number}
                             </td>
                             <td className="px-6 py-4">
-                                {employee.email}
+                                {employee.employeeData[0].email}
                             </td>
                             <td className="px-6 py-4 flex gap-2">
 
@@ -160,7 +159,7 @@ const EmployeList = () => {
                         </tr>
                     )})}
                     {!employeeData.some((employee) => {
-                        const fullName = `${employee.fName} ${employee.lName}`.toLowerCase();
+                        const fullName = `${employee.employeeData[0].fName} ${employee.employeeData[0].lName}`.toLowerCase();
                         return fullName.includes(searchQuery)
                     }) && (
                         <tr>

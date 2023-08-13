@@ -1,8 +1,9 @@
 import React, { useState } from 'react'
-import {CalibrationDepartment, HVACDepartment, ThermalDepartment} from './index'
+import {AccessDeniedPage, CalibrationDepartment, HVACDepartment, ThermalDepartment} from './index'
 import { useStateContext } from '../../contexts/ContextProvider';
 
 const AccessRightHomePage = () => {
+  const {loggedInEmployee, userDepartment , allowedDepartments} = useStateContext()
   const [isCalibrationDropDownOpen, setIsCalibrationDropDownOpen] =
     useState(false);
   const [isHvacDropDownOpen, setIsHvacDropDownOpen] = useState(false);
@@ -40,7 +41,10 @@ const AccessRightHomePage = () => {
       thermalToggleDropdown();
     }
   };
+
   return (
+    <>
+    {allowedDepartments.includes(userDepartment) ? (
     <>
       <div
         className="text-bold text-white p-3 border-b-2"
@@ -80,6 +84,10 @@ const AccessRightHomePage = () => {
       {isCalibrationDropDownOpen && <CalibrationDepartment />}
       {isHvacDropDownOpen && <HVACDepartment />}
       {isThermalDropDownOpen && <ThermalDepartment />}
+    </>
+    ) : (
+      <AccessDeniedPage />
+    )}
     </>
   )
 }

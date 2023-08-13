@@ -146,7 +146,7 @@ const handleSubmitSend = async (e) => {
     });
   };
   return (
-    <div>
+    <div className="mt-0.5">
       <div className="grid grid-cols-3 font-bold gap-2">
         <div className="">
           <div className="border border-black text-center text-bold p-2">

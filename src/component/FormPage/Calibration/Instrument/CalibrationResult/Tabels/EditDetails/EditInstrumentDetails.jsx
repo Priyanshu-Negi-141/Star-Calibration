@@ -132,7 +132,7 @@ const EditInstrumentDetails = (props) => {
   // handle submit all ends
 
   return (
-    <div className="border border-black p-2">
+    <div className="border border-black p-2 bg-[#afc0ca]">
       <div className="border border-black p-2 font-bold text-center mb-2">
         <h1>Instrument Detail's</h1>
       </div>
