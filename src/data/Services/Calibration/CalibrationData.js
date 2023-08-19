@@ -1,11 +1,11 @@
 import { MdAdd } from "react-icons/md"
-
+import {BsList} from "react-icons/bs"
 export const serviceCalibrationData = [
     {
-        icon: <MdAdd />,
+        icon: <BsList />,
         id: 1,
-        title: 'SRF List',
-        iconColor: '#03C9D7',
+        title: 'View SRF List',
+        iconColor: '#ffffff',
         iconBg: '#E5FAFB',
         pcColor: 'red-600',
         component: 'Chat',

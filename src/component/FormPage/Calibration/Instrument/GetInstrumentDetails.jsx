@@ -49,14 +49,14 @@ const GetInstrumentDetails = (props) => {
           <tbody key={item.index}>
             <td>{index + 1}</td>
             
-            <td className="font-bold text-[#164B60] hover:text-[#164B60]/75 capitalize">
-              <Link
+            <td className="font-bold text-[#000203] capitalize">
+              {/* <Link
                 to={`/device-details/${encodeURIComponent(
                   item.instrument.instrument_name
                 )}/${encodeURIComponent(item._id)}`}
-              >
+              > */}
                 {item.instrument.instrument_name}
-              </Link>
+              {/* </Link> */}
             </td>
             <td>{item.instrument.make_model}</td>
             <td>{item.instrument.id_number}</td>

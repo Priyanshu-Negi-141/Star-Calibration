@@ -5,7 +5,7 @@ import { toast } from "react-toastify";
 import Select from "react-select";
 
 const EditInstrumentDetails = (props) => {
-  const { instrumentName, id } = props;
+  const { instrumentName, id , onFormSubmit } = props;
   const { host } = useStateContext();
   const [frontRange, setFrontRange] = useState("");
   const [lastRange, setLastRange] = useState("");
@@ -132,7 +132,7 @@ const EditInstrumentDetails = (props) => {
   // handle submit all ends
 
   return (
-    <div className="border border-black p-2 bg-[#afc0ca]">
+    <div className="p-2 bg-[#afc0ca]">
       <div className="border border-black p-2 font-bold text-center mb-2">
         <h1>Instrument Detail's</h1>
       </div>
@@ -201,7 +201,7 @@ const EditInstrumentDetails = (props) => {
                 onChange={handleChange}
               />
             </div>
-            <div>
+            {/* <div>
               <label htmlFor="calibrate_at">Calibrate At</label>
               <input
                 type="text"
@@ -210,7 +210,22 @@ const EditInstrumentDetails = (props) => {
                 value={formData.calibrate_at}
                 onChange={handleChange}
               />
+            </div> */}
+            <div>
+              <label htmlFor="calibrate_at">Calibrate At</label>
+              <select
+                type="text"
+                name="calibrate_at"
+                id="calibrate_at"
+                className="border border-black/25 shadow-sm w-full rounded-sm p-2"
+                value={formData.calibrate_at}
+                onChange={handleChange}
+              >
+                <option value="Site">Site</option>
+                <option value="Lab">Lab</option>
+              </select>
             </div>
+
           </div>
           {/* <div className="flex justify-end mt-3">
             <button
@@ -258,14 +273,14 @@ const EditInstrumentDetails = (props) => {
                   <label htmlFor="">Enter Range</label>
                   <div className="grid grid-flow-col place-items-center gap-2">
                     <input
-                      type="text"
+                      type="number"
                       name="frontRange"
                       value={frontRange}
                       onChange={(e) => setFrontRange(e.target.value)}
                     />
                     <p>to</p>
                     <input
-                      type="text"
+                      type="number"
                       name="lastRange"
                       value={lastRange}
                       onChange={(e) => setLastRange(e.target.value)}

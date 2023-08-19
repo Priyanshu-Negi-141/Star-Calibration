@@ -5,7 +5,7 @@ const ThermalDayReportData = ({selectedDate}) => {
   const {thermalOfficeData,
     thermalSiteData,
     fetchThermalSiteData,
-    fetchThermalOfficeData,} = useStateContext()
+    fetchThermalOfficeData,formatDate} = useStateContext()
 
 
     useEffect(() => {
@@ -40,12 +40,13 @@ const ThermalDayReportData = ({selectedDate}) => {
             <tbody>
               {
                 filteredOfficeReports.map((office, index)=> {
+                  const dateFormate = formatDate(office.Date)
                   return(
                     
                 <tr key={index}>
                   <td>{index + 1}</td>
                   <td>{office.Employee.fName} {office.Employee.lName}</td>
-                  <td>{office.Date}</td>
+                  <td>{dateFormate}</td>
                   <td>{office.Activity}</td>
                   <td>{office.SiteName}</td>
                   <td>{office.Description}</td>
@@ -77,12 +78,13 @@ const ThermalDayReportData = ({selectedDate}) => {
             <tbody>
               {
                 filteredSiteReports.map((site, index)=> {
+                  const dateFormate = formatDate(site.Date)
                   return(
                     
                 <tr key={index}>
                   <td>{index + 1}</td>
                   <td>{site.Employee.fName} {site.Employee.lName}</td>
-                  <td>{site.Date}</td>
+                  <td>{dateFormate}</td>
                   <td>{site.Activity}</td>
                   <td>{site.SiteName}</td>
                   <td>{site.Description}</td>

@@ -33,6 +33,15 @@ const LogInEmployee = () => {
   const onChange = (e) => {
     setCredential({ ...credential, [e.target.name]: e.target.value });
   };
+
+  const handleInputChange = (event) => {
+    const inputText = event.target.value;
+
+    // Validate that the input contains only numeric characters
+    if (/^\d*$/.test(inputText)) {
+      setCredential({ ...credential, mobile_number: inputText });
+    }
+  };
   useEffect(() => {
     const fetchedQuotes = [
       {
@@ -88,7 +97,7 @@ const LogInEmployee = () => {
           {/* Form Start */}
           <div className="">
             <form className="px-8 py-6" onSubmit={handleSubmit}>
-              <div className="mb-4">
+              {/* <div className="mb-4">
                 <label
                   className="block text-gray-700 text-sm font-bold mb-2"
                   htmlFor="role"
@@ -108,27 +117,27 @@ const LogInEmployee = () => {
                     <option value="employee">Employee</option>
                   </select>
                 </div>
-              </div>
+              </div> */}
               <div className="mb-4 relative">
-                <label
-                  className="block text-gray-700 text-sm font-bold mb-2"
-                  htmlFor="username"
-                >
-                  Username
-                </label>
-                <div className="relative">
-                  <FaUser className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400" />
-                  <input
-                    className="pl-10 shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-                    id="username"
-                    type="number"
-                    name="mobile_number"
-                    value={credential.mobile_number}
-                    onChange={onChange}
-                    placeholder="Enter your Username"
-                  />
-                </div>
-              </div>
+      <label
+        className="block text-gray-700 text-sm font-bold mb-2"
+        htmlFor="username"
+      >
+        Username
+      </label>
+      <div className="relative">
+        <FaUser className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400" />
+        <input
+          className="pl-10 shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+          id="username"
+          type="text" // Keep the type as text
+          name="mobile_number"
+          value={credential.mobile_number}
+          onChange={handleInputChange} // Use handleInputChange for conversion
+          placeholder="Enter your Username"
+        />
+      </div>
+    </div>
               <div className="mb-6 relative">
                 <label
                   className="block text-gray-700 text-sm font-bold mb-2"

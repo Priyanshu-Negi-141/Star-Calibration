@@ -103,7 +103,7 @@ const CalibrationSRFTable = () => {
               <tr key={item._id}>
                 <td>{startIndex + index + 1}</td>
                 <td>{item.srf[0].srfNo}</td>
-                <td>
+                <td className='font-bold underline'>
                   <Link
                     to={`/instrument-details/${encodeURIComponent(item.srf[0].client_name)}/${encodeURIComponent(
                       item._id

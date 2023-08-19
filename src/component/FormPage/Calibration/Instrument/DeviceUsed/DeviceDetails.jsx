@@ -14,7 +14,7 @@ import {
 const DeviceDetails = () => {
   const { host } = useStateContext();
   const { instrumentName, id } = useParams();
-  const [isUpdate, setIsUpdate] = useState(false);
+  const [submittedForms, setSubmittedForms] = useState()
   const [data, setData] = useState({
     instrumentName: "",
     idNumber: "",
@@ -48,30 +48,14 @@ const DeviceDetails = () => {
     fetchData();
   }, []);
 
-  const handleChange = (e) => {
-    const { name, value } = e.target;
-    setFormData((prevFormData) => ({ ...prevFormData, [name]: value }));
-  };
-
-  const handleUpdateInstrument = () => {
-    setIsUpdate(!isUpdate);
-  };
-
   // new data ended
-  const [fsValue, setFsValue] = useState([]);
-  const [unitError, setUnitError] = useState(null);
-  const [unitError1, setUnitError1] = useState(null);
-  const [unitErrorPer, setUnitErrorPer] = useState(null);
   const [results, setResults] = useState([]);
   const [error, setError] = useState(null);
-  const [fetchInstrument1, setFetchInstrument1] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
   const [dataSubmit, setDataSubmit] = useState({});
 
   const [calibratedByOptions, setCalibratedByOptions] = useState([]);
   const [branchHeadOptions, setBranchHeadOptions] = useState([]);
-  const [selectedCalibratedBy, setSelectedCalibratedBy] = useState(null);
-  const [selectedBranchHead, setSelectedBranchHead] = useState(null);
   // Fetch the list of employees for "Calibrated By" and "Branch Head" roles
   useEffect(() => {
     fetchEmployeesByRole("calibrationEngineer");
@@ -102,54 +86,6 @@ const DeviceDetails = () => {
     }
   };
 
-  const handleCalibratedByChange = (selectedOption) => {
-    setSelectedCalibratedBy(selectedOption);
-  };
-
-  const handleBranchHeadChange = (selectedOption) => {
-    setSelectedBranchHead(selectedOption);
-  };
-
-  const handleSubmit1 = (e) => {
-    e.preventDefault();
-    fetchDeviceData();
-  };
-
-  const handleSubmit = (e) => {
-    // Ensure both options are selected before sending the data
-    if (selectedCalibratedBy && selectedBranchHead) {
-      // Create the data object to be sent to the backend
-      const data = {
-        calibratedBy: selectedCalibratedBy.value,
-        authorizedBy: selectedBranchHead.value,
-      };
-
-      // Replace 'YOUR_BACKEND_URL' with the actual URL of your backend endpoint to store the data
-      const backendURL = `${host}/api/certificate/store-authorized-by/${encodeURIComponent(
-        instrumentName
-      )}/${encodeURIComponent(id)}`;
-
-      axios
-        .post(backendURL, data)
-        .then((response) => {
-          console.log(response.data);
-          toast.success("Data Added Successfully!");
-          // Handle success response here if needed
-        })
-        .catch((error) => {
-          console.error(error.response.data);
-          // Handle error response here if needed
-        });
-    }
-  };
-
-  //
-
-  // const handleSubmit = async (e) => {
-  //   e.preventDefault();
-  //   fetchDeviceData();
-
-  // };
 
   const fetchDeviceData = async () => {
     try {
@@ -176,49 +112,36 @@ const DeviceDetails = () => {
     }
   };
 
-  const handleInputChange = (event) => {
-    const { name, value } = event.target;
-    setData((prevData) => ({
-      ...prevData,
-      [name]: value,
-    }));
-  };
-
-  //   for Calibration Resutlt
 
   // Sending data to backend
 
-  const handleSubmitSend = async (e) => {
-    e.preventDefault();
-    console.log("Sending result:", results);
+  // const handleSubmitSend = async (e) => {
+  //   e.preventDefault();
+  //   console.log("Sending result:", results);
 
-    try {
-      console.log("Data to send:", results[0]); // Access the first object from the results array
-      console.log(`${instrumentName}/${id}`);
-      const response = await axios.post(
-        `${host}/api/certificate/update-device/${instrumentName}/${id}`,
-        results[0] // Send the first object directly
-      );
-      toast.success("Data Sumitted Successfully");
-      setDataSubmit();
-      console.log("Response from server:", response.data);
-      // Handle the response if needed
-    } catch (error) {
-      console.error("Something Went wrong");
-      console.error("Error while sending data:", error);
-      // Handle the error if needed
-    }
-  };
+  //   try {
+  //     console.log("Data to send:", results[0]); // Access the first object from the results array
+  //     console.log(`${instrumentName}/${id}`);
+  //     const response = await axios.post(
+  //       `${host}/api/certificate/update-device/${instrumentName}/${id}`,
+  //       results[0] // Send the first object directly
+  //     );
+  //     toast.success("Data Sumitted Successfully");
+  //     setDataSubmit();
+  //     console.log("Response from server:", response.data);
+  //     // Handle the response if needed
+  //   } catch (error) {
+  //     console.error("Something Went wrong");
+  //     console.error("Error while sending data:", error);
+  //     // Handle the error if needed
+  //   }
+  // };
+
+  const handleSubmit = async () => {
+
+  }
 
   // ending of sending data
-
-  const handleDelete = (index) => {
-    setResults((prevResults) => {
-      const updatedResults = [...prevResults];
-      updatedResults.splice(index, 1);
-      return updatedResults;
-    });
-  };
 
   useEffect(() => {
     // Reset the form fields when the component mounts or when the instrument ID changes
@@ -236,18 +159,17 @@ const DeviceDetails = () => {
         <AddRestInstrumentData instrumentName={instrumentName} id={id} />
         <FetchMasterDetails instrumentName={instrumentName} id={id} />
         <AddAuthorisedSignatory instrumentName={instrumentName} id={id} />
-
+        <MainTablePage instrumentName={instrumentName} id={id} />
       <div className="my-2 flex justify-end">
         <div className="grid grid-flow-col gap-3">
           <button
             className="px-4 py-2 rounded bg-blue-500 hover:bg-blue-600 text-[#ffffff] text-bold"
-            onClick={handleSubmitSend}
+            onClick={handleSubmit}
           >
             Submit Data
           </button>
         </div>
       </div>
-      <MainTablePage instrumentName={instrumentName} id={id} />
     </div>
   );
 };

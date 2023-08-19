@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from "react";
 import { useStateContext } from "../../../contexts/ContextProvider";
-
 //
 const DayReport = () => {
   // For Automatic date
@@ -8,7 +7,7 @@ const DayReport = () => {
   const [selectedReport, setSelectedReport] = useState(null);
   const [showTable, setShowTable] = useState(false);
   // sent Data to backend
-  const { addDayReportData, fetchDayReportData, employeeDayReport } =
+  const { addDayReportData, fetchDayReportData, employeeDayReport, formatDate } =
     useStateContext();
   const [dayReport, setDayReport] = useState({
     date: "",
@@ -102,6 +101,7 @@ const DayReport = () => {
       return new Date(b.Date) - new Date(a.Date);
     }
   });
+
 
   const toggleTable = () => {
     setShowTable(!showTable);
@@ -250,7 +250,9 @@ const DayReport = () => {
               </tr>
             </thead>
             <tbody className="bg-white divide-y text-left divide-gray-200">
-              {sortedReports.map((report, index) => (
+              {sortedReports.map((report, index) =>{
+              const dateFormate = formatDate(report.Date)
+              return(
                 <tr key={report._id}>
                   <td className="py-4 px-6 whitespace-nowrap">
                     {report.CheckInType}
@@ -258,15 +260,15 @@ const DayReport = () => {
                   <td className="py-4 px-6 whitespace-nowrap">
                     {report.SiteName}
                   </td>
-                  <td className="py-4 px-6 whitespace-nowrap">{report.Date}</td>
+                  <td className="py-4 px-6 whitespace-nowrap">{dateFormate}</td>
                   <td className="py-4 px-6 whitespace-nowrap">
                     {report.Activity}
-                  </td>
+                  </td> 
                   <td className="py-4 px-6 whitespace-nowrap">
                     {report.Description}
                   </td>
                 </tr>
-              ))}
+              )})}
             </tbody>
           </table>
         </div>

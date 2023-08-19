@@ -1,6 +1,6 @@
 import React, { createContext, useContext, useEffect, useState } from "react";
 import { toast } from "react-toastify";
-
+import moment from 'moment'
 const StateContext = createContext();
 
 const initialState = {
@@ -79,7 +79,8 @@ export const ContextProvider = ({ children }) => {
   const allowedDepartments = ["Admin", "Manager", "Supervisor"];
 
   // Check if the user's department is in the list of allowed departments
-  const userDepartment = loggedInEmployee.length > 0 ? loggedInEmployee[0].employeeData[0].department : '';
+  const userDepartment = loggedInEmployee.length > 0 ? loggedInEmployee[0]?.employeeData[0]?.department : '';
+
 
 
   //  Access User end's
@@ -88,6 +89,17 @@ export const ContextProvider = ({ children }) => {
 
   const [currentTime, setCurrentTime] = useState("");
   const [currentDate, setCurrentDate] = useState("");
+
+
+  // formate Date
+
+  const formatDate = (date) => {
+    return moment(date).format("DD/MM/YYYY");
+  };
+
+  // end formate Date
+
+
 
   const fetchCurrentTime = async () => {
     try {
@@ -127,6 +139,7 @@ export const ContextProvider = ({ children }) => {
       handleLoggedIn();
     }
   };
+
 
   const signupEmployee = async () => {
     try {
@@ -170,6 +183,7 @@ export const ContextProvider = ({ children }) => {
         localStorage.setItem("token", json.authtoken);
         localStorage.setItem("isLoggedIn", "true");
         console.log("response", json);
+        fetchIndividualEmployeeData()
         handleLoggedIn();
       } else {
         alert("Please try Again");
@@ -187,10 +201,15 @@ export const ContextProvider = ({ children }) => {
           "auth-token": localStorage.getItem("token"),
         },
       });
+
+      if (!response.ok) {
+        throw new Error(`HTTP Error ${response.status}`);
+      }
       const json = await response.json();
       console.log(json);
       const dataArray = [json];
       setLoggedInEmployee(dataArray);
+      console.log("loggedInEmployee after update:", loggedInEmployee);
     } catch (error) {
       console.error("Error fetching user data:", error);
     }
@@ -1174,9 +1193,10 @@ export const ContextProvider = ({ children }) => {
   return (
     <StateContext.Provider
       value={{
-        // AccessUser
+
         allowedDepartments,
         userDepartment,
+        formatDate,
         host,
         currentDate,
         currentTime,

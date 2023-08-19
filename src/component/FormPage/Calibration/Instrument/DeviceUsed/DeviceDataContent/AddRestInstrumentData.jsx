@@ -224,7 +224,7 @@ const AddRestInstrumentData = (props) => {
         </div>
         <div className="border grid sm:grid-row-2 md:grid-row-3 gap-3 p-2">
           <div className="grid gap-2">
-            <div className="">
+            {/* <div className="">
               <label htmlFor="">Calibrate At</label>
               <input
                 type="text"
@@ -233,10 +233,7 @@ const AddRestInstrumentData = (props) => {
                 value={calibratedAt}
                 disabled={isDisabled}
               />
-              <button onClick={handleToggle}>
-                {isDisabled ? "Enable Edit" : "Disable Edit"}
-              </button>
-            </div>
+            </div> */}
             <div>
               {calibratedAt === "Site" && (
                 <div className="grid grid-flow-col gap-3 mt-3">
