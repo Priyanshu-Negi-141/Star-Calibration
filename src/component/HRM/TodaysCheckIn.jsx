@@ -154,7 +154,7 @@ const TodaysCheckIn = (onDateChange) => {
   return loggedInEmployee.length > 0 ? (
     <>
     
-    {!allowedDepartments.includes(userDepartment) ? (
+    {allowedDepartments.includes(userDepartment) ? (
     <div>
 
         <PreviousButton />
