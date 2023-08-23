@@ -1,9 +1,82 @@
+// import React, { useState } from 'react';
+// import axios from 'axios';
+// import { toast } from 'react-toastify';
+// import { useNavigate } from 'react-router-dom';
+// import PinGeneratePage from './PinGeneratePage';
+// const MainLoginPage = () => {
+//     const navigate = useNavigate()
+//   const [mobileNumber, setMobileNumber] = useState('');
+//   const [password, setPassword] = useState('');
+//   const [errorMessage, setErrorMessage] = useState('');
+//   const [loggedInUser, setLoggedInUser] = useState(false);
+//   const [showPinGenerateModal, setShowPinGenerateModal] = useState(false);
+//   const handleLogin = async () => {
+//     try {
+//       const response = await axios.post('http://localhost:8000/api/auth/loginEmployeeTrial', {
+//         mobile_number: mobileNumber,
+//         password: password
+//       });
+      
+//       if (response.data.success) {
+//           toast.success("Login Success")
+//           localStorage.setItem('token', response.data.authtoken);
+//           setLoggedInUser(true)
+//           setShowPinGenerateModal(true);
+//       } else {
+//         setErrorMessage('Invalid credentials');
+//       }
+//     } catch (error) {
+//       console.error('Error logging in:', error);
+//       setErrorMessage('An error occurred during login');
+//     }
+//   };
+
+//   const closePinGenerateModal = () => {
+//     setShowPinGenerateModal(false);
+//   };
+
+//   return (
+//     <div>
+//       <h1>Login Page</h1>
+//       <div>
+//         <label>Mobile Number:</label>
+//         <input type="text" value={mobileNumber} onChange={(e) => setMobileNumber(e.target.value)} />
+//       </div>
+//       <div>
+//         <label>Password:</label>
+//         <input type="password" value={password} onChange={(e) => setPassword(e.target.value)} />
+//       </div>
+//       <div>
+//         <button onClick={handleLogin}>Login</button>
+//       </div>
+//       {errorMessage && <div style={{ color: 'red' }}>{errorMessage}</div>}
+//       {/* Conditionally render the PinGeneratePage */}
+//       {showPinGenerateModal && (
+//         <div className="fixed inset-0 flex items-center justify-center z-50 bg-opacity-50 bg-gray-800">
+//           <div className="bg-white p-4 rounded-md shadow-md">
+//             <PinGeneratePage />
+//             <button
+//               className="mt-4 p-2 bg-blue-500 text-white rounded-md"
+//               onClick={closePinGenerateModal}
+//             >
+//               Close
+//             </button>
+//           </div>
+//         </div>
+//       )}
+//     </div>
+//   );
+// };
+
+// export default MainLoginPage;
+
 import React, { useEffect, useState } from "react";
 import { MdAdd } from "react-icons/md";
 import { FaUser, FaLock, FaEye, FaEyeSlash } from "react-icons/fa";
-import { useStateContext } from "./contexts/ContextProvider";
 import { useNavigate } from "react-router-dom";
-import Logo from "../src/Logo/StarLogo.jpg";
+import Logo from "../../../../src/Logo/StarLogo.jpg";
+import { useStateContext } from "../../../contexts/ContextProvider";
+import PinGeneratePage from "./PinGeneratePage";
 const LogInEmployee = () => {
   const {
     signupEmployee,
@@ -11,6 +84,8 @@ const LogInEmployee = () => {
     setCredential,
     currentColor,
     loginEmployeeWithMobile,
+    loggedInUser,
+    showPinGenerateModal,
   } = useStateContext();
   const [quotes, setQuotes] = useState([]);
   const [currentQuoteIndex, setCurrentQuoteIndex] = useState(0);
@@ -192,6 +267,20 @@ const LogInEmployee = () => {
             <hr className="my-6 border-t border-pink-500 border-opacity-50" />
           </div>
         </div>
+        {/* Conditionally render the PinGeneratePage */}
+       {showPinGenerateModal && (
+         <div className="fixed inset-0 flex items-center justify-center z-50 bg-opacity-50 bg-gray-800">
+           <div className="bg-white p-4 rounded-md shadow-md">
+             <PinGeneratePage />
+             {/* <button
+               className="mt-4 p-2 bg-blue-500 text-white rounded-md"
+               onClick={closePinGenerateModal}
+             >
+               Close
+             </button> */}
+           </div>
+         </div>
+       )}
       </div>
     </>
   );

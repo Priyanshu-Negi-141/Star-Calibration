@@ -1,15 +1,15 @@
 {
   "files": {
-    "main.css": "/static/css/main.1b5bbc5a.css",
-    "main.js": "/static/js/main.ce4da5d6.js",
+    "main.css": "/static/css/main.8b66824c.css",
+    "main.js": "/static/js/main.79141393.js",
     "static/media/StarLogo.jpg": "/static/media/StarLogo.2b45e11a6489ba8c9dae.jpg",
     "index.html": "/index.html",
     "static/media/times-new-roman.woff2": "/static/media/times-new-roman.31d6cfe0d16ae931b73c.woff2",
-    "main.1b5bbc5a.css.map": "/static/css/main.1b5bbc5a.css.map",
-    "main.ce4da5d6.js.map": "/static/js/main.ce4da5d6.js.map"
+    "main.8b66824c.css.map": "/static/css/main.8b66824c.css.map",
+    "main.79141393.js.map": "/static/js/main.79141393.js.map"
   },
   "entrypoints": [
-    "static/css/main.1b5bbc5a.css",
-    "static/js/main.ce4da5d6.js"
+    "static/css/main.8b66824c.css",
+    "static/js/main.79141393.js"
   ]
 }

@@ -89,6 +89,8 @@ import {
   InstrumentTableList,
   SRFList,
 } from "./component/Services";
+import { IndividualLocation } from "./component/HRM/todaysCheckIn/Location";
+import { MainLoginPage, PinGeneratePage, PinLoginPage } from "./component/EmployeeLogin";
 
 function App() {
   const {
@@ -100,6 +102,7 @@ function App() {
     themeSettings,
     setThemeSettings,
     loggedIn,
+    setLoggedIn,
     checkLoggedIn,
     fetchIndividualEmployeeData,
     loggedInEmployee,
@@ -125,7 +128,7 @@ function App() {
   return (
     <div>
       {!loggedIn ? (
-        <LogInEmployee />
+        <MainLoginPage />
       ) : (
         <div className={currentMode === "Dark" ? "dark" : ""}>
           <div className="flex relative dark:bg-main-dark-bg">
@@ -142,7 +145,7 @@ function App() {
               </div>
             </div>
             {activeMenu ? (
-              <div className="w-72 fixed sidebar no-scrollbar dark:bg-secondary-dark-bg bg-white z-20">
+              <div className="fixed w-64 sidebar no-scrollbar dark:bg-secondary-dark-bg bg-white z-20">
                 <Sidenav />
               </div>
             ) : (
@@ -154,7 +157,7 @@ function App() {
             <div
               className={
                 activeMenu
-                  ? "dark:bg-main-dark-bg  bg-main-bg min-h-screen sm:ml-72 md:ml-72 w-full"
+                  ? "dark:bg-main-dark-bg  bg-main-bg min-h-screen sm:ml-64 md:ml-64 w-full"
                   : "bg-main-bg dark:bg-main-dark-bg w-full min-h-screen "
               }
             >
@@ -170,6 +173,8 @@ function App() {
                   {/* Home Page */}
 
                   <Route path="/" element={<HomePage />} />
+                  <Route path="/pin-generate" element={<PinGeneratePage />} />
+                  <Route path="/pin-login" element={<PinLoginPage />} />
                   {/* NavBar Links Page's */}
                   <Route path="/myProfile" element={<MyProfile />} />
                   {/* HRM Links */}
@@ -207,6 +212,7 @@ function App() {
                   />
                   {/* Today's CheckIn Links */}
                   <Route path="/todayscheckin" element={<TodaysCheckIn />} />
+                  <Route path="/view-map/:userName/:id" element={<IndividualLocation />} />
                   {/* Today's CheckIn SubFolder Link */}
                   <Route
                     path="/todaysCheckIn/calibrationcheckIn"

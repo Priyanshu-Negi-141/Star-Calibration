@@ -1,0 +1,122 @@
+
+[
+    {
+        "title": "HRM",
+        "icon": "bi-house-fill",
+        "childrens" : [
+            {
+                "title":"User Management",
+                "icon" : "bi-person-lines-fill",
+                "path" :"UserManagement"
+            },
+            {
+                "title":"Today's CheckIn",
+                "icon" : "bi-person-lines-fill",
+                "path" :"todayscheckin"
+            },
+            {
+                "title":"Employee Day Report",
+                "icon" : "bi-person-lines-fill",
+                "path" :"employeeDayReportData"
+            }
+        ]
+    },
+    {
+        "title":"Quality",
+        "icon" : "bi-person-lines-fill",
+        "childrens" : [
+            {
+                "title":"Quality Manual",
+                "icon" : "bi-person-lines-fill",
+                "path" :"/contact"
+            },
+            {
+                "title":"Quality Procedure",
+                "icon" : "bi-person-lines-fill",
+                "path" :"/contact"
+            },
+            {
+                "title":"Master Instrument List",
+                "icon" : "bi-person-lines-fill",
+                "path" :"/masterInstrument"
+            },
+            {
+                "title":"SOP",
+                "icon" : "bi-person-lines-fill",
+                "path" :"sop"
+            },
+            {
+                "title":"Training Record",
+                "icon" : "bi-person-lines-fill",
+                "path" :"/contact"
+            },
+            {
+                "title":"Environmental Monitoring",
+                "icon" : "bi-person-lines-fill",
+                "path" :"/contact"
+            },
+            {
+                "title":"Recalibration",
+                "icon" : "bi-person-lines-fill",
+                "path" :"/contact"
+            },
+            {
+                "title":"Replicate",
+                "icon" : "bi-person-lines-fill",
+                "path" :"/contact"
+            },
+            {
+                "title":"ILC/PT",
+                "icon" : "bi-person-lines-fill",
+                "path" :"/contact"
+            },
+            {
+                "title":"Document Format",
+                "icon" : "bi-person-lines-fill",
+                "path" :"/contact"
+            },
+            {
+                "title":"Document Issurance Register",
+                "icon" : "bi-person-lines-fill",
+                "path" :"/contact"
+            },
+            {
+                "title":"Units & Parameter",
+                "icon" : "bi-person-lines-fill",
+                "path" :"unitParameter"
+            }
+        ]
+    },
+    {
+        "title":"Services",
+        "icon" : "bi-person-lines-fill",
+        "childrens" : [
+            {
+                "title":"Calibration",
+                "icon" : "bi-person-lines-fill",
+                "path" :"/CalibrationService"
+            }
+        ]
+    },
+    {
+        "title":"SRF",
+        "icon" : "bi-person-fill",
+        "childrens": [
+            {
+                "title":"Calibration",
+                "icon" : "bi-person-lines-fill",
+                "path" :"Calibration"
+            }
+        ]
+    },
+    {
+        "title":"Client's",
+        "icon" : "bi-person-fill-add",
+        "path" :"clients"
+    },
+    {
+        "title":"Access Rights",
+        "icon" : "bi-question-circle",
+        "path" :"/accessRights"
+    }
+]

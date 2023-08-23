@@ -3,7 +3,9 @@ import { Link } from 'react-router-dom';
 import {SiShopware} from 'react-icons/si'
 import {MdOutlineCancel} from 'react-icons/md'
 import SidenavItem from './SidenavItem'
-import items from '../data/SidebarItem.json'
+// import items from '../data/SidebarItem.json'
+import items from '../data/SidebarItem_official.json'
+
 import {useStateContext} from '../contexts/ContextProvider'
 
 const Sidenav = () => {

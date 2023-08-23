@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { CalibrationHomePage, HVACHomePage, ThermalHomePage, Location } from "./index";
 import { useStateContext } from "../../contexts/ContextProvider";
+import { MainLoginPage } from "../EmployeeLogin";
 // import CalibrationHomePage from './CalibrationDepartment/CalibrationHomePage'
 
 const HomePage = () => {
@@ -83,9 +84,6 @@ const HomePage = () => {
       {isCalibrationDropDownOpen && <CalibrationHomePage />}
       {isHvacDropDownOpen && <HVACHomePage />}
       {isThermalDropDownOpen && <ThermalHomePage />}
-      <div className="grid place-items-center">
-      <Location />
-      </div>
     </>
   );
 };

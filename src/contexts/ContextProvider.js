@@ -1,6 +1,7 @@
 import React, { createContext, useContext, useEffect, useState } from "react";
 import { toast } from "react-toastify";
 import moment from 'moment'
+import axios from "axios";
 const StateContext = createContext();
 
 const initialState = {
@@ -27,8 +28,9 @@ export const ContextProvider = ({ children }) => {
   const [selectedDesignation, setSelectedDesignation] = useState("");
   const [selectedStream, setSelectedStream] = useState("");
   // Auth and fetching data context
-  //const host = "http://localhost:8000"
-  const host = "http://3.6.39.105:8001";
+  const host = "http://localhost:8000"
+  const GOOGLE_MAP_API_KEY = "AIzaSyBBG3Qt18ozFaeh_cHNVNriZaOV58gB3g0"
+  //const host = "http://3.6.39.105:8001";
 
   const [isPopupOpen, setPopupOpen] = useState(false);
   const [isPopupCheckOutOpen, setPopupCheckOutOpen] = useState(false);
@@ -165,10 +167,12 @@ export const ContextProvider = ({ children }) => {
     } catch (error) {}
   };
 
+  const [loggedInUser, setLoggedInUser] = useState(false);
+  const [showPinGenerateModal, setShowPinGenerateModal] = useState(false);
   // Login Employee with Mobile Number
   const loginEmployeeWithMobile = async () => {
     try {
-      const response = await fetch(`${host}/api/auth/loginEmployee`, {
+      const response = await fetch(`${host}/api/auth/loginEmployeeTrial`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json;charset=utf-8",
@@ -181,14 +185,44 @@ export const ContextProvider = ({ children }) => {
       const json = await response.json();
       if (json.success) {
         localStorage.setItem("token", json.authtoken);
+        setLoggedInUser(true)
+        setShowPinGenerateModal(true);
+        // localStorage.setItem("isLoggedIn", "true");
+        // fetchIndividualEmployeeData()
+        // handleLoggedIn();
+      } else {
+        alert("Please enter Valid Username And Password");
+      }
+    } catch (error) {
+    // Check if the error message indicates a connection issue
+      if (error.message && error.message.includes("Failed to fetch")) {
+        alert("Server is not running. Please try after some time.");
+      }
+    }
+  };
+
+  const [pin, setPin] = useState('');
+
+  const handlePinLogin = async () => {
+    try {
+      const response = await axios.post(
+        'http://localhost:8000/api/auth/loginWithPin',
+        { pin },
+        { headers: { 'auth-token': localStorage.getItem('token') } }
+      );
+
+      if (response.data.success) {
+        // Save the new token to localStorage and replace any existing token
+        localStorage.setItem('token', response.data.authtoken);
         localStorage.setItem("isLoggedIn", "true");
-        console.log("response", json);
         fetchIndividualEmployeeData()
         handleLoggedIn();
       } else {
-        alert("Please try Again");
+        console.log('Invalid Pin')
       }
-    } catch (error) {}
+    } catch (error) {
+      console.error('Error logging in with PIN:', error);
+    }
   };
 
   // Fetch Employee with
@@ -1193,7 +1227,7 @@ export const ContextProvider = ({ children }) => {
   return (
     <StateContext.Provider
       value={{
-
+        GOOGLE_MAP_API_KEY,
         allowedDepartments,
         userDepartment,
         formatDate,
@@ -1260,11 +1294,20 @@ export const ContextProvider = ({ children }) => {
         goToPreviousPage,
         goToNextPage,
 
+        // login Details for MainPage
+        loggedInUser,
+        showPinGenerateModal,
+        pin,
+        setPin,
+        handlePinLogin,
+
+
         // signin
         signupEmployee,
         credential,
         setCredential,
         loggedIn,
+        setLoggedIn,
         checkLoggedIn,
         fetchIndividualEmployeeData,
         fName,
