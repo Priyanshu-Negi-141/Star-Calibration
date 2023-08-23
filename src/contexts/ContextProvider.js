@@ -30,7 +30,7 @@ export const ContextProvider = ({ children }) => {
   // Auth and fetching data context
   //const host = "http://localhost:8000"
   const GOOGLE_MAP_API_KEY = "AIzaSyBBG3Qt18ozFaeh_cHNVNriZaOV58gB3g0"
-  const host = "http://starback.validex.in:8001/";
+  const host = "http://starback.validex.in:8001";
 
   const [isPopupOpen, setPopupOpen] = useState(false);
   const [isPopupCheckOutOpen, setPopupCheckOutOpen] = useState(false);
