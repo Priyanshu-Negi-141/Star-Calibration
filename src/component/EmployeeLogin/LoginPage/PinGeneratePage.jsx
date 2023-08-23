@@ -1,9 +1,11 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import PinLoginPage from './PinLoginPage';
+import { useStateContext } from '../../../contexts/ContextProvider';
 
 const PinGeneratePage = () => {
   const [pin, setPin] = useState('');
+  const {host} = useStateContext()
   const [message, setMessage] = useState('');
   const [hasPin, setHasPin] = useState(false);
   const [currentPage, setCurrentPage] = useState('generate'); // 'generate' or 'login'
@@ -11,10 +13,11 @@ const PinGeneratePage = () => {
 
   const generatePin = async () => {
     const authToken = localStorage.getItem('token');
+    
 
     try {
       const response = await axios.post(
-        'http://localhost:8000/api/auth/createPin',
+        `${host}/api/auth/createPin`,
         { pin },
         { headers: { 'auth-token': authToken } }
       );

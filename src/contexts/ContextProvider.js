@@ -206,7 +206,7 @@ export const ContextProvider = ({ children }) => {
   const handlePinLogin = async () => {
     try {
       const response = await axios.post(
-        'http://localhost:8000/api/auth/loginWithPin',
+        `${host}/api/auth/loginWithPin`,
         { pin },
         { headers: { 'auth-token': localStorage.getItem('token') } }
       );
