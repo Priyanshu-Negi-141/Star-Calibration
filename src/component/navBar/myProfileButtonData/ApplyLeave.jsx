@@ -1,7 +1,12 @@
 import React from 'react'
+import { useStateContext } from '../../../contexts/ContextProvider'
 
 
 const ApplyLeave = () => {
+
+  const {fetchIndividualEmployeeData ,loggedInEmployee} = useStateContext()
+
+
   return (
     <div className=' text-black dark:text-white border border-black dark:border-white'>
       <div className='flex flex-col justify-center items-center p-5 gap-3 divide-y divide-black'>

@@ -9,7 +9,7 @@ import { AccessDeniedPage } from '../AccessRight';
 
 
 const TodaysCheckIn = (onDateChange) => {
-    const {host, loggedInEmployee, allowedDepartments, userDepartment} = useStateContext()
+    const {host, loggedInEmployee, allowedDesignation, userDesignation} = useStateContext()
     const [selectedOption, setSelectedOption] = useState('All')
     const [selectedCheckInType, setSelectedCheckInType] = useState('All')
     const [selectedDate, setSelectedDate] = useState(
@@ -154,7 +154,7 @@ const TodaysCheckIn = (onDateChange) => {
   return loggedInEmployee.length > 0 ? (
     <>
     
-    {allowedDepartments.includes(userDepartment) ? (
+    {allowedDesignation.includes(userDesignation) ? (
     <div>
 
         <PreviousButton />
@@ -175,12 +175,16 @@ const TodaysCheckIn = (onDateChange) => {
                 <h2 className='text-bold'>Select an Activity</h2>
                 <select value={selectedOption} onChange={handleOptionChange} className="w-full border border-gray-800/25 rounded-md p-2 shadow-sm">
                     <option value="All">--- All---</option>
-                    <option value="Calibration Validation">Calibration</option>
-                    <option value="hvac">HVAC</option>
-                    <option value="thermalValidation">Thermal Validation</option>
-                    <option value="plcCsv">PLC & CSV</option>
-                    <option value="caValidation">CA Validation</option>
-                    <option value="steamQuality">Steam Quality</option>
+                    <option value="Admin">Admin</option>
+                  <option value="Account">Account</option>
+                  <option value="Calibration Validation">Calibration Validation</option>
+                  <option value="HVAC Validation">HVAC Validation</option>
+                  <option value="Thermal Validation">Thermal Validation</option>
+                  <option value="CA Validation">CA Validation</option>
+                  <option value="PLC & CSV Validation">PLC & CSV Validation</option>
+                  <option value="Steam Quality Validation">
+                    Steam Quality Validation
+                  </option>
                 </select>
             </div>
             {/* <div> 

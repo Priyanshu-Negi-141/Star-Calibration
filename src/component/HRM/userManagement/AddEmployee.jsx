@@ -425,7 +425,7 @@ const AddEmployee = () => {
                   </option>
                   <option value="Admin">Admin</option>
                   <option value="Account">Account</option>
-                  <option value="Calibration Validation">Calibration Validation</option>
+                  <option value="Calibration">Calibration</option>
                   <option value="HVAC Validation">HVAC Validation</option>
                   <option value="Thermal Validation">Thermal Validation</option>
                   <option value="CA Validation">CA Validation</option>
@@ -455,15 +455,15 @@ const AddEmployee = () => {
                   <option selected>: : : Designation : : :</option>
                   {selectedDepartment === "Admin" && (
                     <>
-                      <option>Admin Head</option>
+                      <option value="Admin Head">Admin Head</option>
                     </>
                   )}
                   {selectedDepartment === "Account" && (
                     <>
-                      <option>Account Head</option>
+                      <option value="Account Head">Account Head</option>
                     </>
                   )}
-                  {selectedDepartment === "Calibration Validation" && (
+                  {selectedDepartment === "Calibration" && (
                     <>
                       <option value="Jr. Calibration Engineer">
                         Jr. Calibration Engineer

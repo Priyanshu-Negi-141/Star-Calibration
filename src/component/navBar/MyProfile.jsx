@@ -125,7 +125,6 @@ const MyProfile = () => {
 
     useEffect(() => {
         fetchIndividualEmployeeData()
-
     },[])
  
   return (

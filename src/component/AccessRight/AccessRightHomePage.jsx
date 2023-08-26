@@ -3,7 +3,8 @@ import {AccessDeniedPage, CalibrationDepartment, HVACDepartment, ThermalDepartme
 import { useStateContext } from '../../contexts/ContextProvider';
 
 const AccessRightHomePage = () => {
-  const {loggedInEmployee, allowedDepartments, userDepartment,} = useStateContext()
+  const {loggedInEmployee, allowedDesignation,
+    userDesignation} = useStateContext()
   const [isCalibrationDropDownOpen, setIsCalibrationDropDownOpen] =
     useState(false);
   const [isHvacDropDownOpen, setIsHvacDropDownOpen] = useState(false);
@@ -46,7 +47,7 @@ const AccessRightHomePage = () => {
 
   return loggedInEmployee.length > 0 ? (
     <>
-    {allowedDepartments.includes(userDepartment) ? (
+    {allowedDesignation.includes(userDesignation) ? (
     <>
       <div
         className="text-bold text-white p-3 border-b-2"

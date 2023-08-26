@@ -30,7 +30,7 @@ export const ContextProvider = ({ children }) => {
   // Auth and fetching data context
   const host = "http://localhost:8000"
   const GOOGLE_MAP_API_KEY = "AIzaSyBBG3Qt18ozFaeh_cHNVNriZaOV58gB3g0"
-  // const host = "http://starback.validex.in:8001";
+  //const host = "http://starback.validex.in:8001";
 
   const [isPopupOpen, setPopupOpen] = useState(false);
   const [isPopupCheckOutOpen, setPopupCheckOutOpen] = useState(false);
@@ -78,10 +78,10 @@ export const ContextProvider = ({ children }) => {
 
   // Access User
 
-  const allowedDepartments = ["Admin", "Manager", "Supervisor"];
+  const allowedDesignation = ["Admin Head", "Account Head", "Jr. Calibration Engineer", "Jr. Validation Engineer", "Jr. Validation Engineer", "jrSME", "Jr. Validation Engineer", "Jr. Validation Engineer" ];
 
   // Check if the user's department is in the list of allowed departments
-  const userDepartment = loggedInEmployee.length > 0 ? loggedInEmployee[0]?.employeeData[0]?.department : '';
+  const userDesignation = loggedInEmployee.length > 0 ? loggedInEmployee[0]?.employeeData[0]?.designation : '';
 
 
 
@@ -418,7 +418,7 @@ export const ContextProvider = ({ children }) => {
     Description
   ) => {
     try {
-      const response = await fetch(`${host}/api/dayReport/addDayReport`, {
+      const response = await fetch(`${host}/api/dayReportDetails/addDayReport`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -434,16 +434,19 @@ export const ContextProvider = ({ children }) => {
       });
       const dayReportData = await response.json();
       if (response.ok) {
-        console.log("your data :" + dayReport);
+        // console.log("your data :" + dayReport);
         setDayReport((dayReport) => [...dayReport, dayReportData]);
+        toast.success("Your day Report data added Successfully.")
       } else {
         console.log("Error response:", dayReportData);
         // Handle the validation errors and display them to the user
         const errors = dayReportData.errors.map((error) => error.msg);
+        fetchDayReportData()
         alert("Your error are:" + errors);
       }
     } catch (error) {
       console.log("Error fetching Day Report data:", error);
+      toast.error("Getting some error. Please try again")
     }
   };
 
@@ -452,7 +455,7 @@ export const ContextProvider = ({ children }) => {
   const fetchDayReportData = async () => {
     try {
       const response = await fetch(
-        `${host}/api/dayReport/dayReportEmployeeData`,
+        `${host}/api/dayReportDetails/individualEmployeeData`,
         {
           method: "GET",
           headers: {
@@ -1228,8 +1231,8 @@ export const ContextProvider = ({ children }) => {
     <StateContext.Provider
       value={{
         GOOGLE_MAP_API_KEY,
-        allowedDepartments,
-        userDepartment,
+        allowedDesignation,
+        userDesignation,
         formatDate,
         host,
         currentDate,
