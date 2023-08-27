@@ -23,13 +23,13 @@ function IndividualLocation() {
   }, []);
 
   return (
-    <div class="flex flex-col items-center justify-start p-2">
-  <h1 class="text-3xl font-extrabold text-gray-500 mb-2">{userName} Location</h1>
-  <div class="bg-white rounded-lg overflow-hidden shadow-lg grid grid-cols-1 md:grid-cols-9 gap-6 p-6">
-    <div class="md:col-span-2">
+    <div className="flex flex-col items-center justify-start p-2">
+  <h1 className="text-3xl font-extrabold text-gray-500 mb-2">{userName} Location</h1>
+  <div className="bg-white rounded-lg overflow-hidden shadow-lg grid grid-cols-1 md:grid-cols-9 gap-6 p-6">
+    <div className="md:col-span-2">
       <LocationData locationData={locationData} />
     </div>
-    <div class="md:col-span-7">
+    <div className="md:col-span-7">
       <LocationMap locationData={locationData} />
     </div>
   </div>

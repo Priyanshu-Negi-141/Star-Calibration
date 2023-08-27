@@ -69,10 +69,6 @@ const initialState = {
 
 const EditEmployeeData = () => {
   const {
-    selectedDepartment,
-    selectedDesignation,
-    handleDepartmentChange,
-    handleDesignationChange,
     currentColor,
     editEmployee,
     updateEmployeeData,
@@ -87,14 +83,31 @@ const EditEmployeeData = () => {
   const { id } = useParams();
   const [showConfirmation, setShowConfirmation] = useState(false);
   const [employee, setEmployee] = useState({ ...initialState });
-
+  const [selectedDepartment, setSelectedDepartment] = useState('');
+  const [selectedDesignation, setSelectedDesignation] = useState('');
   // Add new line
   // Chat GPT code
+
+  const handleDepartmentChange = (event) => {
+    const selectedValue = event.target.value;
+    setSelectedDepartment(selectedValue);
+    // Update other related state or perform actions
+  };
+
+  const handleDesignationChange = (event) => {
+    const selectedValue = event.target.value;
+    setSelectedDesignation(selectedValue);
+    // Update other related state or perform actions
+  };
 
   useEffect(() => {
     fetch(`${host}/api/employee/fetchUniqueID/${id}`)
       .then((response) => response.json())
-      .then((data) => setEmployee(data));
+      .then((data) => {
+      setEmployee(data)
+      setSelectedDepartment(data.department); // Set selected department
+      setSelectedDesignation(data.designation);
+      });
   }, [id]);
 
 
@@ -162,6 +175,9 @@ const EditEmployeeData = () => {
   };
   // Backend start
   // HandleSubmit
+
+
+
   const handleSubmit = (e) => {
     e.preventDefault();
     employee.department = selectedDepartment
@@ -225,6 +241,7 @@ const EditEmployeeData = () => {
     });
   };
 
+
   return (
     <div>
       <div className="">
@@ -235,13 +252,6 @@ const EditEmployeeData = () => {
               <Link to="/addEmployee">
                 <button className="text-white bg-[#24292F] hover:bg-[#24292F]/90 focus:ring-4 focus:outline-none focus:ring-[#24292F]/50 font-medium rounded-lg text-sm px-5 py-2.5 text-center items-center dark:focus:ring-gray-500 dark:hover:bg-[#050708]/30 mr-2 mb-2">
                   Add Employee
-                </button>
-              </Link>
-            </div>
-            <div className="">
-              <Link to="/employeeList">
-                <button className="text-white bg-[#24292F] hover:bg-[#24292F]/90 focus:ring-4 focus:outline-none focus:ring-[#24292F]/50 font-medium rounded-lg text-sm px-5 py-2.5 text-center items-center dark:focus:ring-gray-500 dark:hover:bg-[#050708]/30 mr-2 mb-2">
-                  View Employee List
                 </button>
               </Link>
             </div>
@@ -443,9 +453,9 @@ const EditEmployeeData = () => {
                   <option selected value="">
                     : : : Department : : :
                   </option>
-                  <option value="Admin">Admin</option>
+                  <option value="Admin"  >Admin</option>
                   <option value="Account">Account</option>
-                  <option value="Calibration Validation">Calibration Validation</option>
+                  <option value="Calibration">Calibration</option>
                   <option value="HVAC Validation">HVAC Validation</option>
                   <option value="Thermal Validation">Thermal Validation</option>
                   <option value="CA Validation">CA Validation</option>
@@ -472,18 +482,18 @@ const EditEmployeeData = () => {
                   required
                   className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                 >
-                  <option selected>: : : Designation : : :</option>
+                  <option>: : : Designation : : :</option>
                   {selectedDepartment === "Admin" && (
                     <>
-                      <option>Admin Head</option>
+                      <option value="Admin Head">Admin Head</option>
                     </>
                   )}
                   {selectedDepartment === "Account" && (
                     <>
-                      <option>Account Head</option>
+                      <option value="Account Head">Account Head</option>
                     </>
                   )}
-                  {selectedDepartment === "Calibration Validation" && (
+                  {selectedDepartment === "Calibration" && (
                     <>
                       <option value="Jr. Calibration Engineer">
                         Jr. Calibration Engineer
@@ -955,7 +965,7 @@ const EditEmployeeData = () => {
                                   onChange={(e) =>
                                     handleChange(e, "education", index)
                                   }
-                                  class="bg-gray-50 border border-gray-300 text-gray-900 text-sm focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                                  className="bg-gray-50 border border-gray-300 text-gray-900 text-sm focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                                 >
                                   <option selected>None</option>
                                   <option value="10th">10th</option>

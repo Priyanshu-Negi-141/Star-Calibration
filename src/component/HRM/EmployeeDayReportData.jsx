@@ -52,7 +52,7 @@ const EmployeeDayReportData = (onDateChange) => {
           CheckInType: selectedCheckInType,
         }
       );
-      setData(response.data);
+      setData(response.data.data);
     } catch (error) {
       console.error(error);
     }
@@ -210,7 +210,7 @@ const EmployeeDayReportData = (onDateChange) => {
             <option value="All">--- All---</option>
             <option value="Admin">Admin</option>
                   <option value="Account">Account</option>
-                  <option value="Calibration Validation">Calibration Validation</option>
+                  <option value="Calibration">Calibration</option>
                   <option value="HVAC Validation">HVAC Validation</option>
                   <option value="Thermal Validation">Thermal Validation</option>
                   <option value="CA Validation">CA Validation</option>

@@ -35,38 +35,38 @@ const CalibrationHomePage = () => {
       
         <div className="my-2 mx-5">
           <div className="grid place-items-center p-4 md:grid-cols-3 gap-4 bg-yellow-500/20 md:rounded-se-full md:rounded-es-full sm:rounded-ee-full md:rounded-ee-none antialiased text-gray-900">
-            <div class=" px-4 w-full ">
-              <div class="bg-white p-6 rounded-lg shadow-lg">
-                <h4 class="mt-1 text-xl font-semibold uppercase leading-tight truncate">
+            <div className=" px-4 w-full ">
+              <div className="bg-white p-6 rounded-lg shadow-lg">
+                <h4 className="mt-1 text-xl font-semibold uppercase leading-tight truncate">
                   Total Certificate
                 </h4>
-                <div class="mt-4 text-end">
-                  <span class="text-teal-600 text-xl font-semibold">
+                <div className="mt-4 text-end">
+                  <span className="text-teal-600 text-xl font-semibold">
                     {maxCertificateNumber}
                   </span>
                 </div>
               </div>
             </div>
-            <div class=" px-4 w-full ">
-              <div class="bg-white p-6 rounded-lg shadow-lg">
-                <h4 class="mt-1 text-xl font-semibold uppercase leading-tight truncate">
+            <div className=" px-4 w-full ">
+              <div className="bg-white p-6 rounded-lg shadow-lg">
+                <h4 className="mt-1 text-xl font-semibold uppercase leading-tight truncate">
                   Completed Certificate
                 </h4>
-                <div class="mt-4">
-                  <span class="text-teal-600 text-md font-semibold">
+                <div className="mt-4">
+                  <span className="text-teal-600 text-md font-semibold">
                     4/5 ratings{" "}
                   </span>
                 </div>
               </div>
             </div>
-            <div class=" px-4 w-full ">
-              <div class="bg-white p-6 rounded-lg shadow-lg">
-                <h4 class="mt-1 text-xl font-semibold uppercase leading-tight truncate">
+            <div className=" px-4 w-full ">
+              <div className="bg-white p-6 rounded-lg shadow-lg">
+                <h4 className="mt-1 text-xl font-semibold uppercase leading-tight truncate">
                   Pending Certificate
                   <div></div>
                 </h4>
-                <div class="mt-4">
-                  <span class="text-teal-600 text-md font-semibold">
+                <div className="mt-4">
+                  <span className="text-teal-600 text-md font-semibold">
                     4/5 ratings{" "}
                   </span>
                 </div>

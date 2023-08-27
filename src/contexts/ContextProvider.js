@@ -28,7 +28,7 @@ export const ContextProvider = ({ children }) => {
   const [selectedDesignation, setSelectedDesignation] = useState("");
   const [selectedStream, setSelectedStream] = useState("");
   // Auth and fetching data context
-  // const host = "http://localhost:8000" 
+  //const host = "http://localhost:8000"  
   const GOOGLE_MAP_API_KEY = "AIzaSyBBG3Qt18ozFaeh_cHNVNriZaOV58gB3g0"
   const host = "http://starback.validex.in:8001";
 
@@ -159,7 +159,6 @@ export const ContextProvider = ({ children }) => {
       if (json.success) {
         localStorage.setItem("token", json.authtoken);
         localStorage.setItem("isLoggedIn", "true");
-        console.log("response", json);
         handleLoggedIn();
       } else {
         alert("Please try Again");
@@ -183,13 +182,10 @@ export const ContextProvider = ({ children }) => {
         }),
       });
       const json = await response.json();
-      if (json.success) {
-        localStorage.setItem("token", json.authtoken);
+      if (json.status) {
+        localStorage.setItem("token", json.data);
         setLoggedInUser(true)
         setShowPinGenerateModal(true);
-        // localStorage.setItem("isLoggedIn", "true");
-        // fetchIndividualEmployeeData()
-        // handleLoggedIn();
       } else {
         alert("Please enter Valid Username And Password");
       }
@@ -202,6 +198,7 @@ export const ContextProvider = ({ children }) => {
   };
 
   const [pin, setPin] = useState('');
+  const [error, setError] = useState('')
 
   const handlePinLogin = async () => {
     try {
@@ -210,18 +207,25 @@ export const ContextProvider = ({ children }) => {
         { pin },
         { headers: { 'auth-token': localStorage.getItem('token') } }
       );
-
-      if (response.data.success) {
+        console.log(response.data.status)
+      if (response.data.status) {
         // Save the new token to localStorage and replace any existing token
-        localStorage.setItem('token', response.data.authtoken);
+        localStorage.setItem('token', response.data.data);
         localStorage.setItem("isLoggedIn", "true");
+        // setError(response.data.message)
+        toast.success(response.data.message)
         fetchIndividualEmployeeData()
         handleLoggedIn();
       } else {
-        console.log('Invalid Pin')
+        toast.error(response.data.message)
       }
     } catch (error) {
-      console.error('Error logging in with PIN:', error);
+      if (error.response && error.response.status === 400) {
+        toast.error('Invalid PIN'); // This message will be shown for a 400 Bad Request
+      } else {
+        console.error('Error logging in with PIN:', error);
+        toast.error('An error occurred while logging in.');
+      }
     }
   };
 
@@ -240,10 +244,8 @@ export const ContextProvider = ({ children }) => {
         throw new Error(`HTTP Error ${response.status}`);
       }
       const json = await response.json();
-      console.log(json);
       const dataArray = [json];
       setLoggedInEmployee(dataArray);
-      console.log("loggedInEmployee after update:", loggedInEmployee);
     } catch (error) {
       console.error("Error fetching user data:", error);
     }
@@ -434,18 +436,15 @@ export const ContextProvider = ({ children }) => {
       });
       const dayReportData = await response.json();
       if (response.ok) {
-        // console.log("your data :" + dayReport);
         setDayReport((dayReport) => [...dayReport, dayReportData]);
         toast.success("Your day Report data added Successfully.")
       } else {
-        console.log("Error response:", dayReportData);
         // Handle the validation errors and display them to the user
         const errors = dayReportData.errors.map((error) => error.msg);
         fetchDayReportData()
         alert("Your error are:" + errors);
       }
     } catch (error) {
-      console.log("Error fetching Day Report data:", error);
       toast.error("Getting some error. Please try again")
     }
   };
@@ -465,7 +464,8 @@ export const ContextProvider = ({ children }) => {
         }
       );
       const data = await response.json();
-      setEmployeeDayReport(data);
+      const dataArray = data.data
+      setEmployeeDayReport(dataArray);
     } catch (error) {
       console.error("Error", error);
     }
@@ -490,7 +490,6 @@ export const ContextProvider = ({ children }) => {
       });
       if (response.ok) {
         const dayReportData = await response.json();
-        console.log(dayReportData);
       } else {
         alert("Something went wrong");
       }
@@ -512,7 +511,6 @@ export const ContextProvider = ({ children }) => {
       if (response.ok) {
         const dayReportData = await response.json();
         setCalibrationSiteData(dayReportData);
-        console.log(dayReportData);
       } else {
         alert("Something went wrong");
       }
@@ -534,7 +532,6 @@ export const ContextProvider = ({ children }) => {
       if (response.ok) {
         const dayReportData = await response.json();
         setCalibrationOfficeData(dayReportData);
-        console.log(dayReportData);
       } else {
         alert("Something went wrong");
       }
@@ -556,7 +553,6 @@ export const ContextProvider = ({ children }) => {
       if (response.ok) {
         const dayReportData = await response.json();
         setHvacSiteData(dayReportData);
-        console.log(dayReportData);
       } else {
         alert("Something went wrong");
       }
@@ -577,8 +573,7 @@ export const ContextProvider = ({ children }) => {
       });
       if (response.ok) {
         const dayReportData = await response.json();
-        setHvacOfficeData(dayReportData);
-        console.log(dayReportData);
+        setHvacOfficeData(dayReportData)
       } else {
         alert("Something went wrong");
       }
@@ -600,7 +595,6 @@ export const ContextProvider = ({ children }) => {
       if (response.ok) {
         const dayReportData = await response.json();
         setThermalSiteData(dayReportData);
-        console.log(dayReportData);
       } else {
         alert("Something went wrong");
       }
@@ -621,8 +615,7 @@ export const ContextProvider = ({ children }) => {
       });
       if (response.ok) {
         const dayReportData = await response.json();
-        setThermalOfficeData(dayReportData);
-        console.log(dayReportData);
+        setThermalOfficeData(dayReportData)
       } else {
         alert("Something went wrong");
       }
@@ -644,7 +637,6 @@ export const ContextProvider = ({ children }) => {
       if (response.ok) {
         const dayReportData = await response.json();
         setPlcCsvSiteData(dayReportData);
-        console.log(dayReportData);
       } else {
         alert("Something went wrong");
       }
@@ -666,7 +658,6 @@ export const ContextProvider = ({ children }) => {
       if (response.ok) {
         const dayReportData = await response.json();
         setPlcCsvOfficeData(dayReportData);
-        console.log(dayReportData);
       } else {
         alert("Something went wrong");
       }
@@ -687,8 +678,7 @@ export const ContextProvider = ({ children }) => {
       });
       if (response.ok) {
         const dayReportData = await response.json();
-        setCaSiteData(dayReportData);
-        console.log(dayReportData);
+        setCaSiteData(dayReportData)
       } else {
         alert("Something went wrong");
       }
@@ -710,7 +700,6 @@ export const ContextProvider = ({ children }) => {
       if (response.ok) {
         const dayReportData = await response.json();
         setCaOfficeData(dayReportData);
-        console.log(dayReportData);
       } else {
         alert("Something went wrong");
       }
@@ -732,7 +721,6 @@ export const ContextProvider = ({ children }) => {
       if (response.ok) {
         const dayReportData = await response.json();
         setSteamSiteData(dayReportData);
-        console.log(dayReportData);
       } else {
         alert("Something went wrong");
       }
@@ -754,7 +742,6 @@ export const ContextProvider = ({ children }) => {
       if (response.ok) {
         const dayReportData = await response.json();
         setSteamOfficeData(dayReportData);
-        console.log(dayReportData);
       } else {
         alert("Something went wrong");
       }
@@ -796,7 +783,6 @@ export const ContextProvider = ({ children }) => {
       const checkInData = await response.json();
 
       if (response.ok) {
-        console.log("Your data:", checkInData);
         setCheckInReport((prevCheckInReport) => {
           if (prevCheckInReport === undefined) {
             return [checkInData];
@@ -807,7 +793,6 @@ export const ContextProvider = ({ children }) => {
         toast.success("Check-in successful!");
         closePopup(); // Call the function to close the popup
       } else {
-        console.log("Error response:", checkInData);
 
         if (response.status === 409) {
           // User already checked in
@@ -821,7 +806,6 @@ export const ContextProvider = ({ children }) => {
         }
       }
     } catch (error) {
-      console.log("Error fetching Check-In data:", error);
     }
   };
 
@@ -841,7 +825,6 @@ export const ContextProvider = ({ children }) => {
       const checkOutData = await response.json();
 
       if (response.ok) {
-        console.log("Your CheckOut Data:", checkOutData);
         setCheckOutReport((prevCheckOutReport) => {
           if (prevCheckOutReport === undefined) {
             return [checkOutData];
@@ -852,8 +835,6 @@ export const ContextProvider = ({ children }) => {
         toast.success("Check-Out successful");
         closeCheckOutPopup();
       } else {
-        console.log("Error response:", checkOutData);
-
         if (response.status === 409) {
           toast.warning("You have already checked out today");
           closeCheckOutPopup();
@@ -864,7 +845,6 @@ export const ContextProvider = ({ children }) => {
         }
       }
     } catch (error) {
-      console.log("Error fetching Check-Out data:", error);
       toast.error("An error occurred while fetching Check-Out data");
     }
   };
@@ -881,8 +861,7 @@ export const ContextProvider = ({ children }) => {
       });
       if (response.ok) {
         const checkInData = await response.json();
-        setCalibrationCheckInSiteData(checkInData);
-        console.log(checkInData);
+        setCalibrationCheckInSiteData(checkInData)
       } else {
         alert("Something went wrong");
       }
@@ -903,8 +882,7 @@ export const ContextProvider = ({ children }) => {
       });
       if (response.ok) {
         const checkInData = await response.json();
-        setCalibrationCheckInOfficeData(checkInData);
-        console.log(checkInData);
+        setCalibrationCheckInOfficeData(checkInData)
       } else {
         alert("Something went wrong");
       }
@@ -925,8 +903,7 @@ export const ContextProvider = ({ children }) => {
       });
       if (response.ok) {
         const checkInData = await response.json();
-        setHvacCheckInSiteData(checkInData);
-        console.log(checkInData);
+        setHvacCheckInSiteData(checkInData)
       } else {
         alert("Something went wrong");
       }
@@ -947,8 +924,7 @@ export const ContextProvider = ({ children }) => {
       });
       if (response.ok) {
         const checkInData = await response.json();
-        setHvacCheckInOfficeData(checkInData);
-        console.log(checkInData);
+        setHvacCheckInOfficeData(checkInData)
       } else {
         alert("Something went wrong");
       }
@@ -969,8 +945,7 @@ export const ContextProvider = ({ children }) => {
       });
       if (response.ok) {
         const checkInData = await response.json();
-        setThermalCheckInSiteData(checkInData);
-        console.log(checkInData);
+        setThermalCheckInSiteData(checkInData)
       } else {
         alert("Something went wrong");
       }
@@ -991,8 +966,7 @@ export const ContextProvider = ({ children }) => {
       });
       if (response.ok) {
         const checkInData = await response.json();
-        setThermalCheckInOfficeData(checkInData);
-        console.log(checkInData);
+        setThermalCheckInOfficeData(checkInData)
       } else {
         alert("Something went wrong");
       }
@@ -1013,8 +987,7 @@ export const ContextProvider = ({ children }) => {
       });
       if (response.ok) {
         const checkInData = await response.json();
-        setPlcCsvCheckInSiteData(checkInData);
-        console.log(checkInData);
+        setPlcCsvCheckInSiteData(checkInData)
       } else {
         alert("Something went wrong");
       }
@@ -1035,8 +1008,7 @@ export const ContextProvider = ({ children }) => {
       });
       if (response.ok) {
         const checkInData = await response.json();
-        setPlcCsvCheckInOfficeData(checkInData);
-        console.log(checkInData);
+        setPlcCsvCheckInOfficeData(checkInData)
       } else {
         alert("Something went wrong");
       }
@@ -1057,8 +1029,7 @@ export const ContextProvider = ({ children }) => {
       });
       if (response.ok) {
         const checkInData = await response.json();
-        setCaCheckInSiteData(checkInData);
-        console.log(checkInData);
+        setCaCheckInSiteData(checkInData)
       } else {
         alert("Something went wrong");
       }
@@ -1079,8 +1050,7 @@ export const ContextProvider = ({ children }) => {
       });
       if (response.ok) {
         const checkInData = await response.json();
-        setCaCheckInOfficeData(checkInData);
-        console.log(checkInData);
+        setCaCheckInOfficeData(checkInData)
       } else {
         alert("Something went wrong");
       }
@@ -1101,8 +1071,7 @@ export const ContextProvider = ({ children }) => {
       });
       if (response.ok) {
         const checkInData = await response.json();
-        setSteamCheckInSiteData(checkInData);
-        console.log(checkInData);
+        setSteamCheckInSiteData(checkInData)
       } else {
         alert("Something went wrong");
       }
@@ -1123,8 +1092,7 @@ export const ContextProvider = ({ children }) => {
       });
       if (response.ok) {
         const checkInData = await response.json();
-        setSteamCheckInOfficeData(checkInData);
-        console.log(checkInData);
+        setSteamCheckInOfficeData(checkInData)
       } else {
         alert("Something went wrong");
       }

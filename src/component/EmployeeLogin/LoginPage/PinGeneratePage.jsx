@@ -22,7 +22,7 @@ const PinGeneratePage = () => {
         { headers: { 'auth-token': authToken } }
       );
 
-      if (response.data.success) {
+      if (response.data.status) {
         setMessage('PIN generated successfully');
         setHasPin(true);
       } else {
@@ -40,43 +40,43 @@ const PinGeneratePage = () => {
   };
 
   const handleTogglePage = () => {
-    setCurrentPage(currentPage === 'generate' ? 'login' : 'generate');
+    setCurrentPage(!currentPage === 'generate' ? 'login' : 'generate');
   };
 
   return (
     <div>
-  <div class="bg-white p-2 rounded-lg shadow-md w-96">
-    <h1 class="text-xl text-center font-semibold mb-4">
-      {currentPage === 'generate' ? 'Generate' : 'Login'} PIN
+  <div className="bg-white p-2 rounded-lg shadow-md w-96">
+    <h1 className="text-xl text-center font-semibold mb-4">
+      {!currentPage === 'generate' ? 'Generate' : 'Login'} PIN
     </h1>
-    {currentPage === 'generate' ? (
+    {!currentPage === 'generate' ? (
       <div>
         {hasPin ? (
           <div>
-            <p class="mb-4">{message}</p>
+            <p className="mb-4">{message}</p>
             <button
-              class="bg-indigo-500 text-white px-4 py-2 rounded-md hover:bg-indigo-600 focus:outline-none focus:ring focus:ring-indigo-300 focus:ring-opacity-50"
+              className="bg-indigo-500 text-white px-4 py-2 rounded-md hover:bg-indigo-600 focus:outline-none focus:ring focus:ring-indigo-300 focus:ring-opacity-50"
               onClick={handleTogglePage}
             >
-              Go to {currentPage === 'generate' ? 'Login' : 'Generate'} Page
+              Go to {!currentPage === 'generate' ? 'Login' : 'Generate'} Page
             </button>
           </div>
         ) : (
           <div>
-            <label class="block mb-2">Enter PIN:</label>
+            <label className="block mb-2">Enter PIN:</label>
             <input
               type="text"
-              class="w-full px-3 py-2 mb-2 border rounded-md shadow-sm focus:ring focus:ring-indigo-300 focus:border-indigo-300"
+              className="w-full px-3 py-2 mb-2 border rounded-md shadow-sm focus:ring focus:ring-indigo-300 focus:border-indigo-300"
               value={pin}
               onChange={(e) => setPin(e.target.value)}
             />
             <button
-              class="w-full bg-indigo-500 text-white px-4 py-2 rounded-md hover:bg-indigo-600 focus:outline-none focus:ring focus:ring-indigo-300 focus:ring-opacity-50"
+              className="w-full bg-indigo-500 text-white px-4 py-2 rounded-md hover:bg-indigo-600 focus:outline-none focus:ring focus:ring-indigo-300 focus:ring-opacity-50"
               onClick={generatePin}
             >
               Generate PIN
             </button>
-            <div class="mt-2 text-red-500">{message}</div>
+            <div className="mt-2 text-red-500">{message}</div>
           </div>
         )}
       </div>
@@ -87,10 +87,10 @@ const PinGeneratePage = () => {
       </div>
     )}
     <button
-      class="mt-4 w-full bg-indigo-500 text-white px-4 py-2 rounded-md hover:bg-indigo-600 focus:outline-none focus:ring focus:ring-indigo-300 focus:ring-opacity-50"
+      className="mt-4 w-full bg-indigo-500 text-white px-4 py-2 rounded-md hover:bg-indigo-600 focus:outline-none focus:ring focus:ring-indigo-300 focus:ring-opacity-50"
       onClick={handleTogglePage}
     >
-      Go to {currentPage === 'generate' ? 'Login' : 'Generate'} Page
+      Go to {!currentPage === 'generate' ? 'Login' : 'Generate'} Page
     </button>
   </div>
 </div>

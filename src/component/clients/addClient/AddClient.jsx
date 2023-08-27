@@ -390,7 +390,8 @@ import { toast } from "react-toastify";
 import { useStateContext } from "../../../contexts/ContextProvider";
 
 const AddClient = () => {
-  const {host} = useStateContext()
+  const {host} = useStateContext() 
+  const [showConfirmation, setShowConfirmation] = useState(false);
   const [client, setClient] = useState({
     client_code: "",
     client_name: "",
@@ -447,6 +448,7 @@ const AddClient = () => {
       });
       if (response.ok) {
         toast.success("Client addedd successfully");
+        handleClose()
         setClient({
           client_code: "",
           client_name: "",
@@ -470,6 +472,7 @@ const AddClient = () => {
         });
       } else {
         toast.error("Something went wrong");
+        handleClose()
       }
     } catch (error) {
       toast.error("Internal server error");
@@ -484,14 +487,23 @@ const AddClient = () => {
     });
   };
 
+  const handleAddClient = () => {
+    setShowConfirmation(true);
+  };
+  const handleClose = () => {
+    setShowConfirmation(false);
+  };
+
   return (
     <div>
-      <div className="border border-black p-2 rounded-lg dark:text-white">
-        <div className="text-center bg-gray-300 dark:bg-gray-800 border p-2 text-bold rounded-xl my-3">
-          <h2>Add Client</h2>
+      <div className="bg-[#FFF0F5]">
+        <div >
+          <h3 className="text-black font-bold text-lg rounded-sm mb-5 p-3 dark:text-yellow-50 bg-gray-300 dark:bg-gray-800">
+            Add Client
+          </h3>
         </div>
         <form onSubmit={handleSubmit}>
-          <div className="w-full flex gap-2">
+          <div className=" w-full flex gap-2">
             <div className="w-full">
               <label htmlFor="client-code">Client Code:</label>
               <input
@@ -519,9 +531,11 @@ const AddClient = () => {
           </div>
 
           {client.addresses.map((address, index) => (
-            <div key={index} className="border dark:border-white border-black p-2 my-3">
-              <div className="border bg-gray-300 dark:bg-gray-800 dark:border-white text-bold text-center p-2 border-black rounded-lg my-3">
-                <h1>Client Address {index + 1}</h1>
+            <div key={index} className="p-2 my-3">
+              <div>
+              <h3 className="text-black font-bold text-lg rounded-sm mb-5 p-3 dark:text-yellow-50 bg-gray-300 dark:bg-gray-800">
+            Client Address {index + 1}
+          </h3>
               </div>
               <div>
               <div className="grid mb-2 gap-2">
@@ -750,16 +764,139 @@ const AddClient = () => {
               />
             </div>
           </div>
-
-          <button
-            type="submit"
-            className="border w-full p-2 my-3 rounded-full text-white text-bold hover:bg-[#001C30] bg-[#213363]"
-          >
-            Add Client
-          </button>
+          <div className="grid place-items-center mt-3">
+            <button
+              type="button"
+              onClick={handleAddClient}
+              className="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-sm text-sm sm:w-auto px-10 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
+            >
+              Submit
+            </button>
+          </div>
         </form>
       </div>
+      {showConfirmation && (
+        <div className="fixed z-20 top-0 left-0 flex items-center justify-center w-full h-full bg-black bg-opacity-75">
+          <div className="bg-gray-100 p-4 rounded-lg">
+            <p className="text-gray-700 font-semibold mb-4">
+              Are you sure you want to Add Client detail's?
+            </p>
+            <div className="flex justify-end">
+              <button
+                onClick={handleSubmit}
+                className="mr-2 px-4 py-2 bg-red-500 text-white rounded-lg hover:bg-red-600"
+              >
+                Yes
+              </button>
+              <button
+                className="px-4 py-2 bg-gray-400 text-white rounded-lg hover:bg-gray-500"
+                onClick={handleClose}
+              >
+                No
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
+//     <div className="bg-gradient-to-r from-blue-400 via-purple-500 to-pink-500 min-h-screen flex items-center">
+//   <div className="bg-white dark:bg-gray-800 border border-gray-300 dark:border-gray-700 p-8 w-full md:max-w-lg mx-auto rounded-lg">
+//     <h2 className="text-3xl font-semibold text-center text-gray-800 dark:text-white mb-6">Add New Client</h2>
+//     <form onSubmit={handleSubmit}>
+
+//       {/* Client Code and Client Name */}
+//       <div className="mb-6">
+//         <label htmlFor="client-code" className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Client Code:</label>
+//         <input
+//           type="text"
+//           id="client-code"
+//           name="client_code"
+//           placeholder="Client Code"
+//           className="dark:bg-transparent border-gray-300 dark:border-gray-700 focus:ring-purple-500 focus:border-purple-500 block w-full sm:text-sm rounded-md"
+//           value={client.client_code}
+//           onChange={handleChange}
+//         />
+//       </div>
+//       <div className="mb-6">
+//         <label htmlFor="client-name" className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Client Name:</label>
+//         <input
+//           type="text"
+//           id="client-name"
+//           name="client_name"
+//           placeholder="Client Name"
+//           className="dark:bg-transparent border-gray-300 dark:border-gray-700 focus:ring-purple-500 focus:border-purple-500 block w-full sm:text-sm rounded-md"
+//           value={client.client_name}
+//           onChange={handleChange}
+//         />
+//       </div>
+
+//       {/* Address Fields */}
+//       {client.addresses.map((address, index) => (
+//         <div key={index} className="border dark:border-white border-gray-300 dark:border-gray-700 p-4 mb-4 rounded-lg">
+//           {/* Address Header */}
+//           <div className="bg-gray-200 dark:bg-gray-700 border-b border-gray-300 dark:border-gray-700 p-2 mb-3 rounded-lg">
+//             <h3 className="text-lg font-semibold">Client Address {index + 1}</h3>
+//           </div>
+
+//           {/* Address Form Fields */}
+//           {/* ... Rest of the address fields */}
+//         </div>
+//       ))}
+
+//       {/* Add and Delete Address Buttons */}
+//       <div className="flex justify-end gap-3 mt-4">
+//         <button
+//           type="button"
+//           className="bg-green-500 text-white px-4 py-2 rounded-md hover:bg-green-600 focus:outline-none focus:ring-2 focus:ring-green-500"
+//           onClick={() =>
+//             setClient({
+//               ...client,
+//               addresses: [
+//                 ...client.addresses,
+//                 {
+//                   address_line_1: "",
+//                   address_line_2: "",
+//                   city: "",
+//                   postal_code: "",
+//                   district: "",
+//                   state: "",
+//                 },
+//               ],
+//             })
+//           }
+//         >
+//           Add Address
+//         </button>
+//         <button
+//           type="button"
+//           onClick={handleDeleteLastAddress}
+//           className="bg-red-500 text-white px-4 py-2 rounded-md hover:bg-red-600 focus:outline-none focus:ring-2 focus:ring-red-500"
+//         >
+//           Delete Last Address
+//         </button>
+//       </div>
+
+//       {/* Contact Person and Consent Fields */}
+//       <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 mt-6 mb-8">
+//         {/* ... Rest of the contact person and consent fields */}
+//       </div>
+
+//       {/* Submit Button */}
+//       <button
+//         type="submit"
+//         className="w-full py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-purple-500 hover:bg-purple-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-purple-700"
+//       >
+//         Add Client
+//       </button>
+//     </form>
+//   </div>
+// </div>
+
+
+
+
+
+
   );
 };
 

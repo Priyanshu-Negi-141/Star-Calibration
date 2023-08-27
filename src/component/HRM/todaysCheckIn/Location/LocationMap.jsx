@@ -34,10 +34,10 @@ function LocationMap({ locationData }) {
 
   return (
     <LoadScript googleMapsApiKey={`${GOOGLE_MAP_API_KEY}`}>
-  <div class=" bg-gray-100 flex items-start justify-center p-8">
-    <div class="bg-white rounded-lg shadow-lg p-6 w-full max-w-3xl">
-      <h1 class="text-3xl font-semibold mb-4">Location Map</h1>
-      <div class="rounded-lg overflow-hidden h-96">
+  <div className=" bg-gray-100 flex items-start justify-center p-8">
+    <div className="bg-white rounded-lg shadow-lg p-6 w-full max-w-3xl">
+      <h1 className="text-3xl font-semibold mb-4">Location Map</h1>
+      <div className="rounded-lg overflow-hidden h-96">
         <GoogleMap
           mapContainerStyle={{ width: '100%', height: '100%' }}
           center={locationData[0]}
@@ -53,8 +53,8 @@ function LocationMap({ locationData }) {
             >
               {hoveredLocation === location && (
                 <InfoWindow position={{ lat: location.latitude, lng: location.longitude }}>
-                  <div class="text-gray-800">
-                    <p class="font-semibold">{location.address}</p>
+                  <div className="text-gray-800">
+                    <p className="font-semibold">{location.address}</p>
                     <p>{location.fetchTime}</p>
                   </div>
                 </InfoWindow>

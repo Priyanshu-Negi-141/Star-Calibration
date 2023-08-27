@@ -6,7 +6,7 @@ import { Link } from "react-router-dom";
 import { toast } from "react-toastify";
 
 const initialState = {
-  firstName: "",
+  firstName: "", 
   lastName: "",
   email: "",
   fatherName: "",
@@ -194,14 +194,7 @@ const AddEmployee = () => {
     <div className="">
       <div className="mb-3">
         <div className="flex">
-          <PreviousButton className="" />
-          <div className="">
-            <Link to="/employeeList">
-              <button className="text-white bg-[#24292F] hover:bg-[#24292F]/90 focus:ring-4 focus:outline-none focus:ring-[#24292F]/50 font-medium rounded-lg text-sm px-5 py-2.5 text-center items-center dark:focus:ring-gray-500 dark:hover:bg-[#050708]/30 mr-2 mb-2">
-                Employee List
-              </button>
-            </Link>
-          </div>
+          <PreviousButton className="" /> 
         </div>
       </div>
       <div>
@@ -934,7 +927,7 @@ const AddEmployee = () => {
                             onChange={(e) =>
                               handleChange(e, "education", index)
                             }
-                            class="bg-gray-50 border border-gray-300 text-gray-900 text-sm focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                            className="bg-gray-50 border border-gray-300 text-gray-900 text-sm focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                           >
                             <option selected>None</option>
                             <option value="10th">10th</option>

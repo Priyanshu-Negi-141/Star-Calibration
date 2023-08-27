@@ -24,7 +24,7 @@ const Calibration = () => {
               <div key={item.path} type="button" id={item.title}>
                 <button
                   type="button"
-                  class="text-white bg-[#10A19D] hover:bg-[#10A19D]/80 focus:ring-4 focus:outline-none focus:ring-[#10A19D]/50 font-medium rounded-lg text-sm px-5 py-2.5 text-center flex gap-2 justify-center items-center dark:hover:bg-[#10A19D]/80 dark:focus:ring-[#10A19D]/40 mr-2 mb-2"
+                  className="text-white bg-[#10A19D] hover:bg-[#10A19D]/80 focus:ring-4 focus:outline-none focus:ring-[#10A19D]/50 font-medium rounded-lg text-sm px-5 py-2.5 text-center flex gap-2 justify-center items-center dark:hover:bg-[#10A19D]/80 dark:focus:ring-[#10A19D]/40 mr-2 mb-2"
                   style={{backgroundColor: currentColor}}
                 >
                   {item.icon} {item.title}

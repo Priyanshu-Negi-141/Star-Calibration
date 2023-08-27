@@ -64,9 +64,9 @@ const CalibrationSOP = () => {
   return (
     <div className=''>
         <div className='grid grid-cols-3 p-5 gap-3'>
-            <button type="button" onClick={showData} class="text-white bg-pink-700 hover:bg-pink-800 focus:outline-none focus:ring-4 focus:ring-pink-300 font-medium rounded-full text-sm w-full px-5 py-2.5 text-center mr-2 mb-2 dark:bg-pink-600 dark:hover:bg-pink-700 dark:focus:ring-pink-800">Electro Technical</button>
-            <button type="button" onClick={showData1} class="text-white bg-green-700 hover:bg-green-800 focus:outline-none focus:ring-4 focus:ring-green-300 font-medium rounded-full text-sm w-full px-5 py-2.5 text-center mr-2 mb-2 dark:bg-green-600 dark:hover:bg-green-700 dark:focus:ring-green-800">Thermal</button>
-            <button type="button" onClick={showData2} class="text-white bg-yellow-400 hover:bg-yellow-500 focus:outline-none focus:ring-4 focus:ring-yellow-300 font-medium rounded-full text-sm w-full px-5 py-2.5 text-center mr-2 mb-2 dark:focus:ring-yellow-900">Mechanical</button>
+            <button type="button" onClick={showData} className="text-white bg-pink-700 hover:bg-pink-800 focus:outline-none focus:ring-4 focus:ring-pink-300 font-medium rounded-full text-sm w-full px-5 py-2.5 text-center mr-2 mb-2 dark:bg-pink-600 dark:hover:bg-pink-700 dark:focus:ring-pink-800">Electro Technical</button>
+            <button type="button" onClick={showData1} className="text-white bg-green-700 hover:bg-green-800 focus:outline-none focus:ring-4 focus:ring-green-300 font-medium rounded-full text-sm w-full px-5 py-2.5 text-center mr-2 mb-2 dark:bg-green-600 dark:hover:bg-green-700 dark:focus:ring-green-800">Thermal</button>
+            <button type="button" onClick={showData2} className="text-white bg-yellow-400 hover:bg-yellow-500 focus:outline-none focus:ring-4 focus:ring-yellow-300 font-medium rounded-full text-sm w-full px-5 py-2.5 text-center mr-2 mb-2 dark:focus:ring-yellow-900">Mechanical</button>
         </div>
 
     {
