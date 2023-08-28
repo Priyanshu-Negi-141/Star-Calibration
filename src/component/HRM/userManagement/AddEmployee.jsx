@@ -448,7 +448,10 @@ const AddEmployee = () => {
                   <option selected>: : : Designation : : :</option>
                   {selectedDepartment === "Admin" && (
                     <>
+                      <option value="Director">Director</option>
                       <option value="Admin Head">Admin Head</option>
+                      <option value="BDO">BDO</option>
+                      {/* <option value="Admin Head">Admin Head</option> */}
                     </>
                   )}
                   {selectedDepartment === "Account" && (
@@ -468,6 +471,7 @@ const AddEmployee = () => {
                         Computer Operator (Calibration)
                       </option>
                       <option value="HOD Calibration">HOD Calibration</option>
+                      <option value="Site Incharge">Site Incharge</option>
                       <option value="Assistant Technical Manager">
                         Assistant Technical Manager
                       </option>
@@ -478,6 +482,16 @@ const AddEmployee = () => {
                         Technical Manager
                       </option>
                       <option value="Quality Manager">Quality Manager</option>
+                      <option value="Operational Manager">
+                        Operational Manager
+                      </option>
+                      <option value="Branch Head">
+                        Branch Head
+                      </option>
+                      
+                      <option value="Technical Manager">
+                        Technical Manager
+                      </option>
                     </>
                   )}
                   {selectedDepartment === "HVAC Validation" && (
@@ -494,6 +508,7 @@ const AddEmployee = () => {
                       <option value="HOD HVAC Validation">
                         HOD HVAC Validation
                       </option>
+                      <option value="Site Incharge">Site Incharge</option>
                     </>
                   )}
                   {selectedDepartment === "Thermal Validation" && (
@@ -510,13 +525,14 @@ const AddEmployee = () => {
                       <option value="HOD Thermal Validation">
                         HOD Thermal Validation
                       </option>
+                      <option value="Site Incharge">Site Incharge</option>
                     </>
                   )}
                   {selectedDepartment === "PLC & CSV Validation" && (
                     <>
-                      <option value="jrSME">SME</option>
-                      <option value="srSME">Sr. SME</option>
-                      <option value="managerCSV">Manager CSV</option>
+                      <option value="SME">SME</option>
+                      <option value="Sr. SME">Sr. SME</option>
+                      <option value="Manager CSV">Manager CSV</option>
                     </>
                   )}
                   {selectedDepartment === "CA Validation" && (

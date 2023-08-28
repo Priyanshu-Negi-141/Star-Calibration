@@ -78,12 +78,33 @@ export const ContextProvider = ({ children }) => {
 
   // Access User
 
-  const allowedDesignation = ["Admin Head", "Account Head", "Jr. Calibration Engineer", "Jr. Validation Engineer", "Jr. Validation Engineer", "jrSME", "Jr. Validation Engineer", "Jr. Validation Engineer" ];
+  const allowedDesignation = [
+    "Director",
+    "Admin Head", 
+    "Assistant Technical Manager", 
+    "Assistant Quality Manager", 
+    "Technical Manager",
+    "Quality Manager",
+    "HOD Calibration",
+    "HOD HVAC Validation",
+    "HOD Thermal Validation",
+    "Manager CSV",
+    "HOD CA Validation",
+    "HOD Steam Validation",
+    "Operational Manager",
+    "Branch Head",
+    "Site Incharge",
+    "BDO"
+  ];
 
   // Check if the user's department is in the list of allowed departments
   const userDesignation = loggedInEmployee.length > 0 ? loggedInEmployee[0]?.employeeData[0]?.designation : '';
 
 
+  // Validex India Details
+
+  const validexTitle = "Validex India"
+  const softVersion = "1.0.0"
 
   //  Access User end's
 
@@ -183,7 +204,9 @@ export const ContextProvider = ({ children }) => {
       });
       const json = await response.json();
       if (json.status) {
-        localStorage.setItem("token", json.data);
+        localStorage.setItem("token", json.data.authtoken);
+        localStorage.setItem("First Name", json.data.firstName);
+        localStorage.setItem("Last Name", json.data.lastName);
         setLoggedInUser(true)
         setShowPinGenerateModal(true);
       } else {
@@ -1199,6 +1222,14 @@ export const ContextProvider = ({ children }) => {
     <StateContext.Provider
       value={{
         GOOGLE_MAP_API_KEY,
+
+        // Validex
+        validexTitle,
+        softVersion,
+
+        // Validex end
+
+
         allowedDesignation,
         userDesignation,
         formatDate,

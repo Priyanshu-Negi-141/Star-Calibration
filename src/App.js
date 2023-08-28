@@ -1,7 +1,7 @@
 import { useContext, useEffect, useRef, useState } from "react";
 import "./styles.css";
 import About from "./About";
-import { Sidenav, Navbar, Chat } from "./component/index";
+import { Sidenav, Navbar, Chat, Footer } from "./component/index";
 import UserManagement from "./component/HRM/UserManagement";
 import { FiSettings } from "react-icons/fi";
 import {

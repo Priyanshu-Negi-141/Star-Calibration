@@ -18,7 +18,7 @@ const CalibrationMasterInstrumentList = () => {
   const fetchStreamInstrumentCounts = async () => {
     try {
       const response = await axios.get(`${host}/api/masterInstrument/CalibrationInstrumentCount/${streamId}`);
-      setStreamInstrumentCounts(response.data);
+      setStreamInstrumentCounts(response.data.data);
     } catch (error) {
       console.error('Error fetching stream counts:', error);
     }
@@ -27,7 +27,7 @@ const CalibrationMasterInstrumentList = () => {
   const fetchStreamData = async () => {
     try {
       const response = await axios.get(`${host}/api/masterInstrument/getCalibrationStreamDetails/${streamId}`);
-      setStreamData(response.data);
+      setStreamData(response.data.data);
     } catch (error) {
       console.error('Error fetching stream data:', error);
     }

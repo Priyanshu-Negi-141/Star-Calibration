@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import { useStateContext } from "../../../../contexts/ContextProvider";
 import { useParams } from "react-router-dom";
 import { LocationData, LocationMap } from "./";
+import axios from "axios";
 
 function IndividualLocation() {
   const { host } = useStateContext();
@@ -9,17 +10,21 @@ function IndividualLocation() {
   const [locationData, setLocationData] = useState([]);
 
   useEffect(() => {
-    // Fetch location data from the API endpoint
-    fetch(
-      `${host}/api/checkInDetails/getLocationData/${encodeURIComponent(id)}`
-    ) // Replace with the appropriate endpoint URL
-      .then((response) => response.json())
-      .then((data) => {
-        setLocationData(data.locationData);
-      })
-      .catch((error) => {
-        console.error("Error fetching location data:", error);
-      });
+    axios.get(`${host}/api/checkInDetails/getLocationData/${encodeURIComponent(id)}`)
+    .then((response) => {
+      console.log("Received response:", response.data);
+      const receivedData = response.data.data;
+      console.log("Received data:", receivedData);
+      if (Array.isArray(receivedData)) {
+        setLocationData(receivedData);
+      } else {
+        console.error("Received data is not an array:", receivedData);
+      }
+    })
+    .catch((error) => {
+      console.error("Error fetching location data:", error);
+    });
+
   }, []);
 
   return (

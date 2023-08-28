@@ -44,6 +44,7 @@ const TodaysCheckIn = (onDateChange) => {
         },
         login_address: item.login_address || 'N/A',
         logout_address: item.logout_address || 'N/A',
+        
         site_name: item.site_name || 'N/A',
         logout_location: item.logout_location || { time: 'N/A' }
       }));

@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import PinLoginPage from './PinLoginPage';
 import { useStateContext } from '../../../contexts/ContextProvider';
+import { toast } from 'react-toastify';
 
 const PinGeneratePage = () => {
   const [pin, setPin] = useState('');
@@ -23,42 +24,49 @@ const PinGeneratePage = () => {
       );
 
       if (response.data.status) {
-        setMessage('PIN generated successfully');
+        toast.success(response.data.message)
         setHasPin(true);
       } else {
-        setMessage('PIN generation failed');
+        toast.error(response.data.message)
       }
     } catch (error) {
       console.error('Error generating PIN:', error);
 
       if (error.response) {
-        setMessage(error.response.data.error); // Display the error message from the server
+        toast.warning(error.response.data.message)
       } else {
         setMessage('An error occurred');
       }
     }
   };
 
+  const UserFirstName = localStorage.getItem("First Name")
+  const UserLastName = localStorage.getItem("Last Name")
+  console.log(UserFirstName)
+  console.log(UserLastName)
+
   const handleTogglePage = () => {
-    setCurrentPage(!currentPage === 'generate' ? 'login' : 'generate');
+    setCurrentPage(currentPage === 'generate' ? 'login' : 'generate');
   };
 
   return (
     <div>
   <div className="bg-white p-2 rounded-lg shadow-md w-96">
-    <h1 className="text-xl text-center font-semibold mb-4">
-      {!currentPage === 'generate' ? 'Generate' : 'Login'} PIN
+    <h1 className="text-xl text-center font-semibold">
+      {currentPage === 'generate' ? 'Generate' : 'Login'} PIN
     </h1>
-    {!currentPage === 'generate' ? (
+    <h3>
+      Employee Name : {UserFirstName} {UserLastName}
+    </h3>
+    {currentPage === 'generate' ? (
       <div>
         {hasPin ? (
           <div>
-            <p className="mb-4">{message}</p>
             <button
               className="bg-indigo-500 text-white px-4 py-2 rounded-md hover:bg-indigo-600 focus:outline-none focus:ring focus:ring-indigo-300 focus:ring-opacity-50"
               onClick={handleTogglePage}
             >
-              Go to {!currentPage === 'generate' ? 'Login' : 'Generate'} Page
+              Go to {currentPage === 'generate' ? 'Login' : 'Generate'} Page
             </button>
           </div>
         ) : (
@@ -76,7 +84,6 @@ const PinGeneratePage = () => {
             >
               Generate PIN
             </button>
-            <div className="mt-2 text-red-500">{message}</div>
           </div>
         )}
       </div>
@@ -90,7 +97,7 @@ const PinGeneratePage = () => {
       className="mt-4 w-full bg-indigo-500 text-white px-4 py-2 rounded-md hover:bg-indigo-600 focus:outline-none focus:ring focus:ring-indigo-300 focus:ring-opacity-50"
       onClick={handleTogglePage}
     >
-      Go to {!currentPage === 'generate' ? 'Login' : 'Generate'} Page
+      Go to {currentPage === 'generate' ? 'Login' : 'Generate'} Page
     </button>
   </div>
 </div>

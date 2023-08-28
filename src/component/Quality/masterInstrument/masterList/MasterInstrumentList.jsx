@@ -19,7 +19,7 @@ const MasterInstrumentList = () => {
   const fetchCalibrationStreamCounts = async () => {
     try {
       const response = await axios.get(`${host}/api/masterInstrument/getCalibrationStreamCounts`);
-      setCalibrationStreamCounts(response.data);
+      setCalibrationStreamCounts(response.data.data);
     } catch (error) {
       console.error('Error fetching stream counts:', error);
     }
@@ -28,7 +28,7 @@ const MasterInstrumentList = () => {
   const fetchHVACStreamCounts = async () => {
     try {
       const response = await axios.get(`${host}/api/masterInstrument/getHVACStreamCounts`);
-      setHVACStreamCounts(response.data);
+      setHVACStreamCounts(response.data.data);
     } catch (error) {
       console.error('Error fetching stream counts:', error);
     }
@@ -37,7 +37,7 @@ const MasterInstrumentList = () => {
   const fetchThermalStreamCounts = async () => {
     try {
       const response = await axios.get(`${host}/api/masterInstrument/getThermalStreamCounts`);
-      setThermalStreamCounts(response.data);
+      setThermalStreamCounts(response.data.data);
     } catch (error) {
       console.error('Error fetching stream counts:', error);
     }
