@@ -4,6 +4,7 @@ import { PreviousButton } from "../../button";
 import { useStateContext } from "../../../contexts/ContextProvider";
 import { Link } from "react-router-dom";
 import moment from "moment";
+import { AccessDeniedPage } from "../../AccessRight";
 const EmployeeNewList = () => {
   const [sortConfig, setSortConfig] = useState(null);
   const {
@@ -17,6 +18,8 @@ const EmployeeNewList = () => {
     getCurrentPageData,
     goToPreviousPage,
     goToNextPage,
+    loggedInEmployee, allowedDesignation,
+    userDesignation
   } = useStateContext();
   const [serialNumber, setSerialNumber] = useState(1);
   const [searchQuery, setSearchQuery] = useState("");
@@ -397,7 +400,9 @@ const EmployeeNewList = () => {
     )
   }
 
-  return (
+  return loggedInEmployee.length > 0 ? (
+    <>
+    {allowedDesignation.includes(userDesignation) ? (
     <div>
       <div className="flex">
       <PreviousButton />
@@ -424,7 +429,13 @@ const EmployeeNewList = () => {
       {pagination()}
       {showPopUp()}
     </div>
-  );
+  ) : (
+    <AccessDeniedPage />
+  )}
+  </>
+) : (
+  null
+)
 };
 
 export default EmployeeNewList;

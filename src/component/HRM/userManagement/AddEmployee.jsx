@@ -2,8 +2,8 @@ import React, { useState } from "react";
 import { PreviousButton } from "../../button";
 import { useStateContext } from "../../../contexts/ContextProvider";
 import axios from "axios";
-import { Link } from "react-router-dom";
 import { toast } from "react-toastify";
+import { AccessDeniedPage } from "../../AccessRight";
 
 const initialState = {
   firstName: "", 
@@ -77,6 +77,9 @@ const AddEmployee = () => {
     setSelectedDesignation,
     handleDepartmentChange,
     handleDesignationChange,
+    loggedInEmployee, 
+    allowedDesignation,
+    userDesignation,
     host,
   } = useStateContext();
 
@@ -98,12 +101,6 @@ const AddEmployee = () => {
   };
   const handleClose = () => {
     setShowConfirmation(false);
-  };
-
-  const resetForm = () => {
-    setSelectedDepartment("");
-    setSelectedDesignation("");
-    setEmployee({ ...initialState });
   };
 
   // Backend start
@@ -140,7 +137,9 @@ const AddEmployee = () => {
       });
       toast.success("Employee added Successfully!");
       setShowConfirmation(false);
-      resetForm();
+      setSelectedDepartment("");
+      setSelectedDesignation("");
+      setEmployee({ ...initialState });
     } catch (error) {
       toast.error("Somthing Wrong! Please try again");
       console.error("Error adding instrument details:", error);
@@ -190,7 +189,9 @@ const AddEmployee = () => {
     });
   };
 
-  return (
+  return loggedInEmployee.length > 0 ? (
+    <>
+    {allowedDesignation.includes(userDesignation) ? (
     <div className="">
       <div className="mb-3">
         <div className="flex">
@@ -1216,7 +1217,13 @@ const AddEmployee = () => {
         </div>
       )}
     </div>
-  );
+    ) : (
+      <AccessDeniedPage />
+    )}
+    </>
+  ) : (
+    null
+  )
 };
 
 export default AddEmployee;

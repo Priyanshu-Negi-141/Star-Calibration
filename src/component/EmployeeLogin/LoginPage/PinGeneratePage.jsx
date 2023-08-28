@@ -10,11 +10,41 @@ const PinGeneratePage = () => {
   const [message, setMessage] = useState('');
   const [hasPin, setHasPin] = useState(false);
   const [currentPage, setCurrentPage] = useState('generate'); // 'generate' or 'login'
+  const [errorMessage, setErrorMessage] = useState('');
+  const [validationErrors, setValidationErrors] = useState([]);
+  
+  // const generatePin = async () => {
+  //   const authToken = localStorage.getItem('token');
+    
+
+  //   try {
+  //     const response = await axios.post(
+  //       `${host}/api/auth/createPin`,
+  //       { pin },
+  //       { headers: { 'auth-token': authToken } }
+  //     );
+
+  //     if (response.data.status) {
+  //       toast.success(response.data.message)
+  //       setHasPin(true);
+  //     } else {
+  //       toast.error(response.data.message)
+  //     }
+  //   } catch (error) {
+  //     console.error('Error generating PIN:', error);
+
+  //     if (error.response) {
+  //       setErrorMessage(error.response.data.message);
+  //       toast.warning(error.response.data.message)
+  //     } else {
+  //       setErrorMessage('An error occurred');
+  //     }
+  //   }
+  // };
 
 
   const generatePin = async () => {
     const authToken = localStorage.getItem('token');
-    
 
     try {
       const response = await axios.post(
@@ -24,18 +54,27 @@ const PinGeneratePage = () => {
       );
 
       if (response.data.status) {
-        toast.success(response.data.message)
+        toast.success(response.data.message);
         setHasPin(true);
       } else {
-        toast.error(response.data.message)
+        toast.error(response.data.message);
       }
     } catch (error) {
       console.error('Error generating PIN:', error);
 
       if (error.response) {
-        toast.warning(error.response.data.message)
+        if (error.response.data.errors) {
+          // Set validation errors in state
+          setValidationErrors(error.response.data.errors);
+          // Display each validation error using toast
+          error.response.data.errors.forEach((errorMsg) => {
+            toast.warning(errorMsg.msg);
+          });
+        } else {
+          toast.warning(error.response.data.message);
+        }
       } else {
-        setMessage('An error occurred');
+        toast.error('An error occurred');
       }
     }
   };

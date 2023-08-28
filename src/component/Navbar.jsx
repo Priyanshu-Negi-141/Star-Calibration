@@ -6,10 +6,13 @@ import { BsChatLeft } from "react-icons/bs";
 import { RiNotification3Line } from "react-icons/ri";
 import { MdKeyboardArrowDown } from "react-icons/md";
 import avatar from "../data/avatar.jpg";
-import "./css/navbar.css";
+import {FaUserAlt} from "react-icons/fa"
+import "./css/navbar.css"; 
 import { useStateContext } from "../contexts/ContextProvider";
 import TimeCounter from "../timerCounter/TimeCounter";
 import { toast } from "react-toastify";
+import { useStateProfileContext } from "../contexts/ProfileContextProvider";
+import axios from "axios";
 
 const NavButton = ({ title, customFunc, icon, color, dotColor }) => (
   <div content={title} position="BottomCenter">
@@ -32,6 +35,7 @@ const Navbar = () => {
   let navigate = useNavigate();
   const [open, setOpen] = useState(false);
   const {
+    host,
     currentMode,
     currentColor,
     activeMenu,
@@ -60,13 +64,19 @@ const Navbar = () => {
     currentTime,
     fetchCurrentTime,
     isPopupOpen,
+    setPopupOpen,
     openPopup,
     closePopup,
     isPopupCheckOutOpen,
+    setPopupCheckOutOpen,
     openCheckOutPopup,
     closeCheckOutPopup,
     addCheckOutData,
   } = useStateContext();
+
+  const {selectedProfilePic} = useStateProfileContext()
+
+
   const [showConfirmation, setShowConfirmation] = useState(false);
   const [checkInData, setCheckInData] = useState({
     date: "",
@@ -94,43 +104,43 @@ const Navbar = () => {
     };
   }, []);
 
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-    if (checkInData.checkInType === "") {
-      toast.error("Please Fill the Check-In Detail's");
-      return;
-    }
-    await addCheckInData(
-      checkInData.date || currentDate,
-      checkInData.checkInType,
-      checkInData.login || currentTime,
-      checkInData.login_location,
-      checkInData.login_address,
-      checkInData.site_name
-    );
-    setCheckInData({
-      date: "",
-      checkInType: "",
-      login: "",
-      login_location: "",
-      login_address: "",
-      site_name: "",
-    });
-  };
+  // const handleSubmit = async (e) => {
+  //   e.preventDefault();
+  //   if (checkInData.checkInType === "") {
+  //     toast.error("Please Fill the Check-In Detail's");
+  //     return;
+  //   }
+  //   await addCheckInData(
+  //     checkInData.date || currentDate,
+  //     checkInData.checkInType,
+  //     checkInData.login || currentTime,
+  //     checkInData.login_location,
+  //     checkInData.login_address,
+  //     checkInData.site_name
+  //   );
+  //   setCheckInData({
+  //     date: "",
+  //     checkInType: "",
+  //     login: "",
+  //     login_location: "",
+  //     login_address: "",
+  //     site_name: "",
+  //   });
+  // };
 
-  const handleCheckOut = async (e) => {
-    e.preventDefault();
-    await addCheckOutData(
-      checkOutData.logout || currentTime,
-      checkOutData.logout_location,
-      checkOutData.logout_address
-    );
-    setCheckOutData({
-      logout: "",
-      logout_location: "",
-      logout_address: "",
-    });
-  };
+  // const handleCheckOut = async (e) => {
+  //   e.preventDefault();
+  //   await addCheckOutData(
+  //     checkOutData.logout || currentTime,
+  //     checkOutData.logout_location,
+  //     checkOutData.logout_address
+  //   );
+  //   setCheckOutData({
+  //     logout: "",
+  //     logout_location: "",
+  //     logout_address: "",
+  //   });
+  // };
 
   const handleChange = (e) => {
     setCheckInData((prevData) => ({
@@ -209,6 +219,172 @@ const Navbar = () => {
     closeCheckOutPopup();
   };
 
+  // 
+  const [checkInType, setCheckInType] = useState('Office');
+  const [activity, setActivity] = useState('');
+  const [loginAddress, setLoginAddress] = useState('');
+  const [siteName, setSiteName] = useState('');
+  const [officeOption, setOfficeOption] = useState('');
+  const address = [
+    {
+      "address": "Bayan Khala, Raja Road",
+      "city": "Near Bajaj Workshop, Selaqui",
+      "state_province":"Dehradun (U.K)"
+    },
+    {
+      "address": "1799, Ishapur Rd, near SWAMI NURSING HOME",
+      "city": "Sadhu Nagar, Mohan Nagar, Dera Bassi",
+      "state_province":"Kakrali, Punjab 140"
+    }
+  ]
+
+  const handleCheckInTypeChange = (value) => {
+    setCheckInType(value);
+
+    if (value === 'Office') {
+        setOfficeOption('Select Office Option'); // Reset office option
+    }
+};
+
+const handleOfficeOptionChange = (value) => {
+  setOfficeOption(value);
+  console.log(value)
+
+  if (value === 'Selaquii Office') {
+      setLoginAddress(`${address[0].address},${address[0].city},${address[0].state_province}`);
+  } else if (value === 'Derabassi Office') {
+      setLoginAddress( `${address[1].address},${address[1].city},${address[1].state_province}`);
+  } else {
+      setLoginAddress('');
+  }
+};
+
+  const handleSubmit = async (e) => {
+      e.preventDefault();
+  
+      try {
+          const token = localStorage.getItem('token');
+          if (!token) {
+              console.error('Authentication token not found.');
+              return;
+          }
+
+          let latitude
+          let longitude
+          
+          if(officeOption === "Selaquii Office"){
+            latitude = "30.3511497"
+            longitude = "77.861785"
+          } else if (officeOption === "Derabassi Office"){
+            latitude = "30.5873906"
+            longitude = "76.8391495"
+          }
+  
+          const response = await axios.post(`${host}/api/checkInDetails/addCheckIn`, {
+              login_location: {
+                  // Latitude and longitude logic if needed...
+                  latitude,
+                  longitude
+              },
+              checkInType,
+              activity,
+              login_address: loginAddress,
+              site_name: siteName
+          }, {
+              headers: {
+                  'Content-Type': 'application/json',
+                  'auth-token': token
+              }
+          });
+  
+          console.log(response.data);
+          if(response.data.status){
+              toast.success(response.data.message);
+              localStorage.setItem("logOutOption",officeOption)
+              localStorage.setItem("logOutAddress",loginAddress)
+              localStorage.setItem("checkInId",response.data.data)
+              setActivity('')
+              setLoginAddress('')
+              setSiteName('')
+              setOfficeOption('')
+              setPopupOpen(false)
+
+              
+          }else{
+              toast.warning(response.data.message);
+              setActivity('')
+              setLoginAddress('')
+              setSiteName('')
+              setOfficeOption('')
+              setPopupOpen(false)
+          }
+          // Handle success or display response to the user
+      } catch (error) {
+          toast.error(error)
+          console.error('Error adding check-in data:', error);
+          // Handle error or display error message to the user
+      }
+  };
+  
+    const isOfficeCheckIn = checkInType === 'Office';
+    const isSiteCheckIn = checkInType === 'Site';
+    const isSubmitDisabled = isSiteCheckIn || (!isSiteCheckIn && !officeOption);
+    const checkoutOption = localStorage.getItem("logOutOption")
+    const checkoutAddress = localStorage.getItem("logOutAddress")
+    const checkoutId = localStorage.getItem("checkInId")
+
+    const handleCheckOut = async (e) => {
+      e.preventDefault();
+  
+      try {
+          
+          let latitude
+          let longitude
+          
+          if(checkoutOption === "Selaquii Office"){
+            latitude = "30.3511497"
+            longitude = "77.861785"
+          } else if (checkoutOption === "Derabassi Office"){
+            latitude = "30.5873906"
+            longitude = "76.8391495"
+          }
+  
+          const response = await axios.post(`${host}/api/checkInDetails/addLogoutDetails/${encodeURIComponent(checkoutId)}`, {
+            logout_location: {
+                  // Latitude and longitude logic if needed...
+                  latitude,
+                  longitude
+              },
+              logout_address: checkoutAddress  
+          }, {
+              headers: {
+                  'Content-Type': 'application/json',
+              }
+          });
+  
+          console.log(response.data);
+          if(response.data.status){
+              toast.success(response.data.message);
+              localStorage.removeItem("logOutOption")
+              localStorage.removeItem("logOutAddress")
+              localStorage.removeItem("checkInId")
+              setPopupCheckOutOpen(false)
+          }else{
+              toast.warning(response.data.message);
+              setPopupCheckOutOpen(false)
+          }
+          // Handle success or display response to the user
+      } catch (error) {
+          toast.error(error)
+          console.error('Error adding check-in data:', error);
+          // Handle error or display error message to the user
+      }
+  };
+
+
+  // 
+
+
   return (
     <div
       className=" border flex justify-between items-center p-2 md:ml-6 md:mr-6"
@@ -259,10 +435,13 @@ const Navbar = () => {
               <img
                 className="rounded-full w-8 h-8"
                 style={{ border: "1px solid", borderColor: currentColor }}
-                src={avatar}
+                src={selectedProfilePic}
                 alt="user-profile"
               />
             </div>
+            {/* <div>
+              <FaUserAlt className="rounded-full w-6 h-6" style={{ border: "1px solid", borderColor: currentColor }} />
+            </div> */}
             <div>
               <p>
                 <span className="text-14">Hi,</span>{" "}
@@ -357,74 +536,72 @@ const Navbar = () => {
             <form onSubmit={handleSubmit}>
               <div className="grid grid-cols-3 gap-4 mb-4">
                 <div>
-                  <label htmlFor="date" className="block mt-3">
-                    Date
-                  </label>
-                  <input
-                    type="text"
-                    name="date"
-                    id="date"
-                    value={currentDate}
-                    onChange={handleChange}
-                    className="p-2 border-2 rounded-lg"
-                    readOnly
-                  />
-                </div>
-                <div>
                   <label htmlFor="checkInType" className="block mt-3">
                     Check In Type
                   </label>
-                  <select
+                  {/* <select
                     id="checkInType"
                     name="checkInType"
-                    onChange={handleChange}
-                    value={checkInData.checkInType}
+                    onChange={(e) => handleCheckInTypeChange(e.target.value)}
+                    value={checkInType}
                     className="p-2 border-2 rounded-lg w-full"
                     required
                   >
                     <option value="none">None</option>
                     <option value="Site">Site</option>
                     <option value="Office">Office</option>
-                  </select>
-                </div>
-                <div>
-                  <label htmlFor="login" className="block mt-3">
-                    Time
-                  </label>
+                  </select> */}
                   <input
                     type="text"
-                    name="login"
-                    id="login"
-                    value={currentTime}
-                    onChange={handleChange}
+                    name="login_location"
+                    id="checkInType"
+                    value={checkInType}
+                    onChange={(e) => handleCheckInTypeChange(e.target.value)}
                     className="p-2 border-2 rounded-lg"
-                    readOnly
+                    disabled
                   />
+                  {isSiteCheckIn && (
+                    <p>Please check in through mobile for site locations.</p>
+                )}
                 </div>
                 <div>
-                  <label htmlFor="login_location" className="block mt-3">
-                    Current Location
+                {isOfficeCheckIn && (
+                    <div>
+                        <label htmlFor="officeOption" className="block mt-3" >Select Office Option:</label>
+                        <select id="officeOption" className="p-2 border-2 rounded-lg w-full" value={officeOption} onChange={(e) => handleOfficeOptionChange(e.target.value)} required>
+                            <option value="">Select Office Option</option>
+                            <option value="Selaquii Office">Selaquii Office</option>
+                            <option value="Derabassi Office">Derabassi Office</option>
+                        </select><br />
+                    </div>
+                )}
+                </div>
+                <div>
+                  <label htmlFor="activity" className="block mt-3">
+                    Activity
                   </label>
                   <input
                     type="text"
                     name="login_location"
-                    id="login_location"
-                    value={checkInData.login_location}
-                    onChange={handleChange}
+                    id="activity"
+                    value={activity}
+                    onChange={(e) => setActivity(e.target.value)}
                     className="p-2 border-2 rounded-lg"
+                    required
                   />
                 </div>
                 <div>
-                  <label htmlFor="login_address" className="block mt-3">
-                    Current Address
+                  <label htmlFor="loginAddress" className="block mt-3">
+                  Login Address:
                   </label>
                   <input
                     type="text"
-                    name="login_address"
-                    id="login_address"
-                    value={checkInData.login_address}
-                    onChange={handleChange}
+                    name="loginAddress"
+                    id="loginAddress"
+                    value={loginAddress}
+                    onChange={(e) => setLoginAddress(e.target.value)}
                     className="p-2 border-2 rounded-lg"
+                    required
                   />
                 </div>
                 <div>
@@ -435,8 +612,8 @@ const Navbar = () => {
                     type="text"
                     name="site_name"
                     id="site_name"
-                    value={checkInData.site_name}
-                    onChange={handleChange}
+                    value={siteName}
+                    onChange={(e) => setSiteName(e.target.value)}
                     className="p-2 border-2 rounded-lg"
                   />
                 </div>
@@ -465,52 +642,14 @@ const Navbar = () => {
       {isPopupCheckOutOpen && (
         <div className="fixed inset-0 flex items-center justify-center z-40 bg-black/40">
           <div className="bg-white rounded-lg shadow-lg p-6">
-            <h2 className="text-xl text-center border-2 rounded-lg font-bold p-2 mb-4 font-body">
+            <h2 className="text-xl text-center border-2 rounded-lg font-bold p-2 font-body">
               Check Out
             </h2>
-            <form onSubmit={handleCheckOut}>
-              <div className="grid grid-cols-3 gap-4 mb-4">
-                <div>
-                  <label htmlFor="logout" className="block mt-3">
-                    Time
-                  </label>
-                  <input
-                    type="text"
-                    name="logout"
-                    id="logout"
-                    value={currentTime}
-                    onChange={handleChange}
-                    className="p-2 border-2 rounded-lg"
-                    readOnly
-                  />
-                </div>
-                <div>
-                  <label htmlFor="logout_location" className="block mt-3">
-                    Current Location
-                  </label>
-                  <input
-                    type="text"
-                    name="logout_location"
-                    id="logout_location"
-                    value={checkOutData.logout_location}
-                    onChange={handleChange}
-                    className="p-2 border-2 rounded-lg"
-                  />
-                </div>
-                <div>
-                  <label htmlFor="logout_address" className="block mt-3">
-                    Current Address
-                  </label>
-                  <input
-                    type="text"
-                    name="logout_address"
-                    id="logout_address"
-                    value={checkOutData.logout_address}
-                    onChange={handleChange}
-                    className="p-2 border-2 rounded-lg"
-                  />
-                </div>
-              </div>
+            <div className="grid gap-0 mb-2">
+            <h3>Are you sure? You want to do checkout.</h3>
+            <p>Once you checkout then you can't checkout again.</p>
+            </div>
+              
               {/* Rest of the form */}
               <div className="flex justify-end">
                 <button
@@ -521,13 +660,13 @@ const Navbar = () => {
                   Close
                 </button>
                 <button
-                  type="submit"
+                  type="button"
+                  onClick={handleCheckOut}
                   className="bg-green-500 hover:bg-green-600 text-white font-bold py-2 px-4 rounded"
                 >
                   Check Out
                 </button>
               </div>
-            </form>
           </div>
         </div>
       )}

@@ -1,34 +1,22 @@
 import React, { useEffect, useState } from "react";
-import { MdAdd } from "react-icons/md";
 import { FaUser, FaLock, FaEye, FaEyeSlash } from "react-icons/fa";
-import { useNavigate } from "react-router-dom";
 import Logo from "../../../../src/Logo/StarLogo.jpg";
 import { useStateContext } from "../../../contexts/ContextProvider";
 import PinGeneratePage from "./PinGeneratePage";
-import PinLoginPage from "./PinLoginPage";
 const LogInEmployee = () => {
   const {
-    signupEmployee,
     credential,
     setCredential,
     currentColor,
     loginEmployeeWithMobile,
-    loggedInUser,
     showPinGenerateModal,
   } = useStateContext();
   const [quotes, setQuotes] = useState([]);
   const [currentQuoteIndex, setCurrentQuoteIndex] = useState(0);
   const [showPassword, setShowPassword] = useState(false);
-  const [role, setRole] = useState("admin");
-  const [error, setError] = useState("");
   const [isButtonDisabled, setIsButtonDisabled] = useState(true);
-  let navigate = useNavigate();
-  const [LoggedIn, setLoggedIn] = useState(false);
   const togglePasswordVisibility = () => {
     setShowPassword(!showPassword);
-  };
-  const handleRoleChange = (event) => {
-    setRole(event.target.value);
   };
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -108,27 +96,6 @@ const LogInEmployee = () => {
           {/* Form Start */}
           <div className="">
             <form className="px-8 py-6" onSubmit={handleSubmit}>
-              {/* <div className="mb-4">
-                <label
-                  className="block text-gray-700 text-sm font-bold mb-2"
-                  htmlFor="role"
-                >
-                  Role
-                </label>
-                <div className="relative">
-                  <FaUser className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400" />
-                  <select
-                    className="pl-10 shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-                    id="role"
-                    value={role}
-                    onChange={handleRoleChange}
-                  >
-                    <option value="admin">Admin</option>
-                    <option value="manager">Manager</option>
-                    <option value="employee">Employee</option>
-                  </select>
-                </div>
-              </div> */}
               <div className="mb-4 relative">
                 <label
                   className="block text-gray-700 text-sm font-bold mb-2"

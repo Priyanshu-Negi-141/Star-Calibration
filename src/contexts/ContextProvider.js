@@ -28,7 +28,7 @@ export const ContextProvider = ({ children }) => {
   const [selectedDesignation, setSelectedDesignation] = useState("");
   const [selectedStream, setSelectedStream] = useState("");
   // Auth and fetching data context
-  //const host = "http://localhost:8000"  
+  // const host = "http://localhost:8000"  
   const GOOGLE_MAP_API_KEY = "AIzaSyBBG3Qt18ozFaeh_cHNVNriZaOV58gB3g0"
   const host = "http://starback.validex.in:8001";
 
@@ -104,7 +104,7 @@ export const ContextProvider = ({ children }) => {
   // Validex India Details
 
   const validexTitle = "Validex India"
-  const softVersion = "1.0.0"
+  const softVersion = "1.0.1"
 
   //  Access User end's
 
@@ -221,7 +221,6 @@ export const ContextProvider = ({ children }) => {
   };
 
   const [pin, setPin] = useState('');
-  const [error, setError] = useState('')
 
   const handlePinLogin = async () => {
     try {
@@ -1229,7 +1228,6 @@ export const ContextProvider = ({ children }) => {
 
         // Validex end
 
-
         allowedDesignation,
         userDesignation,
         formatDate,
@@ -1357,9 +1355,11 @@ export const ContextProvider = ({ children }) => {
 
         // for the popup
         isPopupOpen,
+        setPopupOpen,
         openPopup,
         closePopup,
         isPopupCheckOutOpen,
+        setPopupCheckOutOpen,
         openCheckOutPopup,
         closeCheckOutPopup,
 

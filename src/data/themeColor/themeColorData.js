@@ -23,18 +23,5 @@ export const themeColorData = [
     {
       color: '#FB9678',
       name: 'orange-theme',
-    },
-    {
-      color: '#F1F6F9',
-      name: 'light-white',
-    },
-    {
-      color: '#9BA4B5',
-      name: 'dark-gray',
-    },
-    {
-      color: '#000000',
-      name: 'pure-dark',
     }
-
   ];

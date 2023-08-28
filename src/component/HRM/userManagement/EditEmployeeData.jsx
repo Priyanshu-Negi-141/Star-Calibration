@@ -3,6 +3,7 @@ import { PreviousButton } from "../../button";
 import { Link, useParams } from "react-router-dom";
 import { useStateContext } from "../../../contexts/ContextProvider";
 import { toast } from "react-toastify";
+import { AccessDeniedPage } from "../../AccessRight";
 
 const initialState = {
   fName: "",
@@ -69,9 +70,8 @@ const initialState = {
 
 const EditEmployeeData = () => {
   const {
-    currentColor,
-    editEmployee,
-    updateEmployeeData,
+    loggedInEmployee, allowedDesignation,
+    userDesignation,
     host,
   } = useStateContext();
 
@@ -242,7 +242,9 @@ const EditEmployeeData = () => {
   };
 
 
-  return (
+  return loggedInEmployee.length > 0 ? (
+    <>
+    {allowedDesignation.includes(userDesignation) ? (
     <div>
       <div className="">
         <div className="mb-3">
@@ -1242,7 +1244,13 @@ const EditEmployeeData = () => {
         </div>
       )}
     </div>
-  );
+  ) : (
+    <AccessDeniedPage />
+  )}
+  </>
+) : (
+  null
+)
 };
 
 export default EditEmployeeData;

@@ -1,15 +1,11 @@
-import { useContext, useEffect, useRef, useState } from "react";
+import {useEffect} from "react";
 import "./styles.css";
-import About from "./About";
-import { Sidenav, Navbar, Chat, Footer } from "./component/index";
+import { Sidenav, Navbar, Chat} from "./component/index";
 import UserManagement from "./component/HRM/UserManagement";
 import { FiSettings } from "react-icons/fi";
 import {
   Routes,
-  Route,
-  useNavigate,
-  Navigate,
-  useLocation,
+  Route
 } from "react-router-dom";
 import {} from "./data/SidebarItem.json";
 import { useStateContext } from "./contexts/ContextProvider";
@@ -37,14 +33,10 @@ import {
 } from "./component/HRM/userManagement/index";
 import { AddClient, ClientsList } from "./component/clients";
 import { MyProfile } from "./component/navBar/";
-import { DayReport } from "./component/HRM/dayReport";
 import {
   PurchaseRequisition,
-  PurchaseReqForm,
-  PurchaseReqList,
+  PurchaseReqForm
 } from "./component/HRM/purchaseRequisition/index";
-import SignIn from "./SignIn";
-import Home from "./Home";
 import {
   CalibrationSOP,
   ElectroTechnical,
@@ -57,13 +49,10 @@ import {
   ThermalSOP,
   UnitsParameter,
 } from "./component/Quality/index";
-import SignUser from "./SignUser";
-import LogInEmployee from "./LogInEmployee";
 import {
   CalibrationCheckIN,
   CAValidation,
   HVACValidationCheckIN,
-  PLC_CSV_Validation,
   PLC_CSV_ValidationCheckIn,
   SteamQualityTest,
   ThermalValidationCheckIN,
@@ -72,18 +61,16 @@ import EmployeeDayReportData from "./component/HRM/EmployeeDayReportData";
 import MasterInstrumentList from "./component/Quality/masterInstrument/masterList/MasterInstrumentList";
 import {
   CalibrationMasterInstrumentList,
-  ElectroMasterList,
   HVACMasterInstrumentList,
   ThermalMasterInstrumentList,
 } from "./component/Quality/masterInstrument/masterList/CalibrationMaster";
-import CalibrationCertificate from "./component/Certificate/Calibration/CalibrationCertificate";
 import {
   AddInstrumentDetails,
   DeviceDetails,
   ReviewPage,
 } from "./component/FormPage";
 import { HomePage } from "./component/HomePage";
-import { AccessDeniedPage, AccessRightHomePage } from "./component/AccessRight";
+import { AccessRightHomePage } from "./component/AccessRight";
 import {
   CalibrationServices,
   InstrumentTableList,
@@ -102,12 +89,9 @@ function App() {
     themeSettings,
     setThemeSettings,
     loggedIn,
-    setLoggedIn,
     checkLoggedIn,
     fetchIndividualEmployeeData,
-    loggedInEmployee,
   } = useStateContext();
-  const department = "calibration";
   useEffect(() => {
     const currentThemeColor = localStorage.getItem("colorMode");
     const currentThemeMode = localStorage.getItem("themeMode");

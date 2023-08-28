@@ -5,14 +5,17 @@ import 'react-toastify/dist/ReactToastify.css';
 import { BrowserRouter } from 'react-router-dom';
 import { ContextProvider } from './contexts/ContextProvider';
 import App from './App';
+import { ProfileContextProvider } from './contexts/ProfileContextProvider';
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
   
     <ContextProvider>
-      <BrowserRouter>
-        <App />
-        <ToastContainer />
-      </BrowserRouter>
+      <ProfileContextProvider>
+        <BrowserRouter>
+          <App />
+          <ToastContainer />
+        </BrowserRouter>
+      </ProfileContextProvider>
     </ContextProvider>
 );
 

@@ -1,15 +1,25 @@
 {
   "files": {
-    "main.css": "/static/css/main.1f78feb6.css",
-    "main.js": "/static/js/main.80dba08a.js",
+    "main.css": "/static/css/main.8d8dc93a.css",
+    "main.js": "/static/js/main.6fe72f80.js",
+    "static/media/smiling.png": "/static/media/smiling.c64559d027b9d0965b1f.png",
+    "static/media/smiling1.png": "/static/media/smiling1.1a3e11cd2fb96387a62d.png",
+    "static/media/woman.png": "/static/media/woman.e33418ed28f6c452a0fb.png",
+    "static/media/man1.png": "/static/media/man1.0dac81b6a6419d5d8e34.png",
+    "static/media/happy.png": "/static/media/happy.1c61d0d83f296c40b3d1.png",
+    "static/media/girl2.png": "/static/media/girl2.7a44f5b2083582e61f4b.png",
+    "static/media/girl.png": "/static/media/girl.060e31aba3f555d70043.png",
+    "static/media/boy.png": "/static/media/boy.ec6309d44b4231e6591e.png",
+    "static/media/girl1.png": "/static/media/girl1.b795c38abe721e8e5c50.png",
+    "static/media/man.png": "/static/media/man.60e919eaf0398efdbc22.png",
     "static/media/StarLogo.jpg": "/static/media/StarLogo.2b45e11a6489ba8c9dae.jpg",
     "index.html": "/index.html",
     "static/media/times-new-roman.woff2": "/static/media/times-new-roman.31d6cfe0d16ae931b73c.woff2",
-    "main.1f78feb6.css.map": "/static/css/main.1f78feb6.css.map",
-    "main.80dba08a.js.map": "/static/js/main.80dba08a.js.map"
+    "main.8d8dc93a.css.map": "/static/css/main.8d8dc93a.css.map",
+    "main.6fe72f80.js.map": "/static/js/main.6fe72f80.js.map"
   },
   "entrypoints": [
-    "static/css/main.1f78feb6.css",
-    "static/js/main.80dba08a.js"
+    "static/css/main.8d8dc93a.css",
+    "static/js/main.6fe72f80.js"
   ]
 }

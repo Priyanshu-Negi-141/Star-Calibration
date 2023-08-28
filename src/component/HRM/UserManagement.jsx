@@ -3,12 +3,16 @@ import "../css/UserManagement.css"
 import { userData } from '../../data/userManagement/usermanagement'
 import { Link, NavLink, Route, Routes } from 'react-router-dom'
 import { useStateContext } from '../../contexts/ContextProvider'
+import { AccessDeniedPage } from '../AccessRight'
 
 
 
 const UserManagement = () => {
-    const {currentColor} = useStateContext()
-  return (
+    const {loggedInEmployee, allowedDesignation,
+      userDesignation,currentColor} = useStateContext()
+    return loggedInEmployee.length > 0 ? (
+      <>
+      {allowedDesignation.includes(userDesignation) ? (
     <div className="">
     <h3
       className="font-bold text-white text-xl mb-5 p-2 bg-[#0B666A] dark:text-yellow-50"
@@ -34,7 +38,13 @@ const UserManagement = () => {
       </button>
     </div>
   </div>
-  )
+  ) : (
+    <AccessDeniedPage />
+  )}
+  </>
+) : (
+  null
+)
 }
 
 export default UserManagement
