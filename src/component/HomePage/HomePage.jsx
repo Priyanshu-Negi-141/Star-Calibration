@@ -2,7 +2,6 @@ import React, { useState } from "react";
 import { CalibrationHomePage, HVACHomePage, ThermalHomePage, Location } from "./index";
 import { useStateContext } from "../../contexts/ContextProvider";
 import { MainLoginPage } from "../EmployeeLogin";
-import CheckInForm from "../CheckInForm";
 // import CalibrationHomePage from './CalibrationDepartment/CalibrationHomePage'
 
 const HomePage = () => {
@@ -86,9 +85,6 @@ const HomePage = () => {
       {isHvacDropDownOpen && <HVACHomePage />}
       {isThermalDropDownOpen && <ThermalHomePage />}
 
-      <div>
-        <CheckInForm />
-      </div>
     </>
   );
 };
