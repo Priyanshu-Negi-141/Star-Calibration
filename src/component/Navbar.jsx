@@ -225,6 +225,7 @@ const Navbar = () => {
   const [loginAddress, setLoginAddress] = useState('');
   const [siteName, setSiteName] = useState('');
   const [officeOption, setOfficeOption] = useState('');
+  const [isSubmitting, setIsSubmitting] = useState(false);
   const address = [
     {
       "address": "Bayan Khala, Raja Road",
@@ -261,6 +262,10 @@ const handleOfficeOptionChange = (value) => {
 
   const handleSubmit = async (e) => {
       e.preventDefault();
+      if (isSubmitting) {
+        return;
+    }
+    setIsSubmitting(true); // Start the submission process
   
       try {
           const token = localStorage.getItem('token');
@@ -323,7 +328,9 @@ const handleOfficeOptionChange = (value) => {
           toast.error(error)
           console.error('Error adding check-in data:', error);
           // Handle error or display error message to the user
-      }
+      } finally {
+        setIsSubmitting(false); // Enable the button again regardless of success or failure
+    }
   };
   
     const isOfficeCheckIn = checkInType === 'Office';
@@ -335,7 +342,10 @@ const handleOfficeOptionChange = (value) => {
 
     const handleCheckOut = async (e) => {
       e.preventDefault();
-  
+      if (isSubmitting) {
+        return;
+    }
+    setIsSubmitting(true); // Start the submission process
       try {
           
           let latitude
@@ -378,7 +388,9 @@ const handleOfficeOptionChange = (value) => {
           toast.error(error)
           console.error('Error adding check-in data:', error);
           // Handle error or display error message to the user
-      }
+      } finally {
+        setIsSubmitting(false); // Enable the button again regardless of success or failure
+    }
   };
 
 
@@ -629,6 +641,7 @@ const handleOfficeOptionChange = (value) => {
                 </button>
                 <button
                   type="submit"
+                  disabled={isSubmitting} // Disable the button when submitting
                   className="bg-green-500 hover:bg-green-600 text-white font-bold py-2 px-4 rounded"
                 >
                   Check In
@@ -647,7 +660,7 @@ const handleOfficeOptionChange = (value) => {
             </h2>
             <div className="grid gap-0 mb-2">
             <h3>Are you sure? You want to do checkout.</h3>
-            <p>Once you checkout then you can't checkout again.</p>
+            <p>Once you checkout then you can't Check-In again.</p>
             </div>
               
               {/* Rest of the form */}
@@ -662,6 +675,7 @@ const handleOfficeOptionChange = (value) => {
                 <button
                   type="button"
                   onClick={handleCheckOut}
+                  disabled={isSubmitting} // Disable the button when submitting
                   className="bg-green-500 hover:bg-green-600 text-white font-bold py-2 px-4 rounded"
                 >
                   Check Out

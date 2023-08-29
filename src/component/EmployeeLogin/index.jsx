@@ -1,3 +1,5 @@
 export {default as MainLoginPage} from "./LoginPage/MainLoginPage"
 export {default as PinGeneratePage} from "./LoginPage/PinGeneratePage"
 export {default as PinLoginPage} from "./LoginPage/PinLoginPage"
+export {default as DownloadApk} from "./apkDownload/DownloadApk"
+export {default as QRDownload} from "./apkDownload/QRDownload"

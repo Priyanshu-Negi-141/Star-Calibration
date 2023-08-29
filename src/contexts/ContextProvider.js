@@ -2,6 +2,7 @@ import React, { createContext, useContext, useEffect, useState } from "react";
 import { toast } from "react-toastify";
 import moment from 'moment'
 import axios from "axios";
+import { useStateMainContext } from "./MainContextProvider";
 const StateContext = createContext();
 
 const initialState = {
@@ -19,6 +20,11 @@ export const ContextProvider = ({ children }) => {
   const [themeSettings, setThemeSettings] = useState(false);
   const [screenSize, setScreenSize] = useState(undefined);
   const [show, setShow] = useState();
+  const {localHostServerLink,
+    mainHostServerLink,
+    MAIN_GOOGLE_MAP_API_KEY ,
+    validexTitleMain,
+    officialSoftVersion} = useStateMainContext()
   // Timer Counter
   const [count, setCount] = useState(0);
   const [isCounting, setIsCounting] = useState(false);
@@ -28,9 +34,14 @@ export const ContextProvider = ({ children }) => {
   const [selectedDesignation, setSelectedDesignation] = useState("");
   const [selectedStream, setSelectedStream] = useState("");
   // Auth and fetching data context
-  // const host = "http://localhost:8000"  
-  const GOOGLE_MAP_API_KEY = "AIzaSyBBG3Qt18ozFaeh_cHNVNriZaOV58gB3g0"
-  const host = "http://starback.validex.in:8001";
+  //const host = localHostServerLink
+  // const host = localHostServerLink
+  const GOOGLE_MAP_API_KEY = MAIN_GOOGLE_MAP_API_KEY
+  const host = mainHostServerLink;
+  // Validex India Details
+  const validexTitle = validexTitleMain
+  const softVersion = officialSoftVersion
+  //  Access User end's
 
   const [isPopupOpen, setPopupOpen] = useState(false);
   const [isPopupCheckOutOpen, setPopupCheckOutOpen] = useState(false);
@@ -101,12 +112,7 @@ export const ContextProvider = ({ children }) => {
   const userDesignation = loggedInEmployee.length > 0 ? loggedInEmployee[0]?.employeeData[0]?.designation : '';
 
 
-  // Validex India Details
 
-  const validexTitle = "Validex India"
-  const softVersion = "1.0.1"
-
-  //  Access User end's
 
   // Fetching time online
 
@@ -121,7 +127,19 @@ export const ContextProvider = ({ children }) => {
   };
 
   // end formate Date
+ 
+  
+  const verifyToken = localStorage.getItem('token');
 
+  useEffect(() => {
+    isEmployeeLogin()
+  },[])
+
+  const isEmployeeLogin = () => {
+    if (!verifyToken) {
+      localStorage.setItem('isLoggedIn', 'false');
+    }
+  };
 
 
   const fetchCurrentTime = async () => {
@@ -162,6 +180,8 @@ export const ContextProvider = ({ children }) => {
       handleLoggedIn();
     }
   };
+
+ 
 
 
   const signupEmployee = async () => {
@@ -269,7 +289,8 @@ export const ContextProvider = ({ children }) => {
       const dataArray = [json];
       setLoggedInEmployee(dataArray);
     } catch (error) {
-      console.error("Error fetching user data:", error);
+      localStorage.setItem('isLoggedIn',false)
+      console.log("Error fetching user data:", error);
     }
   };
 
