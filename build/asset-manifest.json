@@ -1,7 +1,7 @@
 {
   "files": {
-    "main.css": "/static/css/main.a6459d27.css",
-    "main.js": "/static/js/main.54e28c50.js",
+    "main.css": "/static/css/main.1458935e.css",
+    "main.js": "/static/js/main.188beaac.js",
     "static/media/smiling.png": "/static/media/smiling.c64559d027b9d0965b1f.png",
     "static/media/smiling1.png": "/static/media/smiling1.1a3e11cd2fb96387a62d.png",
     "static/media/woman.png": "/static/media/woman.e33418ed28f6c452a0fb.png",
@@ -15,11 +15,11 @@
     "static/media/StarLogo.jpg": "/static/media/StarLogo.2b45e11a6489ba8c9dae.jpg",
     "index.html": "/index.html",
     "static/media/times-new-roman.woff2": "/static/media/times-new-roman.31d6cfe0d16ae931b73c.woff2",
-    "main.a6459d27.css.map": "/static/css/main.a6459d27.css.map",
-    "main.54e28c50.js.map": "/static/js/main.54e28c50.js.map"
+    "main.1458935e.css.map": "/static/css/main.1458935e.css.map",
+    "main.188beaac.js.map": "/static/js/main.188beaac.js.map"
   },
   "entrypoints": [
-    "static/css/main.a6459d27.css",
-    "static/js/main.54e28c50.js"
+    "static/css/main.1458935e.css",
+    "static/js/main.188beaac.js"
   ]
 }
